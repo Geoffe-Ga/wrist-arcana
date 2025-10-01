@@ -1,0 +1,12 @@
+--swiftversion 5.9
+--indent 4
+--maxwidth 120
+--wraparguments before-first
+--wrapcollections before-first
+--closingparen balanced
+--decimalgrouping 3
+--stripunusedargs closure-only
+--self insert
+--importgrouping testable-bottom
+--commas inline
+--trimwhitespace always
