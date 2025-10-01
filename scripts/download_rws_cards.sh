@@ -13,71 +13,95 @@ echo "📥 Downloading Rider-Waite-Smith deck from sacred-texts.com..."
 echo "⚖️  These images are in the public domain (pre-1923)"
 echo ""
 
+# Function to download file only if it doesn't exist
+download_if_missing() {
+    local output_file="$1"
+    local url="$2"
+    
+    if [ -f "$output_file" ]; then
+        echo "  ✓ Already exists: $(basename "$output_file")"
+    else
+        echo "  Downloading: $(basename "$output_file")..."
+        curl -s -o "$output_file" "$url"
+        sleep 0.5  # Be respectful to server
+    fi
+}
+
 # Major Arcana (0-21)
 echo "🎴 Downloading Major Arcana..."
 for i in {0..21}; do
     padded=$(printf "%02d" $i)
-    echo "  Downloading Major Arcana $i..."
-    curl -s -o "$DOWNLOAD_DIR/major_$padded.jpg" \
+    download_if_missing "$DOWNLOAD_DIR/major_$padded.jpg" \
         "https://www.sacred-texts.com/tarot/pkt/img/ar$padded.jpg"
-    sleep 0.5  # Be respectful to server
 done
 
 # Minor Arcana - Wands (wa)
 echo "🎴 Downloading Wands..."
-for i in {1..10}; do
+# Ace uses special naming
+download_if_missing "$DOWNLOAD_DIR/wands_01.jpg" \
+    "https://www.sacred-texts.com/tarot/pkt/img/waac.jpg"
+# 2-10 use standard naming
+for i in {2..10}; do
     padded=$(printf "%02d" $i)
-    curl -s -o "$DOWNLOAD_DIR/wands_$padded.jpg" \
+    download_if_missing "$DOWNLOAD_DIR/wands_$padded.jpg" \
         "https://www.sacred-texts.com/tarot/pkt/img/wa$padded.jpg"
-    sleep 0.5
 done
 # Court cards
-curl -s -o "$DOWNLOAD_DIR/wands_page.jpg" "https://www.sacred-texts.com/tarot/pkt/img/wapa.jpg"
-curl -s -o "$DOWNLOAD_DIR/wands_knight.jpg" "https://www.sacred-texts.com/tarot/pkt/img/wakn.jpg"
-curl -s -o "$DOWNLOAD_DIR/wands_queen.jpg" "https://www.sacred-texts.com/tarot/pkt/img/waqu.jpg"
-curl -s -o "$DOWNLOAD_DIR/wands_king.jpg" "https://www.sacred-texts.com/tarot/pkt/img/waki.jpg"
+download_if_missing "$DOWNLOAD_DIR/wands_page.jpg" "https://www.sacred-texts.com/tarot/pkt/img/wapa.jpg"
+download_if_missing "$DOWNLOAD_DIR/wands_knight.jpg" "https://www.sacred-texts.com/tarot/pkt/img/wakn.jpg"
+download_if_missing "$DOWNLOAD_DIR/wands_queen.jpg" "https://www.sacred-texts.com/tarot/pkt/img/waqu.jpg"
+download_if_missing "$DOWNLOAD_DIR/wands_king.jpg" "https://www.sacred-texts.com/tarot/pkt/img/waki.jpg"
 
 # Minor Arcana - Cups (cu)
 echo "🎴 Downloading Cups..."
-for i in {1..10}; do
+# Ace uses special naming
+download_if_missing "$DOWNLOAD_DIR/cups_01.jpg" \
+    "https://www.sacred-texts.com/tarot/pkt/img/cuac.jpg"
+# 2-10 use standard naming
+for i in {2..10}; do
     padded=$(printf "%02d" $i)
-    curl -s -o "$DOWNLOAD_DIR/cups_$padded.jpg" \
+    download_if_missing "$DOWNLOAD_DIR/cups_$padded.jpg" \
         "https://www.sacred-texts.com/tarot/pkt/img/cu$padded.jpg"
-    sleep 0.5
 done
-curl -s -o "$DOWNLOAD_DIR/cups_page.jpg" "https://www.sacred-texts.com/tarot/pkt/img/cupa.jpg"
-curl -s -o "$DOWNLOAD_DIR/cups_knight.jpg" "https://www.sacred-texts.com/tarot/pkt/img/cukn.jpg"
-curl -s -o "$DOWNLOAD_DIR/cups_queen.jpg" "https://www.sacred-texts.com/tarot/pkt/img/cuqu.jpg"
-curl -s -o "$DOWNLOAD_DIR/cups_king.jpg" "https://www.sacred-texts.com/tarot/pkt/img/cuki.jpg"
+download_if_missing "$DOWNLOAD_DIR/cups_page.jpg" "https://www.sacred-texts.com/tarot/pkt/img/cupa.jpg"
+download_if_missing "$DOWNLOAD_DIR/cups_knight.jpg" "https://www.sacred-texts.com/tarot/pkt/img/cukn.jpg"
+download_if_missing "$DOWNLOAD_DIR/cups_queen.jpg" "https://www.sacred-texts.com/tarot/pkt/img/cuqu.jpg"
+download_if_missing "$DOWNLOAD_DIR/cups_king.jpg" "https://www.sacred-texts.com/tarot/pkt/img/cuki.jpg"
 
 # Minor Arcana - Swords (sw)
 echo "🎴 Downloading Swords..."
-for i in {1..10}; do
+# Ace uses special naming
+download_if_missing "$DOWNLOAD_DIR/swords_01.jpg" \
+    "https://www.sacred-texts.com/tarot/pkt/img/swac.jpg"
+# 2-10 use standard naming
+for i in {2..10}; do
     padded=$(printf "%02d" $i)
-    curl -s -o "$DOWNLOAD_DIR/swords_$padded.jpg" \
+    download_if_missing "$DOWNLOAD_DIR/swords_$padded.jpg" \
         "https://www.sacred-texts.com/tarot/pkt/img/sw$padded.jpg"
-    sleep 0.5
 done
-curl -s -o "$DOWNLOAD_DIR/swords_page.jpg" "https://www.sacred-texts.com/tarot/pkt/img/swpa.jpg"
-curl -s -o "$DOWNLOAD_DIR/swords_knight.jpg" "https://www.sacred-texts.com/tarot/pkt/img/swkn.jpg"
-curl -s -o "$DOWNLOAD_DIR/swords_queen.jpg" "https://www.sacred-texts.com/tarot/pkt/img/swqu.jpg"
-curl -s -o "$DOWNLOAD_DIR/swords_king.jpg" "https://www.sacred-texts.com/tarot/pkt/img/swki.jpg"
+download_if_missing "$DOWNLOAD_DIR/swords_page.jpg" "https://www.sacred-texts.com/tarot/pkt/img/swpa.jpg"
+download_if_missing "$DOWNLOAD_DIR/swords_knight.jpg" "https://www.sacred-texts.com/tarot/pkt/img/swkn.jpg"
+download_if_missing "$DOWNLOAD_DIR/swords_queen.jpg" "https://www.sacred-texts.com/tarot/pkt/img/swqu.jpg"
+download_if_missing "$DOWNLOAD_DIR/swords_king.jpg" "https://www.sacred-texts.com/tarot/pkt/img/swki.jpg"
 
 # Minor Arcana - Pentacles (pe)
 echo "🎴 Downloading Pentacles..."
-for i in {1..10}; do
+# Ace uses special naming
+download_if_missing "$DOWNLOAD_DIR/pentacles_01.jpg" \
+    "https://www.sacred-texts.com/tarot/pkt/img/peac.jpg"
+# 2-10 use standard naming
+for i in {2..10}; do
     padded=$(printf "%02d" $i)
-    curl -s -o "$DOWNLOAD_DIR/pentacles_$padded.jpg" \
+    download_if_missing "$DOWNLOAD_DIR/pentacles_$padded.jpg" \
         "https://www.sacred-texts.com/tarot/pkt/img/pe$padded.jpg"
-    sleep 0.5
 done
-curl -s -o "$DOWNLOAD_DIR/pentacles_page.jpg" "https://www.sacred-texts.com/tarot/pkt/img/pepa.jpg"
-curl -s -o "$DOWNLOAD_DIR/pentacles_knight.jpg" "https://www.sacred-texts.com/tarot/pkt/img/pekn.jpg"
-curl -s -o "$DOWNLOAD_DIR/pentacles_queen.jpg" "https://www.sacred-texts.com/tarot/pkt/img/pequ.jpg"
-curl -s -o "$DOWNLOAD_DIR/pentacles_king.jpg" "https://www.sacred-texts.com/tarot/pkt/img/peki.jpg"
+download_if_missing "$DOWNLOAD_DIR/pentacles_page.jpg" "https://www.sacred-texts.com/tarot/pkt/img/pepa.jpg"
+download_if_missing "$DOWNLOAD_DIR/pentacles_knight.jpg" "https://www.sacred-texts.com/tarot/pkt/img/pekn.jpg"
+download_if_missing "$DOWNLOAD_DIR/pentacles_queen.jpg" "https://www.sacred-texts.com/tarot/pkt/img/pequ.jpg"
+download_if_missing "$DOWNLOAD_DIR/pentacles_king.jpg" "https://www.sacred-texts.com/tarot/pkt/img/peki.jpg"
 
 echo ""
-echo "✅ Downloaded 78 cards successfully"
+echo "✅ Download process complete"
 echo "📊 Checking file sizes..."
 
 # Verify downloads
@@ -106,7 +130,7 @@ else
 fi
 
 echo ""
-echo "📝 Next steps:"
+echo "📋 Next steps:"
 echo "   1. Review images in $DOWNLOAD_DIR"
 echo "   2. Run process_images.sh to optimize and resize"
 echo "   3. Import to Xcode Asset Catalog"
