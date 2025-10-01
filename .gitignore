@@ -1,0 +1,47 @@
+# Xcode
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+*.xcworkspace/*
+!*.xcworkspace/contents.xcworkspacedata
+
+# Build artifacts
+build/
+DerivedData/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.swiftpm/
+Packages/
+Package.resolved
+
+# CocoaPods (if used later)
+Pods/
+*.xcworkspace
+
+# User-specific
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Downloaded card images (temporary)
+RWS_Cards_Raw/
+RWS_Cards_Processed/
+
+# IDE
+.vscode/
+.idea/
+
+# Testing
+*.gcov
+*.gcno
+*.profdata
+TestResults.xcresult/
