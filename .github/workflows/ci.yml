@@ -40,7 +40,8 @@ jobs:
       - name: Build and Test
         run: |
           xcodebuild test \
-            -scheme WristArcana \
+            -project WristArcana/WristArcana.xcodeproj \
+            -scheme "WristArcana Watch App" \
             -destination 'platform=watchOS Simulator,name=Apple Watch Series 9 (45mm)' \
             -enableCodeCoverage YES \
             -resultBundlePath TestResults
