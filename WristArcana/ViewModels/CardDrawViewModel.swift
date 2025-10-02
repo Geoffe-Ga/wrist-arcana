@@ -23,7 +23,7 @@ final class CardDrawViewModel: ObservableObject {
     private let repository: DeckRepositoryProtocol
     private let storageMonitor: StorageMonitorProtocol
     private let modelContext: ModelContext
-    private var drawnCardsThisSession: Set<UUID> = []
+    private var drawnCardsThisSession: Set<String> = []
 
     // MARK: - Initialization
 

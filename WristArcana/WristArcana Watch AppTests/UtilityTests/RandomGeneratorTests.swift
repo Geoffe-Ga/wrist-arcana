@@ -50,7 +50,7 @@ struct RandomGeneratorTests {
             TarotCard(name: "Card 3", imageName: "card3", arcana: .major, upright: "Up", reversed: "Rev")
         ]
 
-        var drawnCardIds: Set<UUID> = []
+        var drawnCardIds: Set<String> = []
 
         // When - Draw 20 times
         for _ in 0 ..< 20 {
