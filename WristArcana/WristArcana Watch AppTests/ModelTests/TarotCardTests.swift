@@ -62,7 +62,7 @@ struct TarotCardTests {
 
     @Test func cardEquality() async throws {
         // Given
-        let id = UUID()
+        let id = UUID().uuidString
         let card1 = TarotCard(
             id: id,
             name: "Ace of Cups",

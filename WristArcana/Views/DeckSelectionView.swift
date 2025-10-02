@@ -11,7 +11,7 @@ struct DeckSelectionView: View {
     // MARK: - Properties
 
     let decks: [TarotDeck]
-    @Binding var selectedDeckId: UUID
+    @Binding var selectedDeckId: String
 
     // MARK: - Body
 
@@ -43,7 +43,7 @@ struct DeckSelectionView: View {
                 TarotDeck(name: "Rider-Waite", cards: []),
                 TarotDeck(name: "Marseille", cards: [])
             ],
-            selectedDeckId: .constant(UUID())
+            selectedDeckId: .constant(UUID().uuidString)
         )
     }
 }
