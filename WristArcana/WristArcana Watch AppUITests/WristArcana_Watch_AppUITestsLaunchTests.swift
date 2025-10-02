@@ -7,9 +7,8 @@
 
 import XCTest
 
-final class WristArcana_Watch_AppUITestsLaunchTests: XCTestCase {
-
-    override class var runsForEachTargetApplicationUIConfiguration: Bool {
+final class WristArcanaWatchAppUITestsLaunchTests: XCTestCase {
+    override static var runsForEachTargetApplicationUIConfiguration: Bool {
         true
     }
 

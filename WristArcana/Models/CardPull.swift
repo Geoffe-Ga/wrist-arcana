@@ -15,7 +15,7 @@ final class CardPull {
     var cardName: String
     var deckName: String
     var cardImageName: String
-    
+
     init(
         id: UUID = UUID(),
         date: Date = Date(),

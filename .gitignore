@@ -36,6 +36,9 @@ xcuserdata/
 RWS_Cards_Raw/
 RWS_Cards_Processed/
 
+# Card image resource
+WristArcana/Resources/Assets.xcassets/RiderWaite/
+
 # IDE
 .vscode/
 .idea/

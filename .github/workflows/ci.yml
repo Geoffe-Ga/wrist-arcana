@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  push:
+    branches: [ main, develop ]
+
+jobs:
+  lint:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install SwiftLint
+        run: brew install swiftlint
+
+      - name: SwiftLint
+        run: swiftlint lint --strict
+
+  format:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install SwiftFormat
+        run: brew install swiftformat
+
+      - name: Check formatting
+        run: swiftformat --lint .
+
+  test:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_15.2.app
+
+      - name: Build and Test
+        run: |
+          xcodebuild test \
+            -scheme WristArcana \
+            -destination 'platform=watchOS Simulator,name=Apple Watch Series 9 (45mm)' \
+            -enableCodeCoverage YES \
+            -resultBundlePath TestResults
+
+      - name: Code Coverage
+        run: |
+          xcrun xccov view --report --json TestResults.xcresult > coverage.json
+          COVERAGE=$(jq '.lineCoverage' coverage.json)
+          echo "Code Coverage: $COVERAGE"
+          if (( $(echo "$COVERAGE < 0.80" | bc -l) )); then
+            echo "❌ Coverage below 80% threshold"
+            exit 1
+          fi
+          echo "✅ Coverage meets 80% requirement"
+
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage.json

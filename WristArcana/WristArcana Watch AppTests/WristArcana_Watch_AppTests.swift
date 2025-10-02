@@ -8,10 +8,8 @@
 import Testing
 @testable import WristArcana_Watch_App
 
-struct WristArcana_Watch_AppTests {
-
+struct WristArcanaWatchAppTests {
     @Test func example() async throws {
         // Write your test here and use APIs like `#expect(...)` to check expected conditions.
     }
-
 }
