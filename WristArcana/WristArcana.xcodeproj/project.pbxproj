@@ -29,9 +29,18 @@
 		676E56082E8DF4C700F22194 /* DeckSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E56062E8DF4C700F22194 /* DeckSelectionViewModel.swift */; };
 		676E56092E8DF4C700F22194 /* CardDrawViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E56052E8DF4C700F22194 /* CardDrawViewModel.swift */; };
 		676E560A2E8DF4C700F22194 /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E56072E8DF4C700F22194 /* HistoryViewModel.swift */; };
-		676E560E2E8DF4D300F22194 /* DeckRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E560B2E8DF4D300F22194 /* DeckRepository.swift */; };
-		676E560F2E8DF4D300F22194 /* TarotCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E560C2E8DF4D300F22194 /* TarotCard.swift */; };
-		676E56102E8DF4D300F22194 /* TarotDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E560D2E8DF4D300F22194 /* TarotDeck.swift */; };
+                676E560E2E8DF4D300F22194 /* DeckRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E560B2E8DF4D300F22194 /* DeckRepository.swift */; };
+                676E560F2E8DF4D300F22194 /* TarotCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E560C2E8DF4D300F22194 /* TarotCard.swift */; };
+                676E56102E8DF4D300F22194 /* TarotDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E560D2E8DF4D300F22194 /* TarotDeck.swift */; };
+                676E57122E9A4C000F22194 /* CardRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E57112E9A4C000F22194 /* CardRepository.swift */; };
+                676E57142E9A4C000F22194 /* CardReferenceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E57132E9A4C000F22194 /* CardReferenceViewModel.swift */; };
+                676E57162E9A4C000F22194 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E57152E9A4C000F22194 /* FlowLayout.swift */; };
+                676E57182E9A4C000F22194 /* CardReferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E57172E9A4C000F22194 /* CardReferenceView.swift */; };
+                676E571A2E9A4C000F22194 /* CardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E57192E9A4C000F22194 /* CardListView.swift */; };
+                676E571C2E9A4C000F22194 /* CardReferenceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E571B2E9A4C000F22194 /* CardReferenceDetailView.swift */; };
+                676E571E2E9A4C000F22194 /* MockCardRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E571D2E9A4C000F22194 /* MockCardRepository.swift */; };
+                676E57202E9A4C000F22194 /* CardReferenceViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E571F2E9A4C000F22194 /* CardReferenceViewModelTests.swift */; };
+                676E57222E9A4C000F22194 /* CardRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E57212E9A4C000F22194 /* CardRepositoryTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,9 +107,18 @@
 		676E56052E8DF4C700F22194 /* CardDrawViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDrawViewModel.swift; sourceTree = "<group>"; };
 		676E56062E8DF4C700F22194 /* DeckSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckSelectionViewModel.swift; sourceTree = "<group>"; };
 		676E56072E8DF4C700F22194 /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
-		676E560B2E8DF4D300F22194 /* DeckRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckRepository.swift; sourceTree = "<group>"; };
-		676E560C2E8DF4D300F22194 /* TarotCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TarotCard.swift; sourceTree = "<group>"; };
-		676E560D2E8DF4D300F22194 /* TarotDeck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TarotDeck.swift; sourceTree = "<group>"; };
+                676E560B2E8DF4D300F22194 /* DeckRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckRepository.swift; sourceTree = "<group>"; };
+                676E560C2E8DF4D300F22194 /* TarotCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TarotCard.swift; sourceTree = "<group>"; };
+                676E560D2E8DF4D300F22194 /* TarotDeck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TarotDeck.swift; sourceTree = "<group>"; };
+                676E57112E9A4C000F22194 /* CardRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRepository.swift; sourceTree = "<group>"; };
+                676E57132E9A4C000F22194 /* CardReferenceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardReferenceViewModel.swift; sourceTree = "<group>"; };
+                676E57152E9A4C000F22194 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
+                676E57172E9A4C000F22194 /* CardReferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardReferenceView.swift; sourceTree = "<group>"; };
+                676E57192E9A4C000F22194 /* CardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListView.swift; sourceTree = "<group>"; };
+                676E571B2E9A4C000F22194 /* CardReferenceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardReferenceDetailView.swift; sourceTree = "<group>"; };
+                676E571D2E9A4C000F22194 /* MockCardRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCardRepository.swift; sourceTree = "<group>"; };
+                676E571F2E9A4C000F22194 /* CardReferenceViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardReferenceViewModelTests.swift; sourceTree = "<group>"; };
+                676E57212E9A4C000F22194 /* CardRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRepositoryTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -175,50 +193,56 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		676E55CE2E8DE5A000F22194 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				676E560B2E8DF4D300F22194 /* DeckRepository.swift */,
-				676E560C2E8DF4D300F22194 /* TarotCard.swift */,
-				676E560D2E8DF4D300F22194 /* TarotDeck.swift */,
-				676E55D72E8DE6D100F22194 /* CardPull.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		676E55D02E8DE5C200F22194 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				676E56052E8DF4C700F22194 /* CardDrawViewModel.swift */,
-				676E56062E8DF4C700F22194 /* DeckSelectionViewModel.swift */,
-				676E56072E8DF4C700F22194 /* HistoryViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		676E55D12E8DE5CB00F22194 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				676E55FB2E8DF4B700F22194 /* CardDisplayView.swift */,
-				676E55FC2E8DF4B700F22194 /* DeckSelectionView.swift */,
-				676E55FD2E8DF4B700F22194 /* DrawCardView.swift */,
-				676E55FE2E8DF4B700F22194 /* HistoryView.swift */,
-				676E55FF2E8DF4B700F22194 /* MainView.swift */,
-				676E55A52E8DE4F200F22194 /* ContentView.swift */,
+                676E55CE2E8DE5A000F22194 /* Models */ = {
+                        isa = PBXGroup;
+                        children = (
+                                676E560B2E8DF4D300F22194 /* DeckRepository.swift */,
+                                676E57112E9A4C000F22194 /* CardRepository.swift */,
+                                676E560C2E8DF4D300F22194 /* TarotCard.swift */,
+                                676E560D2E8DF4D300F22194 /* TarotDeck.swift */,
+                                676E55D72E8DE6D100F22194 /* CardPull.swift */,
+                        );
+                        path = Models;
+                        sourceTree = "<group>";
+                };
+                676E55D02E8DE5C200F22194 /* ViewModels */ = {
+                        isa = PBXGroup;
+                        children = (
+                                676E56052E8DF4C700F22194 /* CardDrawViewModel.swift */,
+                                676E56062E8DF4C700F22194 /* DeckSelectionViewModel.swift */,
+                                676E56072E8DF4C700F22194 /* HistoryViewModel.swift */,
+                                676E57132E9A4C000F22194 /* CardReferenceViewModel.swift */,
+                        );
+                        path = ViewModels;
+                        sourceTree = "<group>";
+                };
+                676E55D12E8DE5CB00F22194 /* Views */ = {
+                        isa = PBXGroup;
+                        children = (
+                                676E55FB2E8DF4B700F22194 /* CardDisplayView.swift */,
+                                676E57172E9A4C000F22194 /* CardReferenceView.swift */,
+                                676E57192E9A4C000F22194 /* CardListView.swift */,
+                                676E571B2E9A4C000F22194 /* CardReferenceDetailView.swift */,
+                                676E55FC2E8DF4B700F22194 /* DeckSelectionView.swift */,
+                                676E55FD2E8DF4B700F22194 /* DrawCardView.swift */,
+                                676E55FE2E8DF4B700F22194 /* HistoryView.swift */,
+                                676E55FF2E8DF4B700F22194 /* MainView.swift */,
+                                676E55A52E8DE4F200F22194 /* ContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		676E55D22E8DE5D300F22194 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				676E55F52E8DF4A800F22194 /* CardImageView.swift */,
-				676E55F62E8DF4A800F22194 /* CTAButton.swift */,
-				676E55F72E8DF4A800F22194 /* HistoryRow.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
+                676E55D22E8DE5D300F22194 /* Components */ = {
+                        isa = PBXGroup;
+                        children = (
+                                676E55F52E8DF4A800F22194 /* CardImageView.swift */,
+                                676E55F62E8DF4A800F22194 /* CTAButton.swift */,
+                                676E55F72E8DF4A800F22194 /* HistoryRow.swift */,
+                                676E57152E9A4C000F22194 /* FlowLayout.swift */,
+                        );
+                        path = Components;
+                        sourceTree = "<group>";
+                };
 		676E55D32E8DE5E600F22194 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -433,21 +457,27 @@
 			files = (
 				676E55F22E8DF49000F22194 /* RandomGenerator.swift in Sources */,
 				676E55F32E8DF49000F22194 /* StorageMonitor.swift in Sources */,
-				676E55F82E8DF4A800F22194 /* HistoryRow.swift in Sources */,
-				676E56002E8DF4B700F22194 /* MainView.swift in Sources */,
-				676E56012E8DF4B700F22194 /* HistoryView.swift in Sources */,
-				676E56022E8DF4B700F22194 /* DeckSelectionView.swift in Sources */,
-				676E56032E8DF4B700F22194 /* DrawCardView.swift in Sources */,
-				676E56042E8DF4B700F22194 /* CardDisplayView.swift in Sources */,
-				676E55F92E8DF4A800F22194 /* CardImageView.swift in Sources */,
-				676E55FA2E8DF4A800F22194 /* CTAButton.swift in Sources */,
-				676E55F42E8DF49000F22194 /* Date+Formatting.swift in Sources */,
-				676E55EA2E8DF45900F22194 /* Theme.swift in Sources */,
-				676E56082E8DF4C700F22194 /* DeckSelectionViewModel.swift in Sources */,
-				676E56092E8DF4C700F22194 /* CardDrawViewModel.swift in Sources */,
-				676E560A2E8DF4C700F22194 /* HistoryViewModel.swift in Sources */,
-				676E55EB2E8DF45900F22194 /* AppConstants.swift in Sources */,
-				676E55D82E8DE7E200F22194 /* CardPull.swift in Sources */,
+                                676E55F82E8DF4A800F22194 /* HistoryRow.swift in Sources */,
+                                676E57162E9A4C000F22194 /* FlowLayout.swift in Sources */,
+                                676E56002E8DF4B700F22194 /* MainView.swift in Sources */,
+                                676E57182E9A4C000F22194 /* CardReferenceView.swift in Sources */,
+                                676E571A2E9A4C000F22194 /* CardListView.swift in Sources */,
+                                676E571C2E9A4C000F22194 /* CardReferenceDetailView.swift in Sources */,
+                                676E56012E8DF4B700F22194 /* HistoryView.swift in Sources */,
+                                676E56022E8DF4B700F22194 /* DeckSelectionView.swift in Sources */,
+                                676E56032E8DF4B700F22194 /* DrawCardView.swift in Sources */,
+                                676E56042E8DF4B700F22194 /* CardDisplayView.swift in Sources */,
+                                676E55F92E8DF4A800F22194 /* CardImageView.swift in Sources */,
+                                676E55FA2E8DF4A800F22194 /* CTAButton.swift in Sources */,
+                                676E55F42E8DF49000F22194 /* Date+Formatting.swift in Sources */,
+                                676E55EA2E8DF45900F22194 /* Theme.swift in Sources */,
+                                676E57122E9A4C000F22194 /* CardRepository.swift in Sources */,
+                                676E56082E8DF4C700F22194 /* DeckSelectionViewModel.swift in Sources */,
+                                676E56092E8DF4C700F22194 /* CardDrawViewModel.swift in Sources */,
+                                676E560A2E8DF4C700F22194 /* HistoryViewModel.swift in Sources */,
+                                676E57142E9A4C000F22194 /* CardReferenceViewModel.swift in Sources */,
+                                676E55EB2E8DF45900F22194 /* AppConstants.swift in Sources */,
+                                676E55D82E8DE7E200F22194 /* CardPull.swift in Sources */,
 				676E55A62E8DE4F200F22194 /* ContentView.swift in Sources */,
 				676E55A42E8DE4F200F22194 /* WristArcanaApp.swift in Sources */,
 				676E560E2E8DF4D300F22194 /* DeckRepository.swift in Sources */,
@@ -456,13 +486,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		676E55A92E8DE4F400F22194 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+                676E55A92E8DE4F400F22194 /* Sources */ = {
+                        isa = PBXSourcesBuildPhase;
+                        buildActionMask = 2147483647;
+                        files = (
+                                676E571E2E9A4C000F22194 /* MockCardRepository.swift in Sources */,
+                                676E57202E9A4C000F22194 /* CardReferenceViewModelTests.swift in Sources */,
+                                676E57222E9A4C000F22194 /* CardRepositoryTests.swift in Sources */,
+                        );
+                        runOnlyForDeploymentPostprocessing = 0;
+                };
 		676E55B32E8DE4F400F22194 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;

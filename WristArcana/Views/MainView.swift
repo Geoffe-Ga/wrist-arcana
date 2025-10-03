@@ -10,17 +10,29 @@ import SwiftUI
 struct MainView: View {
     // MARK: - State
 
-    @State private var selectedTab = 0
+    @State private var selectedTab = 1
 
     // MARK: - Body
 
     var body: some View {
         TabView(selection: self.$selectedTab) {
-            DrawCardView()
+            CardReferenceView()
                 .tag(0)
+                .tabItem {
+                    Label("Reference", systemImage: "book.fill")
+                }
+
+            DrawCardView()
+                .tag(1)
+                .tabItem {
+                    Label("Draw", systemImage: "sparkles")
+                }
 
             HistoryView()
-                .tag(1)
+                .tag(2)
+                .tabItem {
+                    Label("History", systemImage: "clock.fill")
+                }
         }
         .tabViewStyle(.page)
     }

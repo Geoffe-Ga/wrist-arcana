@@ -5,706 +5,1251 @@
       "name": "Rider-Waite",
       "cards": [
         {
-          "id": "rw-major-00",
+          "id": "a6625ab1-e161-4f0e-84df-19f5cf60575a",
           "name": "The Fool",
           "imageName": "major_00",
-          "arcana": "major",
           "number": 0,
           "upright": "New beginnings, innocence, spontaneity, free spirit. A leap of faith into the unknown with optimism and trust.",
-          "reversed": "Recklessness, taken advantage of, inconsideration. Acting foolishly without thinking of consequences."
+          "reversed": "Recklessness, taken advantage of, inconsideration. Acting foolishly without thinking of consequences.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "New Beginnings",
+            "Innocence",
+            "Spontaneity",
+            "Free Spirit",
+            "A Leap Of Faith Into The Unknown With Optimism"
+          ]
         },
         {
-          "id": "rw-major-01",
+          "id": "2dc5b5fc-67ec-411e-bdfc-453ceb092ca9",
           "name": "The Magician",
           "imageName": "major_01",
-          "arcana": "major",
           "number": 1,
           "upright": "Manifestation, resourcefulness, power, inspired action. You have the tools and ability to achieve your goals.",
-          "reversed": "Manipulation, poor planning, untapped talents. Misuse of skills or lack of focus preventing manifestation."
+          "reversed": "Manipulation, poor planning, untapped talents. Misuse of skills or lack of focus preventing manifestation.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Manifestation",
+            "Resourcefulness",
+            "Power",
+            "Inspired Action",
+            "You Have The Tools"
+          ]
         },
         {
-          "id": "rw-major-02",
+          "id": "a016b51d-9b22-476b-aa2c-2ea0e69ad782",
           "name": "The High Priestess",
           "imageName": "major_02",
-          "arcana": "major",
           "number": 2,
           "upright": "Intuition, sacred knowledge, divine feminine, the subconscious mind. Trust your inner voice and wisdom.",
-          "reversed": "Secrets, disconnected from intuition, withdrawal. Ignoring inner wisdom or information being withheld."
+          "reversed": "Secrets, disconnected from intuition, withdrawal. Ignoring inner wisdom or information being withheld.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Intuition",
+            "Sacred Knowledge",
+            "Divine Feminine",
+            "The Subconscious Mind",
+            "Trust Your Inner Voice"
+          ]
         },
         {
-          "id": "rw-major-03",
+          "id": "4253bf42-2ba8-48e9-b0fa-0e52b0bff469",
           "name": "The Empress",
           "imageName": "major_03",
-          "arcana": "major",
           "number": 3,
           "upright": "Femininity, beauty, nature, nurturing, abundance. Creative expression and connection to the senses.",
-          "reversed": "Creative block, dependence on others, emptiness. Neglecting self-care or feeling smothered."
+          "reversed": "Creative block, dependence on others, emptiness. Neglecting self-care or feeling smothered.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Femininity",
+            "Beauty",
+            "Nature",
+            "Nurturing",
+            "Abundance"
+          ]
         },
         {
-          "id": "rw-major-04",
+          "id": "fd45ddf1-51d9-491f-b948-3319a0ee7adb",
           "name": "The Emperor",
           "imageName": "major_04",
-          "arcana": "major",
           "number": 4,
           "upright": "Authority, establishment, structure, father figure. Taking control through leadership and strategic planning.",
-          "reversed": "Domination, excessive control, lack of discipline. Rigidity or abuse of power creating conflict."
+          "reversed": "Domination, excessive control, lack of discipline. Rigidity or abuse of power creating conflict.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Authority",
+            "Establishment",
+            "Structure",
+            "Father Figure",
+            "Taking Control Through Leadership"
+          ]
         },
         {
-          "id": "rw-major-05",
+          "id": "bd3421ae-24d7-492e-91c4-d28eace0df9c",
           "name": "The Hierophant",
           "imageName": "major_05",
-          "arcana": "major",
           "number": 5,
           "upright": "Spiritual wisdom, religious beliefs, conformity, tradition. Seeking counsel from established institutions or mentors.",
-          "reversed": "Personal beliefs, freedom, challenging the status quo. Rebelling against tradition or restricting dogma."
+          "reversed": "Personal beliefs, freedom, challenging the status quo. Rebelling against tradition or restricting dogma.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Spiritual Wisdom",
+            "Religious Beliefs",
+            "Conformity",
+            "Tradition",
+            "Seeking Counsel From Established Institutions Or Mentors"
+          ]
         },
         {
-          "id": "rw-major-06",
+          "id": "c3aa091c-b543-46a3-bcf3-a463599aaf78",
           "name": "The Lovers",
           "imageName": "major_06",
-          "arcana": "major",
           "number": 6,
           "upright": "Love, harmony, relationships, values alignment, choices. Deep connections and important decisions about partnerships.",
-          "reversed": "Self-love, disharmony, imbalance, misalignment of values. Relationship struggles or difficult choices ahead."
+          "reversed": "Self-love, disharmony, imbalance, misalignment of values. Relationship struggles or difficult choices ahead.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Love",
+            "Harmony",
+            "Relationships",
+            "Values Alignment",
+            "Choices"
+          ]
         },
         {
-          "id": "rw-major-07",
+          "id": "438fcdf2-3f1f-4c6b-9109-e6394d895ba2",
           "name": "The Chariot",
           "imageName": "major_07",
-          "arcana": "major",
           "number": 7,
           "upright": "Control, willpower, success, action, determination. Overcoming obstacles through focus and confidence.",
-          "reversed": "Self-discipline, opposition, lack of direction. Losing control or being pulled in too many directions."
+          "reversed": "Self-discipline, opposition, lack of direction. Losing control or being pulled in too many directions.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Control",
+            "Willpower",
+            "Success",
+            "Action",
+            "Determination"
+          ]
         },
         {
-          "id": "rw-major-08",
+          "id": "d730fb61-de3c-438b-82e4-0c0680764a4e",
           "name": "Strength",
           "imageName": "major_08",
-          "arcana": "major",
           "number": 8,
           "upright": "Courage, persuasion, influence, compassion. Inner strength and gentle control overcoming brute force.",
-          "reversed": "Inner strength, self-doubt, low energy, raw emotion. Lacking confidence or acting from weakness."
+          "reversed": "Inner strength, self-doubt, low energy, raw emotion. Lacking confidence or acting from weakness.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Courage",
+            "Persuasion",
+            "Influence",
+            "Compassion",
+            "Inner Strength"
+          ]
         },
         {
-          "id": "rw-major-09",
+          "id": "4b85a372-1d06-4279-af1a-1e028585a3e1",
           "name": "The Hermit",
           "imageName": "major_09",
-          "arcana": "major",
           "number": 9,
           "upright": "Soul-searching, introspection, inner guidance, solitude. Withdrawing to find answers within yourself.",
-          "reversed": "Isolation, loneliness, withdrawal from loved ones. Excessive isolation or refusing guidance from others."
+          "reversed": "Isolation, loneliness, withdrawal from loved ones. Excessive isolation or refusing guidance from others.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Soul-searching",
+            "Introspection",
+            "Inner Guidance",
+            "Solitude",
+            "Withdrawing To Find Answers Within Yourself"
+          ]
         },
         {
-          "id": "rw-major-10",
+          "id": "ed406666-a981-4a3a-8439-586d5083ff32",
           "name": "Wheel of Fortune",
           "imageName": "major_10",
-          "arcana": "major",
           "number": 10,
           "upright": "Good luck, karma, life cycles, destiny, turning point. A significant change or stroke of fortune coming.",
-          "reversed": "Bad luck, resistance to change, breaking cycles. Setbacks or inability to control external forces."
+          "reversed": "Bad luck, resistance to change, breaking cycles. Setbacks or inability to control external forces.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Good Luck",
+            "Karma",
+            "Life Cycles",
+            "Destiny",
+            "Turning Point"
+          ]
         },
         {
-          "id": "rw-major-11",
+          "id": "23a0b810-558f-4916-85c2-c310228be30f",
           "name": "Justice",
           "imageName": "major_11",
-          "arcana": "major",
           "number": 11,
           "upright": "Justice, fairness, truth, cause and effect, law. Accountability and fair treatment in legal or moral matters.",
-          "reversed": "Unfairness, lack of accountability, dishonesty. Avoiding consequences or experiencing unjust treatment."
+          "reversed": "Unfairness, lack of accountability, dishonesty. Avoiding consequences or experiencing unjust treatment.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Justice",
+            "Fairness",
+            "Truth",
+            "Cause",
+            "Effect"
+          ]
         },
         {
-          "id": "rw-major-12",
+          "id": "54f59472-3a8e-406a-823e-47bef98c83bd",
           "name": "The Hanged Man",
           "imageName": "major_12",
-          "arcana": "major",
           "number": 12,
           "upright": "Pause, surrender, letting go, new perspectives. Willing sacrifice and seeing things from a new angle.",
-          "reversed": "Delays, resistance, stalling, indecision. Refusing to make necessary sacrifices or feeling stuck."
+          "reversed": "Delays, resistance, stalling, indecision. Refusing to make necessary sacrifices or feeling stuck.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Pause",
+            "Surrender",
+            "Letting Go",
+            "New Perspectives",
+            "Willing Sacrifice"
+          ]
         },
         {
-          "id": "rw-major-13",
+          "id": "f9ae34e7-cb8b-4449-b856-929d70c965fa",
           "name": "Death",
           "imageName": "major_13",
-          "arcana": "major",
           "number": 13,
           "upright": "Endings, change, transformation, transition. A major phase ending to make way for new beginnings.",
-          "reversed": "Resistance to change, personal transformation, inner purging. Fear of change or incomplete transitions."
+          "reversed": "Resistance to change, personal transformation, inner purging. Fear of change or incomplete transitions.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Endings",
+            "Change",
+            "Transformation",
+            "Transition",
+            "A Major Phase Ending To Make Way For New Beginnings"
+          ]
         },
         {
-          "id": "rw-major-14",
+          "id": "220f3374-0b90-442b-88b8-c686f2cf47f9",
           "name": "Temperance",
           "imageName": "major_14",
-          "arcana": "major",
           "number": 14,
           "upright": "Balance, moderation, patience, purpose, meaning. Finding the middle path and blending opposing forces harmoniously.",
-          "reversed": "Imbalance, excess, self-healing, re-alignment. Overindulgence or loss of equilibrium requiring adjustment."
+          "reversed": "Imbalance, excess, self-healing, re-alignment. Overindulgence or loss of equilibrium requiring adjustment.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Balance",
+            "Moderation",
+            "Patience",
+            "Purpose",
+            "Meaning"
+          ]
         },
         {
-          "id": "rw-major-15",
+          "id": "d4a62e2c-a5bd-44cb-ba32-28b61fce84ff",
           "name": "The Devil",
           "imageName": "major_15",
-          "arcana": "major",
           "number": 15,
           "upright": "Shadow self, attachment, addiction, restriction, sexuality. Bondage to material desires or unhealthy patterns.",
-          "reversed": "Releasing limiting beliefs, exploring dark thoughts, detachment. Breaking free from addictions or restrictions."
+          "reversed": "Releasing limiting beliefs, exploring dark thoughts, detachment. Breaking free from addictions or restrictions.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Shadow Self",
+            "Attachment",
+            "Addiction",
+            "Restriction",
+            "Sexuality"
+          ]
         },
         {
-          "id": "rw-major-16",
+          "id": "d4a1d556-6597-4788-ad52-f4e48643b798",
           "name": "The Tower",
           "imageName": "major_16",
-          "arcana": "major",
           "number": 16,
           "upright": "Sudden change, upheaval, chaos, revelation, awakening. Dramatic disruption destroying false foundations.",
-          "reversed": "Personal transformation, fear of change, averting disaster. Resisting necessary change or narrowly avoiding catastrophe."
+          "reversed": "Personal transformation, fear of change, averting disaster. Resisting necessary change or narrowly avoiding catastrophe.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Sudden Change",
+            "Upheaval",
+            "Chaos",
+            "Revelation",
+            "Awakening"
+          ]
         },
         {
-          "id": "rw-major-17",
+          "id": "2fe63ef8-b1ec-401c-957c-d32b10063ab0",
           "name": "The Star",
           "imageName": "major_17",
-          "arcana": "major",
           "number": 17,
           "upright": "Hope, faith, purpose, renewal, spirituality. Renewed faith and inspiration after difficult times.",
-          "reversed": "Lack of faith, despair, self-trust, disconnection. Feeling hopeless or losing sight of your purpose."
+          "reversed": "Lack of faith, despair, self-trust, disconnection. Feeling hopeless or losing sight of your purpose.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Hope",
+            "Faith",
+            "Purpose",
+            "Renewal",
+            "Spirituality"
+          ]
         },
         {
-          "id": "rw-major-18",
+          "id": "e2078307-0dc7-4fd5-84d3-c2ad7a2b5e23",
           "name": "The Moon",
           "imageName": "major_18",
-          "arcana": "major",
           "number": 18,
           "upright": "Illusion, fear, anxiety, subconscious, intuition. Uncertainty and deception requiring deep introspection.",
-          "reversed": "Release of fear, repressed emotion, inner confusion. Unveiling illusions or confronting hidden anxieties."
+          "reversed": "Release of fear, repressed emotion, inner confusion. Unveiling illusions or confronting hidden anxieties.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Illusion",
+            "Fear",
+            "Anxiety",
+            "Subconscious",
+            "Intuition"
+          ]
         },
         {
-          "id": "rw-major-19",
+          "id": "c8c422e1-fc85-48af-a2ed-131ef0f58312",
           "name": "The Sun",
           "imageName": "major_19",
-          "arcana": "major",
           "number": 19,
           "upright": "Positivity, fun, warmth, success, vitality. Joy, clarity, and celebration of life's blessings.",
-          "reversed": "Inner child, feeling down, overly optimistic. Temporary setbacks or unable to see the positive side."
+          "reversed": "Inner child, feeling down, overly optimistic. Temporary setbacks or unable to see the positive side.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Positivity",
+            "Fun",
+            "Warmth",
+            "Success",
+            "Vitality"
+          ]
         },
         {
-          "id": "rw-major-20",
+          "id": "5e996e30-272f-4d41-9a6b-90571dd2799e",
           "name": "Judgement",
           "imageName": "major_20",
-          "arcana": "major",
           "number": 20,
           "upright": "Judgement, rebirth, inner calling, absolution. Awakening to your higher calling and making amends.",
-          "reversed": "Self-doubt, inner critic, ignoring the call. Harsh self-judgment or refusing to heed your inner voice."
+          "reversed": "Self-doubt, inner critic, ignoring the call. Harsh self-judgment or refusing to heed your inner voice.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Judgement",
+            "Rebirth",
+            "Inner Calling",
+            "Absolution",
+            "Awakening To Your Higher Calling"
+          ]
         },
         {
-          "id": "rw-major-21",
+          "id": "46cdf2fe-329f-4b62-8d70-693a86e6d592",
           "name": "The World",
           "imageName": "major_21",
-          "arcana": "major",
           "number": 21,
           "upright": "Completion, accomplishment, travel, fulfillment. Achievement of goals and successful conclusion of a cycle.",
-          "reversed": "Seeking personal closure, short-cuts, delays. Incomplete cycles or resisting the end of a chapter."
+          "reversed": "Seeking personal closure, short-cuts, delays. Incomplete cycles or resisting the end of a chapter.",
+          "suit": "Major Arcana",
+          "keywords": [
+            "Completion",
+            "Accomplishment",
+            "Travel",
+            "Fulfillment",
+            "Achievement Of Goals"
+          ]
         },
         {
-          "id": "rw-wands-01",
+          "id": "6e68b474-81f4-49f1-8dd8-97b19ca78239",
           "name": "Ace of Wands",
           "imageName": "wands_01",
-          "arcana": "minor",
           "number": 1,
           "upright": "Inspiration, new opportunities, growth, potential. A creative spark or exciting new venture beginning.",
-          "reversed": "Emerging ideas, lack of direction, distractions. Delays in plans or struggling to find your path."
+          "reversed": "Emerging ideas, lack of direction, distractions. Delays in plans or struggling to find your path.",
+          "suit": "Wands",
+          "keywords": [
+            "Inspiration",
+            "New Opportunities",
+            "Growth",
+            "Potential",
+            "A Creative Spark Or Exciting New Venture Beginning"
+          ]
         },
         {
-          "id": "rw-wands-02",
+          "id": "4e2d58b1-5eaf-4225-8340-2e4a70c66a61",
           "name": "Two of Wands",
           "imageName": "wands_02",
-          "arcana": "minor",
           "number": 2,
           "upright": "Future planning, progress, decisions, discovery. Planning your next steps with the world at your fingertips.",
-          "reversed": "Personal goals, inner alignment, fear of unknown. Hesitation or lack of planning preventing progress."
+          "reversed": "Personal goals, inner alignment, fear of unknown. Hesitation or lack of planning preventing progress.",
+          "suit": "Wands",
+          "keywords": [
+            "Future Planning",
+            "Progress",
+            "Decisions",
+            "Discovery",
+            "Planning Your Next Steps With The World At Your Fingertips"
+          ]
         },
         {
-          "id": "rw-wands-03",
+          "id": "daffb8d4-ab69-4ab0-94d8-7707c79f6b09",
           "name": "Three of Wands",
           "imageName": "wands_03",
-          "arcana": "minor",
           "number": 3,
           "upright": "Progress, expansion, foresight, overseas opportunities. Your efforts are beginning to bear fruit.",
-          "reversed": "Playing small, lack of foresight, unexpected delays. Obstacles preventing expansion or limited vision."
+          "reversed": "Playing small, lack of foresight, unexpected delays. Obstacles preventing expansion or limited vision.",
+          "suit": "Wands",
+          "keywords": [
+            "Progress",
+            "Expansion",
+            "Foresight",
+            "Overseas Opportunities",
+            "Your Efforts Are Beginning To Bear Fruit"
+          ]
         },
         {
-          "id": "rw-wands-04",
+          "id": "21ac6b57-5d66-4a75-9269-ceeb82565333",
           "name": "Four of Wands",
           "imageName": "wands_04",
-          "arcana": "minor",
           "number": 4,
           "upright": "Celebration, joy, harmony, relaxation, homecoming. A happy event or milestone worth celebrating.",
-          "reversed": "Personal celebration, inner harmony, conflict with others. Tensions disrupting harmony or postponed celebrations."
+          "reversed": "Personal celebration, inner harmony, conflict with others. Tensions disrupting harmony or postponed celebrations.",
+          "suit": "Wands",
+          "keywords": [
+            "Celebration",
+            "Joy",
+            "Harmony",
+            "Relaxation",
+            "Homecoming"
+          ]
         },
         {
-          "id": "rw-wands-05",
+          "id": "54df6e4a-3a4b-486c-afd1-7da6f85f0e6e",
           "name": "Five of Wands",
           "imageName": "wands_05",
-          "arcana": "minor",
           "number": 5,
           "upright": "Conflict, disagreements, competition, tension, diversity. Clashing perspectives creating constructive or destructive friction.",
-          "reversed": "Inner conflict, conflict avoidance, releasing tension. Resolving disputes or avoiding necessary confrontation."
+          "reversed": "Inner conflict, conflict avoidance, releasing tension. Resolving disputes or avoiding necessary confrontation.",
+          "suit": "Wands",
+          "keywords": [
+            "Conflict",
+            "Disagreements",
+            "Competition",
+            "Tension",
+            "Diversity"
+          ]
         },
         {
-          "id": "rw-wands-06",
+          "id": "08ceca06-d921-4fc1-a825-c58554016efc",
           "name": "Six of Wands",
           "imageName": "wands_06",
-          "arcana": "minor",
           "number": 6,
           "upright": "Success, public recognition, progress, self-confidence. Victory and acknowledgment for your achievements.",
-          "reversed": "Private achievement, self-definition, fall from grace. Lack of recognition or ego preventing success."
+          "reversed": "Private achievement, self-definition, fall from grace. Lack of recognition or ego preventing success.",
+          "suit": "Wands",
+          "keywords": [
+            "Success",
+            "Public Recognition",
+            "Progress",
+            "Self-confidence",
+            "Victory"
+          ]
         },
         {
-          "id": "rw-wands-07",
+          "id": "2d16a278-5524-4b95-8759-9abdb583686a",
           "name": "Seven of Wands",
           "imageName": "wands_07",
-          "arcana": "minor",
           "number": 7,
           "upright": "Challenge, competition, protection, perseverance. Defending your position against opposition with courage.",
-          "reversed": "Exhaustion, giving up, overwhelmed. Feeling defenseless or lacking the energy to fight."
+          "reversed": "Exhaustion, giving up, overwhelmed. Feeling defenseless or lacking the energy to fight.",
+          "suit": "Wands",
+          "keywords": [
+            "Challenge",
+            "Competition",
+            "Protection",
+            "Perseverance",
+            "Defending Your Position Against Opposition With Courage"
+          ]
         },
         {
-          "id": "rw-wands-08",
+          "id": "6bd87acb-b2c1-43df-adce-4612ff197848",
           "name": "Eight of Wands",
           "imageName": "wands_08",
-          "arcana": "minor",
           "number": 8,
           "upright": "Movement, fast paced change, action, alignment. Swift progress and things falling into place quickly.",
-          "reversed": "Delays, frustration, resisting change, internal alignment. Slowed progress or rushed decisions causing problems."
+          "reversed": "Delays, frustration, resisting change, internal alignment. Slowed progress or rushed decisions causing problems.",
+          "suit": "Wands",
+          "keywords": [
+            "Movement",
+            "Fast Paced Change",
+            "Action",
+            "Alignment",
+            "Swift Progress"
+          ]
         },
         {
-          "id": "rw-wands-09",
+          "id": "7c59fafd-b27e-4ed3-960c-e5cb7b244fa6",
           "name": "Nine of Wands",
           "imageName": "wands_09",
-          "arcana": "minor",
           "number": 9,
           "upright": "Resilience, courage, persistence, test of faith. Standing strong despite fatigue and ongoing challenges.",
-          "reversed": "Inner resources, struggle, overwhelm, defensive. Exhaustion or paranoia preventing final push."
+          "reversed": "Inner resources, struggle, overwhelm, defensive. Exhaustion or paranoia preventing final push.",
+          "suit": "Wands",
+          "keywords": [
+            "Resilience",
+            "Courage",
+            "Persistence",
+            "Test Of Faith",
+            "Standing Strong Despite Fatigue"
+          ]
         },
         {
-          "id": "rw-wands-10",
+          "id": "fbcc6aad-5427-46ac-8880-65a6c364353a",
           "name": "Ten of Wands",
           "imageName": "wands_10",
-          "arcana": "minor",
           "number": 10,
           "upright": "Burden, extra responsibility, hard work, completion. Carrying a heavy load as you near the finish line.",
-          "reversed": "Doing it all, carrying the burden, delegation. Releasing burdens or refusing to delegate."
+          "reversed": "Doing it all, carrying the burden, delegation. Releasing burdens or refusing to delegate.",
+          "suit": "Wands",
+          "keywords": [
+            "Burden",
+            "Extra Responsibility",
+            "Hard Work",
+            "Completion",
+            "Carrying A Heavy Load As You Near The Finish Line"
+          ]
         },
         {
-          "id": "rw-wands-11",
+          "id": "35b917f7-3b2b-4de2-864f-1fbdca99a926",
           "name": "Page of Wands",
           "imageName": "wands_page",
-          "arcana": "minor",
           "number": 11,
           "upright": "Inspiration, ideas, discovery, limitless potential, free spirit. Enthusiastic exploration of new creative ventures.",
-          "reversed": "Newly formed ideas, redirecting energy, self-limiting. Lacking direction or inconsistent with plans."
+          "reversed": "Newly formed ideas, redirecting energy, self-limiting. Lacking direction or inconsistent with plans.",
+          "suit": "Wands",
+          "keywords": [
+            "Inspiration",
+            "Ideas",
+            "Discovery",
+            "Limitless Potential",
+            "Free Spirit"
+          ]
         },
         {
-          "id": "rw-wands-12",
+          "id": "9448d565-3001-4d35-814e-a872fea1febb",
           "name": "Knight of Wands",
           "imageName": "wands_knight",
-          "arcana": "minor",
           "number": 12,
           "upright": "Energy, passion, inspired action, adventure, impulsiveness. Charging forward with enthusiasm and confidence.",
-          "reversed": "Passion project, haste, scattered energy, delays. Recklessness or impatience causing setbacks."
+          "reversed": "Passion project, haste, scattered energy, delays. Recklessness or impatience causing setbacks.",
+          "suit": "Wands",
+          "keywords": [
+            "Energy",
+            "Passion",
+            "Inspired Action",
+            "Adventure",
+            "Impulsiveness"
+          ]
         },
         {
-          "id": "rw-wands-13",
+          "id": "35e4caef-9c9d-4e0f-b225-f380114e31e4",
           "name": "Queen of Wands",
           "imageName": "wands_queen",
-          "arcana": "minor",
           "number": 13,
           "upright": "Courage, confidence, independence, social butterfly, determination. Charismatic leadership and passionate engagement.",
-          "reversed": "Self-respect, self-confidence, introverted, re-establish sense of self. Insecurity or domineering behavior."
+          "reversed": "Self-respect, self-confidence, introverted, re-establish sense of self. Insecurity or domineering behavior.",
+          "suit": "Wands",
+          "keywords": [
+            "Courage",
+            "Confidence",
+            "Independence",
+            "Social Butterfly",
+            "Determination"
+          ]
         },
         {
-          "id": "rw-wands-14",
+          "id": "ff0771f4-b46f-47e0-9aa0-fa2acfd2857d",
           "name": "King of Wands",
           "imageName": "wands_king",
-          "arcana": "minor",
           "number": 14,
           "upright": "Natural-born leader, vision, entrepreneur, honor. Bold leadership and inspiring others to action.",
-          "reversed": "Impulsiveness, haste, ruthless, high expectations. Tyrannical behavior or lack of follow-through."
+          "reversed": "Impulsiveness, haste, ruthless, high expectations. Tyrannical behavior or lack of follow-through.",
+          "suit": "Wands",
+          "keywords": [
+            "Natural-born Leader",
+            "Vision",
+            "Entrepreneur",
+            "Honor",
+            "Bold Leadership"
+          ]
         },
         {
-          "id": "rw-cups-01",
+          "id": "a9012408-bdc5-4a82-912d-3fd32e1a5cf5",
           "name": "Ace of Cups",
           "imageName": "cups_01",
-          "arcana": "minor",
           "number": 1,
           "upright": "Love, new relationships, compassion, creativity. An outpouring of emotional, spiritual, or creative energy.",
-          "reversed": "Self-love, intuition, repressed emotions. Blocked emotions or turning inward for fulfillment."
+          "reversed": "Self-love, intuition, repressed emotions. Blocked emotions or turning inward for fulfillment.",
+          "suit": "Cups",
+          "keywords": [
+            "Love",
+            "New Relationships",
+            "Compassion",
+            "Creativity",
+            "An Outpouring Of Emotional"
+          ]
         },
         {
-          "id": "rw-cups-02",
+          "id": "f46122e3-ad6c-483a-80dc-95472d4a2c11",
           "name": "Two of Cups",
           "imageName": "cups_02",
-          "arcana": "minor",
           "number": 2,
           "upright": "Unified love, partnership, mutual attraction. Deep connection and balanced relationship forming.",
-          "reversed": "Self-love, break-ups, disharmony, distrust. Relationship imbalance or incompatibility."
+          "reversed": "Self-love, break-ups, disharmony, distrust. Relationship imbalance or incompatibility.",
+          "suit": "Cups",
+          "keywords": [
+            "Unified Love",
+            "Partnership",
+            "Mutual Attraction",
+            "Deep Connection",
+            "Balanced Relationship Forming"
+          ]
         },
         {
-          "id": "rw-cups-03",
+          "id": "9a75c7c5-f33a-4f66-9f37-81a2f48ca9d2",
           "name": "Three of Cups",
           "imageName": "cups_03",
-          "arcana": "minor",
           "number": 3,
           "upright": "Celebration, friendship, creativity, collaborations. Joyful gatherings and social connections.",
-          "reversed": "Independence, alone time, hardcore partying, 'three's a crowd'. Overindulgence or social isolation."
+          "reversed": "Independence, alone time, hardcore partying, 'three's a crowd'. Overindulgence or social isolation.",
+          "suit": "Cups",
+          "keywords": [
+            "Celebration",
+            "Friendship",
+            "Creativity",
+            "Collaborations",
+            "Joyful Gatherings"
+          ]
         },
         {
-          "id": "rw-cups-04",
+          "id": "d1eea618-1441-4063-b342-6c8417559646",
           "name": "Four of Cups",
           "imageName": "cups_04",
-          "arcana": "minor",
           "number": 4,
           "upright": "Meditation, contemplation, apathy, reevaluation. Introspection and reassessing what brings fulfillment.",
-          "reversed": "Retreat, withdrawal, checking in for alignment. Renewed interest or ending period of apathy."
+          "reversed": "Retreat, withdrawal, checking in for alignment. Renewed interest or ending period of apathy.",
+          "suit": "Cups",
+          "keywords": [
+            "Meditation",
+            "Contemplation",
+            "Apathy",
+            "Reevaluation",
+            "Introspection"
+          ]
         },
         {
-          "id": "rw-cups-05",
+          "id": "a2cef80a-1237-45f4-bedb-0f4cdd19f74d",
           "name": "Five of Cups",
           "imageName": "cups_05",
-          "arcana": "minor",
           "number": 5,
           "upright": "Regret, failure, disappointment, pessimism. Dwelling on loss while overlooking what remains.",
-          "reversed": "Personal setbacks, self-forgiveness, moving on. Accepting loss and finding peace."
+          "reversed": "Personal setbacks, self-forgiveness, moving on. Accepting loss and finding peace.",
+          "suit": "Cups",
+          "keywords": [
+            "Regret",
+            "Failure",
+            "Disappointment",
+            "Pessimism",
+            "Dwelling On Loss While Overlooking What Remains"
+          ]
         },
         {
-          "id": "rw-cups-06",
+          "id": "65d793d8-c5b5-49bf-891b-de1a61140adb",
           "name": "Six of Cups",
           "imageName": "cups_06",
-          "arcana": "minor",
           "number": 6,
           "upright": "Revisiting the past, childhood memories, innocence, joy. Nostalgia and reconnection with simpler times.",
-          "reversed": "Living in the past, forgiveness, lacking playfulness. Stuck in memories or needing to release the past."
+          "reversed": "Living in the past, forgiveness, lacking playfulness. Stuck in memories or needing to release the past.",
+          "suit": "Cups",
+          "keywords": [
+            "Revisiting The Past",
+            "Childhood Memories",
+            "Innocence",
+            "Joy",
+            "Nostalgia"
+          ]
         },
         {
-          "id": "rw-cups-07",
+          "id": "4457019c-fc87-4a4d-a710-f0f85c2714ab",
           "name": "Seven of Cups",
           "imageName": "cups_07",
-          "arcana": "minor",
           "number": 7,
           "upright": "Opportunities, choices, wishful thinking, illusion. Multiple options creating confusion or fantasy.",
-          "reversed": "Alignment, personal values, overwhelmed by choices. Gaining clarity or facing reality."
+          "reversed": "Alignment, personal values, overwhelmed by choices. Gaining clarity or facing reality.",
+          "suit": "Cups",
+          "keywords": [
+            "Opportunities",
+            "Choices",
+            "Wishful Thinking",
+            "Illusion",
+            "Multiple Options Creating Confusion Or Fantasy"
+          ]
         },
         {
-          "id": "rw-cups-08",
+          "id": "84eb5a00-6cdb-454d-b7bb-0a449defd53f",
           "name": "Eight of Cups",
           "imageName": "cups_08",
-          "arcana": "minor",
           "number": 8,
           "upright": "Disappointment, abandonment, withdrawal, escapism. Leaving behind what no longer serves you.",
-          "reversed": "Trying one more time, indecision, aimless drifting. Fear of moving on or premature abandonment."
+          "reversed": "Trying one more time, indecision, aimless drifting. Fear of moving on or premature abandonment.",
+          "suit": "Cups",
+          "keywords": [
+            "Disappointment",
+            "Abandonment",
+            "Withdrawal",
+            "Escapism",
+            "Leaving Behind What No Longer Serves You"
+          ]
         },
         {
-          "id": "rw-cups-09",
+          "id": "2350ae1b-06aa-4598-9ca4-3645c01994a6",
           "name": "Nine of Cups",
           "imageName": "cups_09",
-          "arcana": "minor",
           "number": 9,
           "upright": "Contentment, satisfaction, gratitude, wish come true. Emotional fulfillment and getting what you want.",
-          "reversed": "Inner happiness, materialism, dissatisfaction, indulgence. Unfulfilled despite external success."
+          "reversed": "Inner happiness, materialism, dissatisfaction, indulgence. Unfulfilled despite external success.",
+          "suit": "Cups",
+          "keywords": [
+            "Contentment",
+            "Satisfaction",
+            "Gratitude",
+            "Wish Come True",
+            "Emotional Fulfillment"
+          ]
         },
         {
-          "id": "rw-cups-10",
+          "id": "66f37784-f652-4677-88c5-b27d9df42597",
           "name": "Ten of Cups",
           "imageName": "cups_10",
-          "arcana": "minor",
           "number": 10,
           "upright": "Divine love, blissful relationships, harmony, alignment. Complete emotional fulfillment and happy family.",
-          "reversed": "Disconnection, misaligned values, struggling relationships. Disharmony or seeking deeper meaning."
+          "reversed": "Disconnection, misaligned values, struggling relationships. Disharmony or seeking deeper meaning.",
+          "suit": "Cups",
+          "keywords": [
+            "Divine Love",
+            "Blissful Relationships",
+            "Harmony",
+            "Alignment",
+            "Complete Emotional Fulfillment"
+          ]
         },
         {
-          "id": "rw-cups-11",
+          "id": "911a29ca-9831-4772-a075-cef42338e46d",
           "name": "Page of Cups",
           "imageName": "cups_page",
-          "arcana": "minor",
           "number": 11,
           "upright": "Creative opportunities, intuitive messages, curiosity, possibility. A gentle invitation to explore feelings.",
-          "reversed": "New ideas, doubting intuition, creative blocks. Emotional immaturity or ignoring inner voice."
+          "reversed": "New ideas, doubting intuition, creative blocks. Emotional immaturity or ignoring inner voice.",
+          "suit": "Cups",
+          "keywords": [
+            "Creative Opportunities",
+            "Intuitive Messages",
+            "Curiosity",
+            "Possibility",
+            "A Gentle Invitation To Explore Feelings"
+          ]
         },
         {
-          "id": "rw-cups-12",
+          "id": "03a42d0b-faa6-4258-bd32-68274f5806a5",
           "name": "Knight of Cups",
           "imageName": "cups_knight",
-          "arcana": "minor",
           "number": 12,
           "upright": "Creativity, romance, charm, imagination, beauty. Following your heart with romantic idealism.",
-          "reversed": "Overactive imagination, unrealistic, jealous, moody. Moodiness or living in fantasy."
+          "reversed": "Overactive imagination, unrealistic, jealous, moody. Moodiness or living in fantasy.",
+          "suit": "Cups",
+          "keywords": [
+            "Creativity",
+            "Romance",
+            "Charm",
+            "Imagination",
+            "Beauty"
+          ]
         },
         {
-          "id": "rw-cups-13",
+          "id": "4bccbe59-7ac4-41eb-8469-69cf846a4ee9",
           "name": "Queen of Cups",
           "imageName": "cups_queen",
-          "arcana": "minor",
           "number": 13,
           "upright": "Compassionate, caring, emotionally stable, intuitive, in flow. Nurturing emotional wisdom and empathy.",
-          "reversed": "Inner feelings, self-care, self-love, co-dependency. Emotional manipulation or neglecting self."
+          "reversed": "Inner feelings, self-care, self-love, co-dependency. Emotional manipulation or neglecting self.",
+          "suit": "Cups",
+          "keywords": [
+            "Compassionate",
+            "Caring",
+            "Emotionally Stable",
+            "Intuitive",
+            "In Flow"
+          ]
         },
         {
-          "id": "rw-cups-14",
+          "id": "29c801ef-11c7-4d0c-b336-8ea488392548",
           "name": "King of Cups",
           "imageName": "cups_king",
-          "arcana": "minor",
           "number": 14,
           "upright": "Emotionally balanced, compassionate, diplomatic. Mastery of emotions with wisdom and control.",
-          "reversed": "Self-compassion, inner feelings, moodiness, emotionally manipulative. Emotional volatility or coldness."
+          "reversed": "Self-compassion, inner feelings, moodiness, emotionally manipulative. Emotional volatility or coldness.",
+          "suit": "Cups",
+          "keywords": [
+            "Emotionally Balanced",
+            "Compassionate",
+            "Diplomatic",
+            "Mastery Of Emotions With Wisdom",
+            "Control"
+          ]
         },
         {
-          "id": "rw-swords-01",
+          "id": "1b21de7e-05e2-4153-8492-7f9bdf2366d4",
           "name": "Ace of Swords",
           "imageName": "swords_01",
-          "arcana": "minor",
           "number": 1,
           "upright": "Breakthroughs, new ideas, mental clarity, success. A powerful moment of insight and truth.",
-          "reversed": "Inner clarity, re-thinking an idea, clouded judgment. Confusion or destructive use of intellect."
+          "reversed": "Inner clarity, re-thinking an idea, clouded judgment. Confusion or destructive use of intellect.",
+          "suit": "Swords",
+          "keywords": [
+            "Breakthroughs",
+            "New Ideas",
+            "Mental Clarity",
+            "Success",
+            "A Powerful Moment Of Insight"
+          ]
         },
         {
-          "id": "rw-swords-02",
+          "id": "5ff93729-f56d-424f-b048-2d537fc3e5ea",
           "name": "Two of Swords",
           "imageName": "swords_02",
-          "arcana": "minor",
           "number": 2,
           "upright": "Difficult decisions, weighing up options, an impasse, avoidance. Stalemate requiring a choice.",
-          "reversed": "Indecision, confusion, information overload, stalemate. Avoiding a necessary decision."
+          "reversed": "Indecision, confusion, information overload, stalemate. Avoiding a necessary decision.",
+          "suit": "Swords",
+          "keywords": [
+            "Difficult Decisions",
+            "Weighing Up Options",
+            "An Impasse",
+            "Avoidance",
+            "Stalemate Requiring A Choice"
+          ]
         },
         {
-          "id": "rw-swords-03",
+          "id": "d0fcdc3a-cf5e-4bae-8dd9-9a418aeb79b6",
           "name": "Three of Swords",
           "imageName": "swords_03",
-          "arcana": "minor",
           "number": 3,
           "upright": "Heartbreak, emotional pain, sorrow, grief, hurt. Painful truth or loss cutting deep.",
-          "reversed": "Negative self-talk, releasing pain, optimism, forgiveness. Healing from heartbreak or holding grudges."
+          "reversed": "Negative self-talk, releasing pain, optimism, forgiveness. Healing from heartbreak or holding grudges.",
+          "suit": "Swords",
+          "keywords": [
+            "Heartbreak",
+            "Emotional Pain",
+            "Sorrow",
+            "Grief",
+            "Hurt"
+          ]
         },
         {
-          "id": "rw-swords-04",
+          "id": "4888d4cc-f4a1-488f-9dc7-ab08bd5ddc13",
           "name": "Four of Swords",
           "imageName": "swords_04",
-          "arcana": "minor",
           "number": 4,
           "upright": "Rest, relaxation, meditation, contemplation, recuperation. Taking time to recharge and recover.",
-          "reversed": "Exhaustion, burn-out, deep contemplation, stagnation. Restlessness or inability to rest."
+          "reversed": "Exhaustion, burn-out, deep contemplation, stagnation. Restlessness or inability to rest.",
+          "suit": "Swords",
+          "keywords": [
+            "Rest",
+            "Relaxation",
+            "Meditation",
+            "Contemplation",
+            "Recuperation"
+          ]
         },
         {
-          "id": "rw-swords-05",
+          "id": "3ccd3a24-3b47-4fe7-8dae-65165e20bac3",
           "name": "Five of Swords",
           "imageName": "swords_05",
-          "arcana": "minor",
           "number": 5,
           "upright": "Conflict, disagreements, competition, defeat, winning at all costs. Hollow victory or bitter conflict.",
-          "reversed": "Reconciliation, making amends, past resentment. Moving past conflict or ongoing grudges."
+          "reversed": "Reconciliation, making amends, past resentment. Moving past conflict or ongoing grudges.",
+          "suit": "Swords",
+          "keywords": [
+            "Conflict",
+            "Disagreements",
+            "Competition",
+            "Defeat",
+            "Winning At All Costs"
+          ]
         },
         {
-          "id": "rw-swords-06",
+          "id": "bd5e819b-ddc5-481d-87bd-e2a52e494744",
           "name": "Six of Swords",
           "imageName": "swords_06",
-          "arcana": "minor",
           "number": 6,
           "upright": "Transition, change, rite of passage, releasing baggage. Moving toward calmer waters and healing.",
-          "reversed": "Personal transition, resistance to change, unfinished business. Delayed transition or refusing to move on."
+          "reversed": "Personal transition, resistance to change, unfinished business. Delayed transition or refusing to move on.",
+          "suit": "Swords",
+          "keywords": [
+            "Transition",
+            "Change",
+            "Rite Of Passage",
+            "Releasing Baggage",
+            "Moving Toward Calmer Waters"
+          ]
         },
         {
-          "id": "rw-swords-07",
+          "id": "c952eac3-6a48-444a-89f0-13b46c4a15cf",
           "name": "Seven of Swords",
           "imageName": "swords_07",
-          "arcana": "minor",
           "number": 7,
           "upright": "Betrayal, deception, getting away with something, acting strategically. Cunning strategy or dishonesty.",
-          "reversed": "Imposter syndrome, self-deceit, keeping secrets. Coming clean or suffering from guilt."
+          "reversed": "Imposter syndrome, self-deceit, keeping secrets. Coming clean or suffering from guilt.",
+          "suit": "Swords",
+          "keywords": [
+            "Betrayal",
+            "Deception",
+            "Getting Away With Something",
+            "Acting Strategically",
+            "Cunning Strategy Or Dishonesty"
+          ]
         },
         {
-          "id": "rw-swords-08",
+          "id": "3922d1b3-1692-4847-a482-22898789b375",
           "name": "Eight of Swords",
           "imageName": "swords_08",
-          "arcana": "minor",
           "number": 8,
           "upright": "Negative thoughts, self-imposed restriction, imprisonment, victim mentality. Feeling trapped by limiting beliefs.",
-          "reversed": "Self-limiting beliefs, inner critic, releasing negative thoughts. Breaking free from mental prison."
+          "reversed": "Self-limiting beliefs, inner critic, releasing negative thoughts. Breaking free from mental prison.",
+          "suit": "Swords",
+          "keywords": [
+            "Negative Thoughts",
+            "Self-imposed Restriction",
+            "Imprisonment",
+            "Victim Mentality",
+            "Feeling Trapped By Limiting Beliefs"
+          ]
         },
         {
-          "id": "rw-swords-09",
+          "id": "7ef48dd4-5ff5-4e47-bea8-ae2cb1be047a",
           "name": "Nine of Swords",
           "imageName": "swords_09",
-          "arcana": "minor",
           "number": 9,
           "upright": "Anxiety, worry, fear, depression, nightmares. Mental anguish and overwhelming negative thoughts.",
-          "reversed": "Inner turmoil, deep-seated fears, secrets, releasing worry. Facing fears or ongoing anxiety."
+          "reversed": "Inner turmoil, deep-seated fears, secrets, releasing worry. Facing fears or ongoing anxiety.",
+          "suit": "Swords",
+          "keywords": [
+            "Anxiety",
+            "Worry",
+            "Fear",
+            "Depression",
+            "Nightmares"
+          ]
         },
         {
-          "id": "rw-swords-10",
+          "id": "88218dfb-21b6-4a5d-9a2c-e72b84b48ec3",
           "name": "Ten of Swords",
           "imageName": "swords_10",
-          "arcana": "minor",
           "number": 10,
           "upright": "Painful endings, deep wounds, betrayal, loss, crisis. Rock bottom moment signaling new beginning.",
-          "reversed": "Recovery, regeneration, resisting an inevitable end. Surviving crisis or refusing to let go."
+          "reversed": "Recovery, regeneration, resisting an inevitable end. Surviving crisis or refusing to let go.",
+          "suit": "Swords",
+          "keywords": [
+            "Painful Endings",
+            "Deep Wounds",
+            "Betrayal",
+            "Loss",
+            "Crisis"
+          ]
         },
         {
-          "id": "rw-swords-11",
+          "id": "a6d1050e-3945-4714-a7f0-5ab0a8699134",
           "name": "Page of Swords",
           "imageName": "swords_page",
-          "arcana": "minor",
           "number": 11,
           "upright": "New ideas, curiosity, thirst for knowledge, new ways of communicating. Mental agility and vigilance.",
-          "reversed": "Self-expression, all talk and no action, haphazard action. Gossip or lacking follow-through."
+          "reversed": "Self-expression, all talk and no action, haphazard action. Gossip or lacking follow-through.",
+          "suit": "Swords",
+          "keywords": [
+            "New Ideas",
+            "Curiosity",
+            "Thirst For Knowledge",
+            "New Ways Of Communicating",
+            "Mental Agility"
+          ]
         },
         {
-          "id": "rw-swords-12",
+          "id": "d3673787-e098-42e1-ac33-4b0807bb9d38",
           "name": "Knight of Swords",
           "imageName": "swords_knight",
-          "arcana": "minor",
           "number": 12,
           "upright": "Ambitious, action-oriented, driven to succeed, fast-thinking. Charging ahead with assertive intellect.",
-          "reversed": "Restless, unfocused, impulsive, burn-out. Aggressive communication or reckless haste."
+          "reversed": "Restless, unfocused, impulsive, burn-out. Aggressive communication or reckless haste.",
+          "suit": "Swords",
+          "keywords": [
+            "Ambitious",
+            "Action-oriented",
+            "Driven To Succeed",
+            "Fast-thinking",
+            "Charging Ahead With Assertive Intellect"
+          ]
         },
         {
-          "id": "rw-swords-13",
+          "id": "20b5d438-6639-427e-98e1-48afecdfed16",
           "name": "Queen of Swords",
           "imageName": "swords_queen",
-          "arcana": "minor",
           "number": 13,
           "upright": "Independent, unbiased judgment, clear boundaries, direct communication. Sharp intellect with emotional detachment.",
-          "reversed": "Overly-emotional, easily influenced, bitter, cold-hearted. Harsh judgment or emotional cruelty."
+          "reversed": "Overly-emotional, easily influenced, bitter, cold-hearted. Harsh judgment or emotional cruelty.",
+          "suit": "Swords",
+          "keywords": [
+            "Independent",
+            "Unbiased Judgment",
+            "Clear Boundaries",
+            "Direct Communication",
+            "Sharp Intellect With Emotional Detachment"
+          ]
         },
         {
-          "id": "rw-swords-14",
+          "id": "33c51950-a2bc-4185-89a6-2aac5fcf93c8",
           "name": "King of Swords",
           "imageName": "swords_king",
-          "arcana": "minor",
           "number": 14,
           "upright": "Mental clarity, intellectual power, authority, truth. Ethical leadership through logic and reason.",
-          "reversed": "Quiet power, inner truth, misuse of power, manipulation. Abuse of authority or cruel intellect."
+          "reversed": "Quiet power, inner truth, misuse of power, manipulation. Abuse of authority or cruel intellect.",
+          "suit": "Swords",
+          "keywords": [
+            "Mental Clarity",
+            "Intellectual Power",
+            "Authority",
+            "Truth",
+            "Ethical Leadership Through Logic"
+          ]
         },
         {
-          "id": "rw-pentacles-01",
+          "id": "f93e746d-fbc9-439b-99e2-b90db176b880",
           "name": "Ace of Pentacles",
           "imageName": "pentacles_01",
-          "arcana": "minor",
           "number": 1,
           "upright": "A new financial or career opportunity, manifestation, abundance. Seeds of prosperity being planted.",
-          "reversed": "Lost opportunity, lack of planning and foresight. Missed chances or poor financial decisions."
+          "reversed": "Lost opportunity, lack of planning and foresight. Missed chances or poor financial decisions.",
+          "suit": "Pentacles",
+          "keywords": [
+            "A New Financial Or Career Opportunity",
+            "Manifestation",
+            "Abundance",
+            "Seeds Of Prosperity Being Planted"
+          ]
         },
         {
-          "id": "rw-pentacles-02",
+          "id": "3831d2ec-fea1-4618-a687-69ada9808c81",
           "name": "Two of Pentacles",
           "imageName": "pentacles_02",
-          "arcana": "minor",
           "number": 2,
           "upright": "Multiple priorities, time management, prioritization, adaptability. Juggling responsibilities with flexibility.",
-          "reversed": "Over-committed, disorganization, reprioritization. Losing balance or dropping the ball."
+          "reversed": "Over-committed, disorganization, reprioritization. Losing balance or dropping the ball.",
+          "suit": "Pentacles",
+          "keywords": [
+            "Multiple Priorities",
+            "Time Management",
+            "Prioritization",
+            "Adaptability",
+            "Juggling Responsibilities With Flexibility"
+          ]
         },
         {
-          "id": "rw-pentacles-03",
+          "id": "a1c37c2e-dd79-4936-a53b-cc517a63ac0c",
           "name": "Three of Pentacles",
           "imageName": "pentacles_03",
-          "arcana": "minor",
           "number": 3,
           "upright": "Teamwork, collaboration, learning, implementation. Working together toward shared goals.",
-          "reversed": "Disharmony, misalignment, working alone. Lack of coordination or solo efforts."
+          "reversed": "Disharmony, misalignment, working alone. Lack of coordination or solo efforts.",
+          "suit": "Pentacles",
+          "keywords": [
+            "Teamwork",
+            "Collaboration",
+            "Learning",
+            "Implementation",
+            "Working Together Toward Shared Goals"
+          ]
         },
         {
-          "id": "rw-pentacles-04",
+          "id": "b22749a0-83ec-47c9-a4b0-245e8799a2e2",
           "name": "Four of Pentacles",
           "imageName": "pentacles_04",
-          "arcana": "minor",
           "number": 4,
           "upright": "Saving money, security, conservatism, scarcity, control. Holding tight to resources or status.",
-          "reversed": "Over-spending, greed, self-protection. Releasing control or excessive hoarding."
+          "reversed": "Over-spending, greed, self-protection. Releasing control or excessive hoarding.",
+          "suit": "Pentacles",
+          "keywords": [
+            "Saving Money",
+            "Security",
+            "Conservatism",
+            "Scarcity",
+            "Control"
+          ]
         },
         {
-          "id": "rw-pentacles-05",
+          "id": "83bf8e64-4199-44e3-9a90-b82c8c803e15",
           "name": "Five of Pentacles",
           "imageName": "pentacles_05",
-          "arcana": "minor",
           "number": 5,
           "upright": "Financial loss, poverty, lack mindset, isolation, worry. Hardship and feeling left out in the cold.",
-          "reversed": "Recovery from financial loss, spiritual poverty. Finding help or recovering from loss."
+          "reversed": "Recovery from financial loss, spiritual poverty. Finding help or recovering from loss.",
+          "suit": "Pentacles",
+          "keywords": [
+            "Financial Loss",
+            "Poverty",
+            "Lack Mindset",
+            "Isolation",
+            "Worry"
+          ]
         },
         {
-          "id": "rw-pentacles-06",
+          "id": "7a9c2cc3-2347-4256-9459-4ec2c3c6c09e",
           "name": "Six of Pentacles",
           "imageName": "pentacles_06",
-          "arcana": "minor",
           "number": 6,
           "upright": "Giving, receiving, sharing wealth, generosity, charity. Balanced exchange and acts of kindness.",
-          "reversed": "Self-care, unpaid debts, one-sided charity. Strings attached or unequal giving."
+          "reversed": "Self-care, unpaid debts, one-sided charity. Strings attached or unequal giving.",
+          "suit": "Pentacles",
+          "keywords": [
+            "Giving",
+            "Receiving",
+            "Sharing Wealth",
+            "Generosity",
+            "Charity"
+          ]
         },
         {
-          "id": "rw-pentacles-07",
+          "id": "cd572389-6769-4975-bfce-319f048aa6bc",
           "name": "Seven of Pentacles",
           "imageName": "pentacles_07",
-          "arcana": "minor",
           "number": 7,
           "upright": "Long-term view, sustainable results, perseverance, investment. Pausing to assess progress and growth.",
-          "reversed": "Lack of long-term vision, limited success, impatience. Questioning investments or wanting quick results."
+          "reversed": "Lack of long-term vision, limited success, impatience. Questioning investments or wanting quick results.",
+          "suit": "Pentacles",
+          "keywords": [
+            "Long-term View",
+            "Sustainable Results",
+            "Perseverance",
+            "Investment",
+            "Pausing To Assess Progress"
+          ]
         },
         {
-          "id": "rw-pentacles-08",
+          "id": "62c1fed5-bf21-4870-8cd9-4f1b72ce6dda",
           "name": "Eight of Pentacles",
           "imageName": "pentacles_08",
-          "arcana": "minor",
           "number": 8,
           "upright": "Apprenticeship, repetitive tasks, mastery, skill development. Dedication to craftsmanship and learning.",
-          "reversed": "Self-development, perfectionism, misdirected activity. Unfocused efforts or lack of ambition."
+          "reversed": "Self-development, perfectionism, misdirected activity. Unfocused efforts or lack of ambition.",
+          "suit": "Pentacles",
+          "keywords": [
+            "Apprenticeship",
+            "Repetitive Tasks",
+            "Mastery",
+            "Skill Development",
+            "Dedication To Craftsmanship"
+          ]
         },
         {
-          "id": "rw-pentacles-09",
+          "id": "f64e5d13-3ad3-47d3-a42b-2da7ac1cbac2",
           "name": "Nine of Pentacles",
           "imageName": "pentacles_09",
-          "arcana": "minor",
           "number": 9,
           "upright": "Abundance, luxury, self-sufficiency, financial independence. Enjoying the fruits of your labor.",
-          "reversed": "Self-worth, over-investment in work, hustling. Overworking or tying worth to possessions."
+          "reversed": "Self-worth, over-investment in work, hustling. Overworking or tying worth to possessions.",
+          "suit": "Pentacles",
+          "keywords": [
+            "Abundance",
+            "Luxury",
+            "Self-sufficiency",
+            "Financial Independence",
+            "Enjoying The Fruits Of Your Labor"
+          ]
         },
         {
-          "id": "rw-pentacles-10",
+          "id": "9563cd44-6831-4e88-9a72-b54fd79065f9",
           "name": "Ten of Pentacles",
           "imageName": "pentacles_10",
-          "arcana": "minor",
           "number": 10,
           "upright": "Wealth, financial security, family, long-term success, contribution. Lasting prosperity and legacy.",
-          "reversed": "The dark side of wealth, financial failure, loneliness. Family disputes or losing wealth."
+          "reversed": "The dark side of wealth, financial failure, loneliness. Family disputes or losing wealth.",
+          "suit": "Pentacles",
+          "keywords": [
+            "Wealth",
+            "Financial Security",
+            "Family",
+            "Long-term Success",
+            "Contribution"
+          ]
         },
         {
-          "id": "rw-pentacles-11",
+          "id": "d61a7f0e-5f03-4f47-a951-4854e3a2cd38",
           "name": "Page of Pentacles",
           "imageName": "pentacles_page",
-          "arcana": "minor",
           "number": 11,
           "upright": "Manifestation, financial opportunity, skill development, new job. Grounded enthusiasm for learning.",
-          "reversed": "Lack of progress, procrastination, learn from failure. Unfocused or poor planning."
+          "reversed": "Lack of progress, procrastination, learn from failure. Unfocused or poor planning.",
+          "suit": "Pentacles",
+          "keywords": [
+            "Manifestation",
+            "Financial Opportunity",
+            "Skill Development",
+            "New Job",
+            "Grounded Enthusiasm For Learning"
+          ]
         },
         {
-          "id": "rw-pentacles-12",
+          "id": "110eff0b-6df4-4673-8b27-e469b18fbd50",
           "name": "Knight of Pentacles",
           "imageName": "pentacles_knight",
-          "arcana": "minor",
           "number": 12,
           "upright": "Hard work, productivity, routine, conservatism, methodical. Steady, reliable progress toward goals.",
-          "reversed": "Self-discipline, boredom, feeling 'stuck', perfectionism. Workaholic tendencies or stagnation."
+          "reversed": "Self-discipline, boredom, feeling 'stuck', perfectionism. Workaholic tendencies or stagnation.",
+          "suit": "Pentacles",
+          "keywords": [
+            "Hard Work",
+            "Productivity",
+            "Routine",
+            "Conservatism",
+            "Methodical"
+          ]
         },
         {
-          "id": "rw-pentacles-13",
+          "id": "8f7ed0fa-bdbf-4bf2-87c5-fc979170ad45",
           "name": "Queen of Pentacles",
           "imageName": "pentacles_queen",
-          "arcana": "minor",
           "number": 13,
           "upright": "Nurturing, practical, providing financially, a working parent. Grounded abundance and caregiving.",
-          "reversed": "Financial independence, self-care, work-home conflict. Smothering or materialism."
+          "reversed": "Financial independence, self-care, work-home conflict. Smothering or materialism.",
+          "suit": "Pentacles",
+          "keywords": [
+            "Nurturing",
+            "Practical",
+            "Providing Financially",
+            "A Working Parent",
+            "Grounded Abundance"
+          ]
         },
         {
-          "id": "rw-pentacles-14",
+          "id": "af0a0fef-feba-436f-84fd-88ef83df86c8",
           "name": "King of Pentacles",
           "imageName": "pentacles_king",
-          "arcana": "minor",
           "number": 14,
           "upright": "Wealth, business, leadership, security, discipline, abundance. Mastery of material world with generosity.",
-          "reversed": "Financially inept, obsessed with wealth, stubborn. Greed or poor financial management."
+          "reversed": "Financially inept, obsessed with wealth, stubborn. Greed or poor financial management.",
+          "suit": "Pentacles",
+          "keywords": [
+            "Wealth",
+            "Business",
+            "Leadership",
+            "Security",
+            "Discipline"
+          ]
         }
       ]
     }
