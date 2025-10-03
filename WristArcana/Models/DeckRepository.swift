@@ -21,7 +21,7 @@ final class DeckRepository: DeckRepositoryProtocol {
     // MARK: - Private Properties
 
     private var loadedDecks: [TarotDeck] = []
-    private var currentDeckId: UUID?
+    private var currentDeckId: String?
 
     // MARK: - Initialization
 
@@ -70,7 +70,7 @@ final class DeckRepository: DeckRepositoryProtocol {
 
         return decksData.decks.map { deckData in
             TarotDeck(
-                id: UUID(),
+                id: deckData.id,
                 name: deckData.name,
                 cards: deckData.cards
             )

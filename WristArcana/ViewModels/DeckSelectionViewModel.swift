@@ -12,7 +12,7 @@ final class DeckSelectionViewModel: ObservableObject {
     // MARK: - Published Properties
 
     @Published var availableDecks: [TarotDeck] = []
-    @Published var selectedDeckId: UUID?
+    @Published var selectedDeckId: String?
     @Published var errorMessage: String?
 
     // MARK: - Private Properties
@@ -38,7 +38,7 @@ final class DeckSelectionViewModel: ObservableObject {
         }
     }
 
-    func selectDeck(_ deckId: UUID) {
+    func selectDeck(_ deckId: String) {
         self.selectedDeckId = deckId
         // In future, this would persist selection to UserDefaults or SwiftData
     }

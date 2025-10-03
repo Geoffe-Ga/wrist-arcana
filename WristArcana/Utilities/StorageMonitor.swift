@@ -55,7 +55,8 @@ final class StorageMonitor: StorageMonitorProtocol {
                 forPath: NSHomeDirectory()
             )
             if let totalSpace = attributes[.systemSize] as? Int64,
-               let freeSpace = attributes[.systemFreeSize] as? Int64 {
+               let freeSpace = attributes[.systemFreeSize] as? Int64
+            {
                 return totalSpace - freeSpace
             }
         } catch {

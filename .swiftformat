@@ -10,3 +10,4 @@
 --importgrouping testable-bottom
 --commas inline
 --trimwhitespace always
+--exclude WristArcana/build,build,DerivedData,Pods,WristArcana/Resources

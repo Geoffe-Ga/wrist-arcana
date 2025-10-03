@@ -8,7 +8,7 @@
 import Foundation
 
 struct TarotDeck: Codable, Identifiable, Equatable {
-    let id: UUID
+    let id: String
     let name: String
     let cards: [TarotCard]
 
@@ -16,7 +16,7 @@ struct TarotDeck: Codable, Identifiable, Equatable {
         self.cards.count
     }
 
-    init(id: UUID = UUID(), name: String, cards: [TarotCard]) {
+    init(id: String = UUID().uuidString, name: String, cards: [TarotCard]) {
         self.id = id
         self.name = name
         self.cards = cards
@@ -25,7 +25,7 @@ struct TarotDeck: Codable, Identifiable, Equatable {
     // Static helper for Rider-Waite deck
     static var riderWaite: TarotDeck {
         TarotDeck(
-            id: UUID(),
+            id: UUID().uuidString,
             name: "Rider-Waite",
             cards: []
         )

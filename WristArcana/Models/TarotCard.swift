@@ -8,7 +8,7 @@
 import Foundation
 
 struct TarotCard: Codable, Identifiable, Equatable {
-    let id: UUID
+    let id: String
     let name: String
     let imageName: String
     let arcana: ArcanaType
@@ -22,7 +22,7 @@ struct TarotCard: Codable, Identifiable, Equatable {
     }
 
     init(
-        id: UUID = UUID(),
+        id: String = UUID().uuidString,
         name: String,
         imageName: String,
         arcana: ArcanaType,
