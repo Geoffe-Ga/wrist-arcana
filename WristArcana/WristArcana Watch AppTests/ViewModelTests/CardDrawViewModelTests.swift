@@ -217,14 +217,16 @@ struct CardDrawViewModelTests {
                 TarotCard(
                     name: "Card 1",
                     imageName: "card1",
-                    arcana: .major,
+                    suit: .majorArcana,
+                    number: 0,
                     upright: "Up",
                     reversed: "Rev"
                 ),
                 TarotCard(
                     name: "Card 2",
                     imageName: "card2",
-                    arcana: .major,
+                    suit: .majorArcana,
+                    number: 1,
                     upright: "Up",
                     reversed: "Rev"
                 )
@@ -233,7 +235,7 @@ struct CardDrawViewModelTests {
         mockRepo.currentDeckOverride = smallDeck
         let sut = self.createSUT(repository: mockRepo)
 
-        var drawnCards: Set<String> = []
+        var drawnCards: Set<UUID> = []
 
         // When - Draw more cards than deck size
         for _ in 0 ..< 4 {

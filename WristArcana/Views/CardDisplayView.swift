@@ -58,10 +58,11 @@ struct CardDisplayView: View {
             card: TarotCard(
                 name: "The Fool",
                 imageName: "major_00",
-                arcana: .major,
+                suit: .majorArcana,
                 number: 0,
                 upright: "New beginnings, optimism, trust in life",
-                reversed: "Recklessness, taken advantage of, inconsideration"
+                reversed: "Recklessness, taken advantage of, inconsideration",
+                keywords: ["New Beginnings", "Optimism", "Trust"]
             ),
             onDismiss: {}
         )

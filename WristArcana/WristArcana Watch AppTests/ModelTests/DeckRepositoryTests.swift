@@ -89,7 +89,6 @@ struct DeckRepositoryTests {
         let firstCard = firstDeck.cards.first!
 
         // Then
-        #expect(!firstCard.id.isEmpty)
         #expect(!firstCard.name.isEmpty)
         #expect(!firstCard.imageName.isEmpty)
         #expect(!firstCard.upright.isEmpty)
@@ -105,7 +104,7 @@ struct DeckRepositoryTests {
         let firstDeck = decks.first!
 
         // Then
-        let majorArcana = firstDeck.cards.filter { $0.arcana == .major }
+        let majorArcana = firstDeck.cards.filter { $0.suit == .majorArcana }
         #expect(majorArcana.count == 22)
     }
 
@@ -118,7 +117,7 @@ struct DeckRepositoryTests {
         let firstDeck = decks.first!
 
         // Then
-        let minorArcana = firstDeck.cards.filter { $0.arcana == .minor }
+        let minorArcana = firstDeck.cards.filter { $0.suit != .majorArcana }
         #expect(minorArcana.count == 56)
     }
 
@@ -172,7 +171,6 @@ struct DeckRepositoryTests {
         let card = sut.getRandomCard(from: deck)
 
         // Then
-        #expect(!card.id.isEmpty)
         #expect(!card.name.isEmpty)
     }
 
@@ -193,7 +191,7 @@ struct DeckRepositoryTests {
         // Given
         let sut = DeckRepository()
         let deck = sut.getCurrentDeck()
-        var drawnCardIds: Set<String> = []
+        var drawnCardIds: Set<UUID> = []
 
         // When - Draw 20 cards
         for _ in 0 ..< 20 {
@@ -214,7 +212,8 @@ struct DeckRepositoryTests {
                 TarotCard(
                     name: "Only Card",
                     imageName: "card",
-                    arcana: .major,
+                    suit: .majorArcana,
+                    number: 0,
                     upright: "Up",
                     reversed: "Rev"
                 )
@@ -237,14 +236,16 @@ struct DeckRepositoryTests {
                 TarotCard(
                     name: "Card 1",
                     imageName: "card1",
-                    arcana: .major,
+                    suit: .majorArcana,
+                    number: 0,
                     upright: "Up",
                     reversed: "Rev"
                 ),
                 TarotCard(
                     name: "Card 2",
                     imageName: "card2",
-                    arcana: .major,
+                    suit: .majorArcana,
+                    number: 1,
                     upright: "Up",
                     reversed: "Rev"
                 )
@@ -298,7 +299,7 @@ struct DeckRepositoryTests {
         // Verify card structure
         let fool = deck.cards.first { $0.name.contains("Fool") }
         #expect(fool != nil)
-        #expect(fool?.arcana == .major)
+        #expect(fool?.suit == .majorArcana)
         #expect(fool?.imageName.contains("major") == true)
     }
 }

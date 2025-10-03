@@ -10,131 +10,114 @@ import Testing
 @testable import WristArcana_Watch_App
 
 struct TarotCardTests {
-    // MARK: - Initialization Tests
-
-    @Test func cardInitialization() async throws {
-        // Given
+    @Test func displayNumberMajorArcanaZero() async throws {
         let card = TarotCard(
             name: "The Fool",
             imageName: "major_00",
-            arcana: .major,
+            suit: .majorArcana,
             number: 0,
             upright: "New beginnings",
-            reversed: "Recklessness"
+            reversed: "Recklessness",
+            keywords: ["Beginnings"]
         )
 
-        // Then
-        #expect(card.name == "The Fool")
-        #expect(card.imageName == "major_00")
-        #expect(card.arcana == .major)
-        #expect(card.number == 0)
-        #expect(card.upright == "New beginnings")
-        #expect(card.reversed == "Recklessness")
+        #expect(card.displayNumber == "0")
     }
 
-    // MARK: - Codable Tests
-
-    @Test func cardCodable() async throws {
-        // Given
+    @Test func displayNumberMajorArcanaRoman() async throws {
         let card = TarotCard(
             name: "The Magician",
             imageName: "major_01",
-            arcana: .major,
+            suit: .majorArcana,
             number: 1,
             upright: "Manifestation",
-            reversed: "Manipulation"
+            reversed: "Manipulation",
+            keywords: ["Manifestation"]
         )
 
-        // When
-        let encoder = JSONEncoder()
-        let data = try encoder.encode(card)
-        let decoder = JSONDecoder()
-        let decodedCard = try decoder.decode(TarotCard.self, from: data)
-
-        // Then
-        #expect(decodedCard.name == card.name)
-        #expect(decodedCard.imageName == card.imageName)
-        #expect(decodedCard.arcana == card.arcana)
-        #expect(decodedCard.number == card.number)
+        #expect(card.displayNumber == "I")
     }
 
-    // MARK: - Equatable Tests
-
-    @Test func cardEquality() async throws {
-        // Given
-        let id = UUID().uuidString
-        let card1 = TarotCard(
-            id: id,
-            name: "Ace of Cups",
-            imageName: "cups_01",
-            arcana: .minor,
+    @Test func displayNumberMinorArcanaAce() async throws {
+        let card = TarotCard(
+            name: "Ace of Swords",
+            imageName: "swords_01",
+            suit: .swords,
             number: 1,
-            upright: "New feelings",
-            reversed: "Emotional loss"
+            upright: "Clarity",
+            reversed: "Confusion",
+            keywords: ["Clarity"]
         )
 
-        let card2 = TarotCard(
-            id: id,
-            name: "Ace of Cups",
-            imageName: "cups_01",
-            arcana: .minor,
-            number: 1,
-            upright: "New feelings",
-            reversed: "Emotional loss"
-        )
-
-        // Then
-        #expect(card1 == card2)
+        #expect(card.displayNumber == "Ace")
     }
 
-    @Test func cardInequality() async throws {
-        // Given
-        let card1 = TarotCard(
-            name: "Ace of Cups",
-            imageName: "cups_01",
-            arcana: .minor,
-            number: 1,
-            upright: "New feelings",
-            reversed: "Emotional loss"
+    @Test func displayNumberMinorArcanaCourtCards() async throws {
+        let page = TarotCard(
+            name: "Page of Swords",
+            imageName: "swords_page",
+            suit: .swords,
+            number: 11,
+            upright: "Curiosity",
+            reversed: "Gossip",
+            keywords: ["Messages"]
         )
 
-        let card2 = TarotCard(
-            name: "Two of Cups",
-            imageName: "cups_02",
-            arcana: .minor,
-            number: 2,
-            upright: "Partnership",
-            reversed: "Imbalance"
+        let king = TarotCard(
+            name: "King of Swords",
+            imageName: "swords_king",
+            suit: .swords,
+            number: 14,
+            upright: "Authority",
+            reversed: "Tyranny",
+            keywords: ["Authority"]
         )
 
-        // Then
-        #expect(card1 != card2)
+        #expect(page.displayNumber == "Page")
+        #expect(king.displayNumber == "King")
     }
 
-    // MARK: - Arcana Type Tests
-
-    @Test func majorArcana() async throws {
+    @Test func fullDisplayNameForMajorArcana() async throws {
         let card = TarotCard(
             name: "The Fool",
             imageName: "major_00",
-            arcana: .major,
-            upright: "Beginning",
-            reversed: "Recklessness"
+            suit: .majorArcana,
+            number: 0,
+            upright: "New beginnings",
+            reversed: "Recklessness",
+            keywords: ["Beginnings"]
         )
 
-        #expect(card.arcana == .major)
+        #expect(card.fullDisplayName == "0 - The Fool")
     }
 
-    @Test func minorArcana() async throws {
+    @Test func fullDisplayNameForMinorArcana() async throws {
         let card = TarotCard(
-            name: "Ace of Wands",
-            imageName: "wands_01",
-            arcana: .minor,
+            name: "Ace of Swords",
+            imageName: "swords_01",
+            suit: .swords,
             number: 1,
-            upright: "Inspiration",
-            reversed: "Delays"
+            upright: "Clarity",
+            reversed: "Confusion",
+            keywords: ["Clarity"]
         )
 
-        #expect(card.arcana == .minor)
+        #expect(card.fullDisplayName == "Ace of Swords")
+    }
+
+    @Test func suitSortOrder() async throws {
+        #expect(TarotCard.Suit.majorArcana.sortOrder == 0)
+        #expect(TarotCard.Suit.swords.sortOrder == 1)
+        #expect(TarotCard.Suit.wands.sortOrder == 2)
+        #expect(TarotCard.Suit.pentacles.sortOrder == 3)
+        #expect(TarotCard.Suit.cups.sortOrder == 4)
+    }
+
+    @Test func suitCardCounts() async throws {
+        #expect(TarotCard.Suit.majorArcana.cardCount == 22)
+        #expect(TarotCard.Suit.swords.cardCount == 14)
+        #expect(TarotCard.Suit.wands.cardCount == 14)
+        #expect(TarotCard.Suit.pentacles.cardCount == 14)
+        #expect(TarotCard.Suit.cups.cardCount == 14)
     }
 }

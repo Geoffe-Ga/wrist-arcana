@@ -18,14 +18,16 @@ struct TarotDeckTests {
             TarotCard(
                 name: "The Fool",
                 imageName: "major_00",
-                arcana: .major,
+                suit: .majorArcana,
+                number: 0,
                 upright: "Beginning",
                 reversed: "Reckless"
             ),
             TarotCard(
                 name: "The Magician",
                 imageName: "major_01",
-                arcana: .major,
+                suit: .majorArcana,
+                number: 1,
                 upright: "Power",
                 reversed: "Manipulation"
             )
@@ -58,7 +60,7 @@ struct TarotDeckTests {
             cards.append(TarotCard(
                 name: "Major \(index)",
                 imageName: "major_\(String(format: "%02d", index))",
-                arcana: .major,
+                suit: .majorArcana,
                 number: index,
                 upright: "Upright",
                 reversed: "Reversed"
@@ -70,7 +72,8 @@ struct TarotDeckTests {
             cards.append(TarotCard(
                 name: "Minor Card",
                 imageName: "minor",
-                arcana: .minor,
+                suit: .swords,
+                number: 1,
                 upright: "Upright",
                 reversed: "Reversed"
             ))
@@ -92,7 +95,8 @@ struct TarotDeckTests {
             TarotCard(
                 name: "The Fool",
                 imageName: "major_00",
-                arcana: .major,
+                suit: .majorArcana,
+                number: 0,
                 upright: "Beginning",
                 reversed: "Reckless"
             )
@@ -120,7 +124,8 @@ struct TarotDeckTests {
             TarotCard(
                 name: "The Fool",
                 imageName: "major_00",
-                arcana: .major,
+                suit: .majorArcana,
+                number: 0,
                 upright: "Beginning",
                 reversed: "Reckless"
             )
