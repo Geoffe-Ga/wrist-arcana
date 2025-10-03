@@ -6,6 +6,11 @@ excluded:
   - Pods
   - WristArcana/Resources
   - WristArcana/Preview Content
+  - WristArcana/build
+  - "**/build"
+  - "**/DerivedData"
+  - "**/*.xcodeproj"
+  - "**/*.xcworkspace"
   
 disabled_rules:
   - trailing_whitespace

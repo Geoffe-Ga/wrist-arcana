@@ -18,15 +18,33 @@ repos:
         stages: [pre-commit]
 
       - id: xcodebuild-build
-        name: Xcode Build
-        entry: bash -c 'xcodebuild build -project WristArcana/WristArcana.xcodeproj -scheme "WristArcana Watch App" -destination "platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)" | grep -E "(BUILD|SUCCEEDED|FAILED)" | tail -1'
+        name: Xcode Build (Watch App target only)
+        entry: bash -c 'xcodebuild build -project WristArcana/WristArcana.xcodeproj -target "WristArcana Watch App" -sdk watchsimulator -configuration Debug CODE_SIGNING_ALLOWED=NO 2>&1 | grep -E "(BUILD|SUCCEEDED|FAILED)" | tail -1'
         language: system
         pass_filenames: false
         stages: [pre-commit]
 
       - id: xcodebuild-test
-        name: Xcode Tests
-        entry: bash -c 'xcodebuild test -project WristArcana/WristArcana.xcodeproj -scheme "WristArcana Watch App" -destination "platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)" | grep -E "(TEST|SUCCEEDED|FAILED)" | tail -1'
+        name: Xcode Tests with Coverage
+        entry: bash -c 'xcodebuild test -project WristArcana/WristArcana.xcodeproj -scheme "WristArcana Watch App" -destination "platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)" -only-testing:"WristArcana Watch AppTests" -only-testing:"WristArcana Watch AppUITests" -enableCodeCoverage YES -resultBundlePath /tmp/TestResults 2>&1 | grep -E "(TEST|SUCCEEDED|FAILED)" | tail -1'
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: coverage-check
+        name: Code Coverage ≥30% (TODO increase to 80%)
+        entry: bash
+        args:
+          - -c
+          - |
+            xcrun xccov view --report --json /tmp/TestResults.xcresult > /tmp/coverage.json
+            COVERAGE=$(jq ".lineCoverage" /tmp/coverage.json)
+            echo "Coverage: $COVERAGE"
+            if (( $(echo "$COVERAGE < 0.30" | bc -l) )); then
+              echo "❌ Coverage below 30% threshold"
+              exit 1
+            fi
+            echo "✅ Coverage: $(echo "$COVERAGE * 100" | bc)%"
         language: system
         pass_filenames: false
         stages: [pre-push]

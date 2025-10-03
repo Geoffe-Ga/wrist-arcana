@@ -48,3 +48,18 @@ WristArcana/Resources/Assets.xcassets/RiderWaite/
 *.gcno
 *.profdata
 TestResults.xcresult/
+TestResults/
+TestResults-*/
+**/TestResults/
+coverage.json
+/tmp/coverage.json
+
+# Documentation (work in progress)
+MODELCONTEXT_FIX.md
+NEXT_STEPS.md
+PROJECT_STATUS.md
+
+# Scripts output
+scripts/RWS_Cards_ForXcode/
+scripts/import_instructions.md
+scripts/prepare_files_for_xcode.sh
