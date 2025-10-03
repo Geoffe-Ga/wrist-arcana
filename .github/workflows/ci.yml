@@ -38,10 +38,7 @@ jobs:
         run: sudo xcode-select -s /Applications/Xcode_16.1.app
 
       - name: Run Tests with Coverage
-        env:
-          NSUnbufferedIO: "YES"
         run: |
-          set -eo pipefail
           xcodebuild test \
             -project WristArcana/WristArcana.xcodeproj \
             -scheme "WristArcana Watch App" \
@@ -49,7 +46,7 @@ jobs:
             -only-testing:"WristArcana Watch AppTests" \
             -only-testing:"WristArcana Watch AppUITests" \
             -enableCodeCoverage YES \
-            -resultBundlePath TestResults 2>&1 | xcpretty
+            -resultBundlePath TestResults
 
       - name: Code Coverage
         run: |
