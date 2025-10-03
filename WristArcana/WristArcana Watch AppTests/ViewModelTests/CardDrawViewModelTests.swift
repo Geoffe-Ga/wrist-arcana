@@ -230,7 +230,7 @@ struct CardDrawViewModelTests {
                 )
             ]
         )
-        mockRepo.currentDeck = smallDeck
+        mockRepo.currentDeckOverride = smallDeck
         let sut = self.createSUT(repository: mockRepo)
 
         var drawnCards: Set<String> = []
@@ -252,7 +252,7 @@ struct CardDrawViewModelTests {
     @Test func drawCard_handlesRepositoryError() async throws {
         // Given
         let mockRepo = MockDeckRepository()
-        mockRepo.shouldThrowError = true
+        mockRepo.shouldFail = true
         let sut = self.createSUT(repository: mockRepo)
 
         // When
@@ -313,7 +313,7 @@ struct CardDrawViewModelTests {
 
         let pull = pulls.first!
         #expect(pull.cardName == sut.currentCard?.name)
-        #expect(pull.deckName == mockRepo.currentDeck.name)
+        #expect(pull.deckName == mockRepo.getCurrentDeck().name)
         #expect(pull.cardImageName == sut.currentCard?.imageName)
         #expect(pull.date.timeIntervalSinceNow < 1) // Recent
     }
