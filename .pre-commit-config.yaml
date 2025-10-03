@@ -1,16 +1,32 @@
 repos:
   - repo: local
     hooks:
-      - id: swiftlint
-        name: SwiftLint
-        entry: swiftlint lint --strict
-        language: system
-        types: [swift]
-        pass_filenames: false
-        
       - id: swiftformat
-        name: SwiftFormat
+        name: SwiftFormat (lint check)
         entry: swiftformat --lint .
         language: system
         types: [swift]
         pass_filenames: false
+        stages: [pre-commit]
+
+      - id: swiftlint
+        name: SwiftLint (strict mode)
+        entry: swiftlint lint --strict
+        language: system
+        types: [swift]
+        pass_filenames: false
+        stages: [pre-commit]
+
+      - id: xcodebuild-build
+        name: Xcode Build
+        entry: bash -c 'xcodebuild build -project WristArcana/WristArcana.xcodeproj -scheme "WristArcana Watch App" -destination "platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)" | grep -E "(BUILD|SUCCEEDED|FAILED)" | tail -1'
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+
+      - id: xcodebuild-test
+        name: Xcode Tests
+        entry: bash -c 'xcodebuild test -project WristArcana/WristArcana.xcodeproj -scheme "WristArcana Watch App" -destination "platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)" | grep -E "(TEST|SUCCEEDED|FAILED)" | tail -1'
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
