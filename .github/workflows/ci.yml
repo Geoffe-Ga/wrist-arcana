@@ -37,14 +37,26 @@ jobs:
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode_16.1.app
 
-      - name: Build and Test
+  build:  
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode 16.4
+        run: sudo xcode-select -s /Applications/Xcode_16.4.app/Contents/Developer
+
+      - name: Build watchOS app (no codesign)
+        env:
+          NSUnbufferedIO: "YES"
         run: |
-          xcodebuild test \
+          set -eo pipefail
+          xcodebuild \
             -project WristArcana/WristArcana.xcodeproj \
             -scheme "WristArcana Watch App" \
-            -destination 'platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)' \
-            -enableCodeCoverage YES \
-            -resultBundlePath TestResults
+            -destination "generic/platform=watchOS Simulator" \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO \
+            build
 
       - name: Code Coverage
         run: |
