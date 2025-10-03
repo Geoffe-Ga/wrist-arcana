@@ -42,6 +42,7 @@ jobs:
           xcodebuild test \
             -project WristArcana/WristArcana.xcodeproj \
             -scheme "WristArcana Watch App" \
+            -sdk watchsimulator \
             -destination 'platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)' \
             -enableCodeCoverage YES \
             -resultBundlePath TestResults
