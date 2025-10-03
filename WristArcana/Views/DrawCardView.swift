@@ -16,6 +16,7 @@ struct DrawCardView: View {
     // MARK: - State
 
     @State private var viewModel: CardDrawViewModel?
+    @State private var historyViewModel: HistoryViewModel?
     @State private var showingCard = false
 
     // Dependencies
@@ -38,14 +39,12 @@ struct DrawCardView: View {
         VStack(spacing: 20) {
             Spacer()
 
-            // App Title
             Text("Tarot")
                 .font(Theme.Fonts.title)
                 .foregroundStyle(.purple)
 
             Spacer()
 
-            // Main CTA Button
             if let viewModel {
                 CTAButton(
                     title: "DRAW",
@@ -54,6 +53,9 @@ struct DrawCardView: View {
                         Task {
                             await viewModel.drawCard()
                             if viewModel.currentCard != nil {
+                                if let historyViewModel {
+                                    await historyViewModel.loadHistory()
+                                }
                                 self.showingCard = true
                             }
                         }
@@ -68,11 +70,21 @@ struct DrawCardView: View {
             Spacer()
         }
         .sheet(isPresented: self.$showingCard) {
-            if let card = viewModel?.currentCard {
-                CardDisplayView(card: card) {
+            if
+                let card = viewModel?.currentCard,
+                let pull = viewModel?.currentPull,
+                let historyViewModel
+            {
+                CardDisplayView(
+                    card: card,
+                    cardPull: pull,
+                    viewModel: historyViewModel
+                ) {
                     self.showingCard = false
                     self.viewModel?.dismissCard()
                 }
+            } else {
+                ProgressView()
             }
         }
         .alert("Storage Warning", isPresented: Binding(
@@ -99,11 +111,17 @@ struct DrawCardView: View {
         }
         .onAppear {
             if self.viewModel == nil {
-                // Create ViewModel with proper environment context
                 self.viewModel = CardDrawViewModel(
                     repository: self.repository,
                     storageMonitor: self.storage,
                     modelContext: self.modelContext
+                )
+            }
+
+            if self.historyViewModel == nil {
+                self.historyViewModel = HistoryViewModel(
+                    modelContext: self.modelContext,
+                    storageMonitor: self.storage
                 )
             }
         }

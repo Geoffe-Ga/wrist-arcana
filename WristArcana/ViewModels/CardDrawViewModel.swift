@@ -14,6 +14,7 @@ final class CardDrawViewModel: ObservableObject {
     // MARK: - Published Properties
 
     @Published var currentCard: TarotCard?
+    @Published var currentPull: CardPull?
     @Published var isDrawing: Bool = false
     @Published var showsStorageWarning: Bool = false
     @Published var errorMessage: String?
@@ -49,7 +50,6 @@ final class CardDrawViewModel: ObservableObject {
         self.isDrawing = true
         self.errorMessage = nil
 
-        // Add minimum 0.5s delay for anticipation/animation
         try? await Task.sleep(nanoseconds: AppConstants.minimumDrawDuration)
 
         do {
@@ -59,15 +59,13 @@ final class CardDrawViewModel: ObservableObject {
             self.currentCard = card
             self.drawnCardsThisSession.insert(card.id)
 
-            // Save to history
-            try await self.saveToHistory(card: card, deck: deck)
+            let pull = try await self.saveToHistory(card: card, deck: deck)
+            self.currentPull = pull
 
-            // Check storage
             if self.storageMonitor.isNearCapacity() {
                 self.showsStorageWarning = true
             }
 
-            // Haptic feedback
             WKInterfaceDevice.current().play(.click)
         } catch {
             self.errorMessage = "Failed to draw card. Please try again."
@@ -78,6 +76,7 @@ final class CardDrawViewModel: ObservableObject {
 
     func dismissCard() {
         self.currentCard = nil
+        self.currentPull = nil
     }
 
     func acknowledgeStorageWarning() {
@@ -87,32 +86,30 @@ final class CardDrawViewModel: ObservableObject {
     // MARK: - Private Methods
 
     private func selectRandomCard(from deck: TarotDeck) -> TarotCard {
-        // If all cards drawn this session, reset
         if self.drawnCardsThisSession.count >= deck.cards.count {
             self.drawnCardsThisSession.removeAll()
         }
 
-        // Get undrawn cards
         let availableCards = deck.cards.filter { !self.drawnCardsThisSession.contains($0.id) }
 
-        // Use cryptographically secure randomization
         var generator = SystemRandomNumberGenerator()
         guard let card = availableCards.randomElement(using: &generator) else {
-            // Fallback to any card if something goes wrong
             return deck.cards.randomElement(using: &generator) ?? deck.cards[0]
         }
         return card
     }
 
-    private func saveToHistory(card: TarotCard, deck: TarotDeck) async throws {
+    private func saveToHistory(card: TarotCard, deck: TarotDeck) async throws -> CardPull {
         let pull = CardPull(
             date: Date(),
             cardName: card.name,
             deckName: deck.name,
-            cardImageName: card.imageName
+            cardImageName: card.imageName,
+            cardDescription: card.upright
         )
 
         self.modelContext.insert(pull)
         try self.modelContext.save()
+        return pull
     }
 }

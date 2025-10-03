@@ -40,7 +40,11 @@ struct HistoryView: View {
                         )
                     } else {
                         ForEach(viewModel.pulls) { pull in
-                            HistoryRow(pull: pull)
+                            NavigationLink {
+                                HistoryDetailView(pull: pull, viewModel: viewModel)
+                            } label: {
+                                HistoryRow(pull: pull)
+                            }
                         }
                         .onDelete { indexSet in
                             for index in indexSet {
@@ -50,12 +54,40 @@ struct HistoryView: View {
                     }
                 }
                 .navigationTitle("History")
+                .toolbar {
+                    EditButton()
+                }
+                .sheet(isPresented: Binding(
+                    get: { viewModel.showsNoteEditor },
+                    set: { newValue in
+                        if !newValue {
+                            viewModel.dismissNoteEditor()
+                        } else {
+                            viewModel.showsNoteEditor = newValue
+                        }
+                    }
+                )) {
+                    NoteEditorView(
+                        note: Binding(
+                            get: { viewModel.editingNote },
+                            set: { viewModel.editingNote = $0 }
+                        ),
+                        onSave: { viewModel.saveNote() },
+                        onCancel: { viewModel.dismissNoteEditor() }
+                    )
+                }
                 .task {
                     await viewModel.checkStorageAndPruneIfNeeded()
                 }
                 .alert("Storage Full", isPresented: Binding(
                     get: { viewModel.showsPruningAlert },
-                    set: { if !$0 { viewModel.showsPruningAlert = false } }
+                    set: { newValue in
+                        if !newValue {
+                            viewModel.showsPruningAlert = false
+                        } else {
+                            viewModel.showsPruningAlert = newValue
+                        }
+                    }
                 )) {
                     Button("Delete Oldest 50") {
                         Task {
@@ -68,6 +100,22 @@ struct HistoryView: View {
                 } message: {
                     Text("Your card history is full. Delete old readings to free up space?")
                 }
+                .alert("Error", isPresented: Binding(
+                    get: { viewModel.errorMessage != nil },
+                    set: { newValue in
+                        if !newValue {
+                            viewModel.errorMessage = nil
+                        }
+                    }
+                )) {
+                    Button("OK") {
+                        viewModel.errorMessage = nil
+                    }
+                } message: {
+                    if let message = viewModel.errorMessage {
+                        Text(message)
+                    }
+                }
             } else {
                 ProgressView()
                     .navigationTitle("History")
@@ -75,7 +123,6 @@ struct HistoryView: View {
         }
         .onAppear {
             if self.viewModel == nil {
-                // Create ViewModel with proper environment context
                 self.viewModel = HistoryViewModel(
                     modelContext: self.modelContext,
                     storageMonitor: self.storage

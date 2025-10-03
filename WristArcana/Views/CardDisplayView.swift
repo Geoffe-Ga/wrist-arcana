@@ -11,6 +11,8 @@ struct CardDisplayView: View {
     // MARK: - Properties
 
     let card: TarotCard
+    let cardPull: CardPull
+    @ObservedObject var viewModel: HistoryViewModel
     let onDismiss: () -> Void
 
     // MARK: - Body
@@ -18,26 +20,59 @@ struct CardDisplayView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                // Card Image
                 CardImageView(imageName: self.card.imageName, cardName: self.card.name)
                     .frame(maxWidth: .infinity)
                     .aspectRatio(0.6, contentMode: .fit)
                     .padding(.top, 20)
 
-                // Card Name
                 Text(self.card.name)
                     .font(Theme.Fonts.cardName)
                     .foregroundStyle(.primary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
 
-                // Meaning
                 Text(self.card.upright)
                     .font(Theme.Fonts.body)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
-                    .padding(.bottom, 20)
+
+                Divider()
+                    .padding(.horizontal)
+
+                VStack(spacing: 12) {
+                    if let note = self.cardPull.note, !note.isEmpty {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Your Note")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+
+                            Text(note)
+                                .font(.body)
+                                .padding()
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .background(Color.secondary.opacity(0.1))
+                                .cornerRadius(8)
+                        }
+                        .padding(.horizontal)
+
+                        Button(action: {
+                            self.viewModel.startAddingNote(to: self.cardPull)
+                        }) {
+                            Label("Edit Note", systemImage: "pencil")
+                                .font(.caption)
+                        }
+                        .buttonStyle(.bordered)
+                    } else {
+                        Button(action: {
+                            self.viewModel.startAddingNote(to: self.cardPull)
+                        }) {
+                            Label("Add Note", systemImage: "note.text.badge.plus")
+                        }
+                        .buttonStyle(.borderedProminent)
+                    }
+                }
+                .padding(.bottom, 20)
             }
         }
         .toolbar {
@@ -47,23 +82,26 @@ struct CardDisplayView: View {
                 }
             }
         }
+        .sheet(isPresented: Binding(
+            get: { self.viewModel.showsNoteEditor },
+            set: { newValue in
+                if !newValue {
+                    self.viewModel.dismissNoteEditor()
+                } else {
+                    self.viewModel.showsNoteEditor = newValue
+                }
+            }
+        )) {
+            NoteEditorView(
+                note: Binding(
+                    get: { self.viewModel.editingNote },
+                    set: { self.viewModel.editingNote = $0 }
+                ),
+                onSave: { self.viewModel.saveNote() },
+                onCancel: { self.viewModel.dismissNoteEditor() }
+            )
+        }
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Card details for \(self.card.name)")
-    }
-}
-
-#Preview {
-    NavigationStack {
-        CardDisplayView(
-            card: TarotCard(
-                name: "The Fool",
-                imageName: "major_00",
-                arcana: .major,
-                number: 0,
-                upright: "New beginnings, optimism, trust in life",
-                reversed: "Recklessness, taken advantage of, inconsideration"
-            ),
-            onDismiss: {}
-        )
     }
 }

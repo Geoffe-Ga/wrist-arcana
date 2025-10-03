@@ -26,6 +26,12 @@
 - **🎴 Complete Rider-Waite Deck** — All 78 authentic tarot cards with high-quality public domain imagery
 - **🎲 Cryptographic Randomization** — True randomness using `SystemRandomNumberGenerator` with Fisher-Yates shuffle
 - **📖 Persistent History** — Track your spiritual journey with SwiftData-powered local storage
+- **📝 Personal Notes** — Add reflections and insights to any card reading
+  - Voice-to-text, scribble, or keyboard input
+  - 500 character limit with live counter
+  - Sanitized and stored securely on-device
+  - View truncated notes in history list
+  - Tap for full detail view with complete note and card meaning
 - **💾 Smart Storage Management** — Automatic capacity monitoring with intelligent pruning alerts
 - **⚡ Instant Response** — <100ms draw time, <16ms image rendering for buttery-smooth animations
 - **🌙 Offline First** — Zero network dependencies, works anywhere your wrist goes
@@ -35,8 +41,47 @@
 ### User Experience
 - **Haptic Feedback** — Tactile response on card draw for satisfying interaction
 - **Scrollable Card Details** — Digital Crown scrolling for card names and meanings
+- **Note Taking** — Add personal reflections immediately after drawing or from history
 - **Swipe to Delete** — Intuitive history management
 - **Storage Warnings** — Proactive alerts before capacity issues
+
+
+## 💡 Usage
+
+### Drawing a Card
+1. Open WristArcana on your Apple Watch
+2. Tap the large **DRAW** button
+3. View your card with its meaning
+4. Optionally add a personal note about the reading
+5. Swipe down or tap **Done** to return
+
+### Adding Notes to Readings
+**Immediately After Drawing:**
+- Scroll down on the card display screen
+- Tap **Add Note**
+- Enter your reflection using voice, scribble, or keyboard
+- Tap **Save**
+
+**From History:**
+- Swipe left to view **History**
+- Tap any past reading
+- View full card details and meaning
+- Tap **Add Note** or **Edit Note**
+- Tap **Save**
+
+### Managing History
+- **View All Readings:** Swipe left from main screen
+- **See Full Details:** Tap any history item
+- **Delete Reading:** Swipe left on item → Delete
+- **Delete Note:** Open detail view → Delete Note button
+- **Edit Note:** Open detail view → Edit Note button
+
+### Note Features
+- **Character Limit:** 500 characters maximum
+- **Input Methods:** Voice dictation, scribble, keyboard, emoji
+- **Auto-Save:** Notes persist automatically
+- **Preview:** First 2 lines shown in history list
+- **Full View:** Tap history item to read complete note
 
 ---
 

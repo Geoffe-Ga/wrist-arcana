@@ -32,6 +32,13 @@
 		676E560E2E8DF4D300F22194 /* DeckRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E560B2E8DF4D300F22194 /* DeckRepository.swift */; };
 		676E560F2E8DF4D300F22194 /* TarotCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E560C2E8DF4D300F22194 /* TarotCard.swift */; };
 		676E56102E8DF4D300F22194 /* TarotDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E560D2E8DF4D300F22194 /* TarotDeck.swift */; };
+		D4AF5B6925884FE69BBDD0393477C942 /* NoteInputSanitizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D7C2F7F2243C18E400CBD79BB9F2F /* NoteInputSanitizer.swift */; };
+		0406990083854C08BA0EAC2CB384A98C /* NoteEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520B16665A754684AA7128C5892464BA /* NoteEditorView.swift */; };
+		50CD6631131C43F4BC4723BC2314DC0E /* HistoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E7715522BF4100A753AC18C2940D95 /* HistoryDetailView.swift */; };
+		D567422FEE9B41498D784E712485E86A /* CardPullTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838145D087C341799BDC196E36B61C11 /* CardPullTests.swift */; };
+		7BAA799797C24667B7B10E3CB18D2824 /* NoteInputSanitizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532636BD078544388D08B279E7AAF9B7 /* NoteInputSanitizerTests.swift */; };
+		776828F7E2064D5A9D1F35517D1515A2 /* HistoryViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB1DE7098394904A1A8E81753BB5DB2 /* HistoryViewModelTests.swift */; };
+		578222405D014BCFAD9511E112D10842 /* HistoryFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E6274506E241758B5CF167C63AA41E /* HistoryFlowUITests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +108,13 @@
 		676E560B2E8DF4D300F22194 /* DeckRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckRepository.swift; sourceTree = "<group>"; };
 		676E560C2E8DF4D300F22194 /* TarotCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TarotCard.swift; sourceTree = "<group>"; };
 		676E560D2E8DF4D300F22194 /* TarotDeck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TarotDeck.swift; sourceTree = "<group>"; };
+		4F6D7C2F7F2243C18E400CBD79BB9F2F /* NoteInputSanitizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteInputSanitizer.swift; sourceTree = "<group>"; };
+		520B16665A754684AA7128C5892464BA /* NoteEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditorView.swift; sourceTree = "<group>"; };
+		D3E7715522BF4100A753AC18C2940D95 /* HistoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailView.swift; sourceTree = "<group>"; };
+		838145D087C341799BDC196E36B61C11 /* CardPullTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPullTests.swift; sourceTree = "<group>"; };
+		532636BD078544388D08B279E7AAF9B7 /* NoteInputSanitizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteInputSanitizerTests.swift; sourceTree = "<group>"; };
+		4BB1DE7098394904A1A8E81753BB5DB2 /* HistoryViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModelTests.swift; sourceTree = "<group>"; };
+		76E6274506E241758B5CF167C63AA41E /* HistoryFlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryFlowUITests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -203,6 +217,8 @@
 				676E55FC2E8DF4B700F22194 /* DeckSelectionView.swift */,
 				676E55FD2E8DF4B700F22194 /* DrawCardView.swift */,
 				676E55FE2E8DF4B700F22194 /* HistoryView.swift */,
+				D3E7715522BF4100A753AC18C2940D95 /* HistoryDetailView.swift */,
+				520B16665A754684AA7128C5892464BA /* NoteEditorView.swift */,
 				676E55FF2E8DF4B700F22194 /* MainView.swift */,
 				676E55A52E8DE4F200F22194 /* ContentView.swift */,
 			);
@@ -225,6 +241,7 @@
 				676E55EF2E8DF49000F22194 /* Extensions */,
 				676E55F02E8DF49000F22194 /* RandomGenerator.swift */,
 				676E55F12E8DF49000F22194 /* StorageMonitor.swift */,
+				4F6D7C2F7F2243C18E400CBD79BB9F2F /* NoteInputSanitizer.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -460,6 +477,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D567422FEE9B41498D784E712485E86A /* CardPullTests.swift in Sources */,
+				7BAA799797C24667B7B10E3CB18D2824 /* NoteInputSanitizerTests.swift in Sources */,
+				776828F7E2064D5A9D1F35517D1515A2 /* HistoryViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,6 +487,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				578222405D014BCFAD9511E112D10842 /* HistoryFlowUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
