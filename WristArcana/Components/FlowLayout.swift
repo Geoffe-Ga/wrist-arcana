@@ -24,7 +24,7 @@ struct FlowLayout: Layout {
         let result = FlowResult(
             maxWidth: bounds.width,
             subviews: subviews,
-            spacing: spacing
+            spacing: self.spacing
         )
 
         for (index, subview) in subviews.enumerated() {
@@ -52,28 +52,27 @@ private extension FlowLayout {
             for subview in subviews {
                 let size = subview.sizeThatFits(.unspecified)
 
-                if maxWidth.isFinite && currentX + size.width > maxWidth && currentX > 0 {
+                if maxWidth.isFinite, currentX + size.width > maxWidth, currentX > 0 {
                     currentX = 0
                     currentY += lineHeight + spacing
                     lineHeight = 0
                 }
 
-                positions.append(CGPoint(x: currentX, y: currentY))
-                sizes.append(size)
+                self.positions.append(CGPoint(x: currentX, y: currentY))
+                self.sizes.append(size)
 
                 currentX += size.width + spacing
                 lineHeight = max(lineHeight, size.height)
                 maxLineWidth = max(maxLineWidth, currentX)
             }
 
-            let finalWidth: CGFloat
-            if maxWidth.isFinite {
-                finalWidth = maxWidth
+            let finalWidth: CGFloat = if maxWidth.isFinite {
+                maxWidth
             } else {
-                finalWidth = maxLineWidth
+                maxLineWidth
             }
 
-            size = CGSize(width: finalWidth, height: currentY + lineHeight)
+            self.size = CGSize(width: finalWidth, height: currentY + lineHeight)
         }
     }
 }

@@ -16,9 +16,15 @@ struct RandomGeneratorTests {
         // Given
         let generator = CryptoRandomGenerator()
         let cards = [
-            TarotCard(name: "Card 1", imageName: "card1", suit: .majorArcana, number: 0, upright: "Up", reversed: "Rev"),
-            TarotCard(name: "Card 2", imageName: "card2", suit: .majorArcana, number: 1, upright: "Up", reversed: "Rev"),
-            TarotCard(name: "Card 3", imageName: "card3", suit: .majorArcana, number: 2, upright: "Up", reversed: "Rev")
+            TarotCard(
+                name: "Card 1", imageName: "card1", suit: .majorArcana, number: 0, upright: "Up", reversed: "Rev"
+            ),
+            TarotCard(
+                name: "Card 2", imageName: "card2", suit: .majorArcana, number: 1, upright: "Up", reversed: "Rev"
+            ),
+            TarotCard(
+                name: "Card 3", imageName: "card3", suit: .majorArcana, number: 2, upright: "Up", reversed: "Rev"
+            )
         ]
 
         // When
@@ -45,9 +51,15 @@ struct RandomGeneratorTests {
         // Given
         let generator = CryptoRandomGenerator()
         let cards = [
-            TarotCard(name: "Card 1", imageName: "card1", suit: .majorArcana, number: 0, upright: "Up", reversed: "Rev"),
-            TarotCard(name: "Card 2", imageName: "card2", suit: .majorArcana, number: 1, upright: "Up", reversed: "Rev"),
-            TarotCard(name: "Card 3", imageName: "card3", suit: .majorArcana, number: 2, upright: "Up", reversed: "Rev")
+            TarotCard(
+                name: "Card 1", imageName: "card1", suit: .majorArcana, number: 0, upright: "Up", reversed: "Rev"
+            ),
+            TarotCard(
+                name: "Card 2", imageName: "card2", suit: .majorArcana, number: 1, upright: "Up", reversed: "Rev"
+            ),
+            TarotCard(
+                name: "Card 3", imageName: "card3", suit: .majorArcana, number: 2, upright: "Up", reversed: "Rev"
+            )
         ]
 
         var drawnCardIds: Set<UUID> = []
@@ -66,7 +78,9 @@ struct RandomGeneratorTests {
     @Test func singleCardArray() async throws {
         // Given
         let generator = CryptoRandomGenerator()
-        let card = TarotCard(name: "Only Card", imageName: "card", suit: .majorArcana, number: 0, upright: "Up", reversed: "Rev")
+        let card = TarotCard(
+            name: "Only Card", imageName: "card", suit: .majorArcana, number: 0, upright: "Up", reversed: "Rev"
+        )
         let cards = [card]
 
         // When

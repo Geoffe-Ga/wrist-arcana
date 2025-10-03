@@ -19,27 +19,27 @@ final class CardReferenceViewModel: ObservableObject {
 
     init(cardRepository: CardRepositoryProtocol = CardRepository()) {
         self.cardRepository = cardRepository
-        loadSuits()
+        self.loadSuits()
     }
 
     func loadSuits() {
-        suits = cardRepository.getSuits()
+        self.suits = self.cardRepository.getSuits()
     }
 
     func selectSuit(_ suit: TarotCard.Suit) {
-        selectedSuit = suit
-        cardsInSuit = cardRepository.getCards(for: suit)
+        self.selectedSuit = suit
+        self.cardsInSuit = self.cardRepository.getCards(for: suit)
     }
 
     func selectCard(_ card: TarotCard) {
-        selectedCard = card
+        self.selectedCard = card
     }
 
     func deselectCard() {
-        selectedCard = nil
+        self.selectedCard = nil
     }
 
     func cardCount(for suit: TarotCard.Suit) -> Int {
-        return cardRepository.getCards(for: suit).count
+        self.cardRepository.getCards(for: suit).count
     }
 }

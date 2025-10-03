@@ -38,9 +38,6 @@
                 676E57182E9A4C000F22194 /* CardReferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E57172E9A4C000F22194 /* CardReferenceView.swift */; };
                 676E571A2E9A4C000F22194 /* CardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E57192E9A4C000F22194 /* CardListView.swift */; };
                 676E571C2E9A4C000F22194 /* CardReferenceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E571B2E9A4C000F22194 /* CardReferenceDetailView.swift */; };
-                676E571E2E9A4C000F22194 /* MockCardRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E571D2E9A4C000F22194 /* MockCardRepository.swift */; };
-                676E57202E9A4C000F22194 /* CardReferenceViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E571F2E9A4C000F22194 /* CardReferenceViewModelTests.swift */; };
-                676E57222E9A4C000F22194 /* CardRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E57212E9A4C000F22194 /* CardRepositoryTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,9 +113,6 @@
                 676E57172E9A4C000F22194 /* CardReferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardReferenceView.swift; sourceTree = "<group>"; };
                 676E57192E9A4C000F22194 /* CardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListView.swift; sourceTree = "<group>"; };
                 676E571B2E9A4C000F22194 /* CardReferenceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardReferenceDetailView.swift; sourceTree = "<group>"; };
-                676E571D2E9A4C000F22194 /* MockCardRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCardRepository.swift; sourceTree = "<group>"; };
-                676E571F2E9A4C000F22194 /* CardReferenceViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardReferenceViewModelTests.swift; sourceTree = "<group>"; };
-                676E57212E9A4C000F22194 /* CardRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRepositoryTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -490,9 +484,6 @@
                         isa = PBXSourcesBuildPhase;
                         buildActionMask = 2147483647;
                         files = (
-                                676E571E2E9A4C000F22194 /* MockCardRepository.swift in Sources */,
-                                676E57202E9A4C000F22194 /* CardReferenceViewModelTests.swift in Sources */,
-                                676E57222E9A4C000F22194 /* CardRepositoryTests.swift in Sources */,
                         );
                         runOnlyForDeploymentPostprocessing = 0;
                 };

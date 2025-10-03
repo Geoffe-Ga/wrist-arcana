@@ -1742,7 +1742,7 @@ Card images sourced from Sacred Texts (public domain)
 
 ## 👨‍💻 Author
 
-[Geoff Gallinger] - [https://blog.aptitude.guru](https://blog.aptitude.guru)
+[Geoff Gallinger] - [An Agentic Development](https://blog.aptitude.guru)
 
 *Built as a portfolio project demonstrating senior-level iOS/watchOS development*
 ```

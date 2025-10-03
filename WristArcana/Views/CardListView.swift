@@ -13,7 +13,7 @@ struct CardListView: View {
 
     var body: some View {
         List {
-            ForEach(viewModel.cardsInSuit) { card in
+            ForEach(self.viewModel.cardsInSuit) { card in
                 NavigationLink(value: card) {
                     CardListRow(card: card)
                 }
@@ -22,10 +22,10 @@ struct CardListView: View {
         .navigationDestination(for: TarotCard.self) { card in
             CardReferenceDetailView(card: card)
         }
-        .navigationTitle(suit.rawValue)
+        .navigationTitle(self.suit.rawValue)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            viewModel.selectSuit(suit)
+            self.viewModel.selectSuit(self.suit)
         }
     }
 }
@@ -35,10 +35,10 @@ struct CardListRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            CardImageView(imageName: card.imageName, cardName: card.name)
+            CardImageView(imageName: self.card.imageName, cardName: self.card.name)
                 .frame(width: 30, height: 45)
 
-            Text(card.fullDisplayName)
+            Text(self.card.fullDisplayName)
                 .font(.body)
                 .lineLimit(2)
 
@@ -47,4 +47,3 @@ struct CardListRow: View {
         .padding(.vertical, 2)
     }
 }
-

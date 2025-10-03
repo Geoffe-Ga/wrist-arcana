@@ -53,6 +53,7 @@ TestResults-*/
 **/TestResults/
 coverage.json
 /tmp/coverage.json
+TestResults
 
 # Documentation (work in progress)
 MODELCONTEXT_FIX.md

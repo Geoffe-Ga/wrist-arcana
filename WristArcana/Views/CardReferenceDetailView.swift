@@ -13,17 +13,17 @@ struct CardReferenceDetailView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                CardImageView(imageName: card.imageName, cardName: card.name)
+                CardImageView(imageName: self.card.imageName, cardName: self.card.name)
                     .frame(maxWidth: .infinity)
                     .aspectRatio(0.6, contentMode: .fit)
                     .padding(.top, 20)
 
                 VStack(spacing: 4) {
-                    Text(card.name)
+                    Text(self.card.name)
                         .font(.system(size: 20, weight: .semibold, design: .serif))
                         .multilineTextAlignment(.center)
 
-                    Text("\(card.suit.rawValue) • \(card.displayNumber)")
+                    Text("\(self.card.suit.rawValue) • \(self.card.displayNumber)")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -37,7 +37,7 @@ struct CardReferenceDetailView: View {
                         .font(.headline)
                         .foregroundStyle(.green)
 
-                    Text(card.upright)
+                    Text(self.card.upright)
                         .font(.body)
                         .foregroundStyle(.primary)
                 }
@@ -49,20 +49,20 @@ struct CardReferenceDetailView: View {
                         .font(.headline)
                         .foregroundStyle(.orange)
 
-                    Text(card.reversed)
+                    Text(self.card.reversed)
                         .font(.body)
                         .foregroundStyle(.primary)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal)
 
-                if !card.keywords.isEmpty {
+                if !self.card.keywords.isEmpty {
                     VStack(alignment: .leading, spacing: 8) {
                         Label("Keywords", systemImage: "tag.fill")
                             .font(.headline)
 
                         FlowLayout(spacing: 8) {
-                            ForEach(card.keywords, id: \.self) { keyword in
+                            ForEach(self.card.keywords, id: \.self) { keyword in
                                 Text(keyword)
                                     .font(.caption)
                                     .padding(.horizontal, 10)
@@ -79,7 +79,7 @@ struct CardReferenceDetailView: View {
                 Spacer(minLength: 20)
             }
         }
-        .navigationTitle(card.name)
+        .navigationTitle(self.card.name)
         .navigationBarTitleDisplayMode(.inline)
     }
 }

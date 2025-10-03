@@ -18,16 +18,16 @@ final class CardRepository: CardRepositoryProtocol {
     private var allCards: [TarotCard] = []
 
     init() {
-        loadCards()
+        self.loadCards()
     }
 
     func getAllCards() -> [TarotCard] {
-        return allCards.sorted { card1, card2 in
+        self.allCards.sorted { card1, card2 in
             if card1.suit.sortOrder != card2.suit.sortOrder {
                 return card1.suit.sortOrder < card2.suit.sortOrder
             }
 
-            if card1.suit == .majorArcana && card2.suit == .majorArcana {
+            if card1.suit == .majorArcana, card2.suit == .majorArcana {
                 return card1.number < card2.number
             }
 
@@ -40,23 +40,26 @@ final class CardRepository: CardRepositoryProtocol {
     }
 
     func getCards(for suit: TarotCard.Suit) -> [TarotCard] {
-        return allCards
+        self.allCards
             .filter { $0.suit == suit }
             .sorted { $0.number < $1.number }
     }
 
     func getCard(by id: UUID) -> TarotCard? {
-        return allCards.first { $0.id == id }
+        self.allCards.first { $0.id == id }
     }
 
     func getSuits() -> [TarotCard.Suit] {
-        return TarotCard.Suit.allCases.sorted { $0.sortOrder < $1.sortOrder }
+        TarotCard.Suit.allCases.sorted { $0.sortOrder < $1.sortOrder }
     }
 
     private func loadCards() {
         let candidateBundles = [Bundle.main] + Bundle.allBundles
 
-        guard let url = candidateBundles.compactMap({ $0.url(forResource: "DecksData", withExtension: "json") }).first else {
+        guard let url = candidateBundles
+            .compactMap({ $0.url(forResource: "DecksData", withExtension: "json") })
+            .first
+        else {
             print("⚠️ DecksData.json not found")
             return
         }
@@ -67,7 +70,7 @@ final class CardRepository: CardRepositoryProtocol {
             let decksData = try decoder.decode(DecksDataContainer.self, from: data)
 
             if let firstDeck = decksData.decks.first {
-                allCards = firstDeck.cards
+                self.allCards = firstDeck.cards
             }
         } catch {
             print("⚠️ Failed to load cards: \(error)")

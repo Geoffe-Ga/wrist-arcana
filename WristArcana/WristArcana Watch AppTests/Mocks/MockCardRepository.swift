@@ -22,22 +22,22 @@ final class MockCardRepository: CardRepositoryProtocol {
             reversed: "Recklessness",
             keywords: ["Beginnings"]
         )
-        cardsBySuit[.majorArcana] = [sampleCard]
+        self.cardsBySuit[.majorArcana] = [sampleCard]
     }
 
     func getAllCards() -> [TarotCard] {
-        suits.flatMap { cardsBySuit[$0] ?? [] }
+        self.suits.flatMap { self.cardsBySuit[$0] ?? [] }
     }
 
     func getCards(for suit: TarotCard.Suit) -> [TarotCard] {
-        cardsBySuit[suit] ?? []
+        self.cardsBySuit[suit] ?? []
     }
 
     func getCard(by id: UUID) -> TarotCard? {
-        getAllCards().first { $0.id == id }
+        self.getAllCards().first { $0.id == id }
     }
 
     func getSuits() -> [TarotCard.Suit] {
-        suits
+        self.suits
     }
 }

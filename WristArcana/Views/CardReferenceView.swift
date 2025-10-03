@@ -13,22 +13,22 @@ struct CardReferenceView: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(viewModel.suits, id: \.self) { suit in
+                ForEach(self.viewModel.suits, id: \.self) { suit in
                     NavigationLink(value: suit) {
                         SuitRow(
                             suit: suit,
-                            cardCount: viewModel.cardCount(for: suit)
+                            cardCount: self.viewModel.cardCount(for: suit)
                         )
                     }
                 }
             }
             .navigationDestination(for: TarotCard.Suit.self) { suit in
-                CardListView(suit: suit, viewModel: viewModel)
+                CardListView(suit: suit, viewModel: self.viewModel)
             }
             .navigationTitle("Reference")
         }
         .onAppear {
-            viewModel.loadSuits()
+            self.viewModel.loadSuits()
         }
     }
 }
@@ -39,14 +39,14 @@ struct SuitRow: View {
 
     var body: some View {
         HStack {
-            Text(suit.icon)
+            Text(self.suit.icon)
                 .font(.title2)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(suit.rawValue)
+                Text(self.suit.rawValue)
                     .font(.headline)
 
-                Text("\(cardCount) cards")
+                Text("\(self.cardCount) cards")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

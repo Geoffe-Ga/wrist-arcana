@@ -46,28 +46,28 @@ struct TarotCard: Codable, Identifiable, Equatable, Hashable {
 
         var icon: String {
             switch self {
-            case .majorArcana: return "⭐"
-            case .swords: return "⚔️"
-            case .wands: return "🪄"
-            case .pentacles: return "🪙"
-            case .cups: return "🏆"
+            case .majorArcana: "⭐"
+            case .swords: "⚔️"
+            case .wands: "🪄"
+            case .pentacles: "🪙"
+            case .cups: "🏆"
             }
         }
 
         var cardCount: Int {
             switch self {
-            case .majorArcana: return 22
-            case .swords, .wands, .pentacles, .cups: return 14
+            case .majorArcana: 22
+            case .swords, .wands, .pentacles, .cups: 14
             }
         }
 
         var sortOrder: Int {
             switch self {
-            case .majorArcana: return 0
-            case .swords: return 1
-            case .wands: return 2
-            case .pentacles: return 3
-            case .cups: return 4
+            case .majorArcana: 0
+            case .swords: 1
+            case .wands: 2
+            case .pentacles: 3
+            case .cups: 4
             }
         }
     }
@@ -75,20 +75,20 @@ struct TarotCard: Codable, Identifiable, Equatable, Hashable {
     // MARK: - Computed Properties
 
     var displayNumber: String {
-        switch suit {
+        switch self.suit {
         case .majorArcana:
-            return romanNumeral(from: number)
+            self.romanNumeral(from: self.number)
         case .swords, .wands, .pentacles, .cups:
-            return cardNumberName(number)
+            self.cardNumberName(self.number)
         }
     }
 
     var fullDisplayName: String {
-        switch suit {
+        switch self.suit {
         case .majorArcana:
-            return "\(displayNumber) - \(name)"
+            "\(self.displayNumber) - \(self.name)"
         case .swords, .wands, .pentacles, .cups:
-            return name
+            self.name
         }
     }
 
@@ -109,13 +109,13 @@ struct TarotCard: Codable, Identifiable, Equatable, Hashable {
 
     private func cardNumberName(_ number: Int) -> String {
         switch number {
-        case 1: return "Ace"
-        case 2...10: return "\(number)"
-        case 11: return "Page"
-        case 12: return "Knight"
-        case 13: return "Queen"
-        case 14: return "King"
-        default: return "\(number)"
+        case 1: "Ace"
+        case 2 ... 10: "\(number)"
+        case 11: "Page"
+        case 12: "Knight"
+        case 13: "Queen"
+        case 14: "King"
+        default: "\(number)"
         }
     }
 }
