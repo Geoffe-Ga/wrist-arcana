@@ -19,11 +19,6 @@ struct HistoryView: View {
 
     @State private var internalViewModel: HistoryViewModel?
 
-    // Observed wrapper to trigger updates
-    private var viewModel: HistoryViewModel? {
-        self.internalViewModel
-    }
-
     // Dependencies
     private let storage: StorageMonitorProtocol
 
@@ -46,12 +41,14 @@ struct HistoryView: View {
             }
             .navigationTitle("History")
         }
-        .task {
-            await self.refreshHistoryIfNeeded()
+        .onAppear {
+            self.prepareViewModel()
+            Task { await self.internalViewModel?.loadHistory() }
         }
-        .task(id: self.scenePhase) { phase in
+        .onChange(of: self.scenePhase) { phase in
             guard phase == .active else { return }
-            await self.refreshHistoryIfNeeded()
+            self.prepareViewModel()
+            Task { await self.internalViewModel?.loadHistory() }
         }
     }
 }
@@ -119,23 +116,14 @@ private struct HistoryListContent: View {
 // MARK: - Private Helpers
 
 private extension HistoryView {
-    func refreshHistoryIfNeeded() async {
-        let viewModel = await MainActor.run { self.resolveViewModel() }
-        await viewModel.loadHistory()
-    }
-
     @MainActor
-    func resolveViewModel() -> HistoryViewModel {
-        if let existing = self.internalViewModel {
-            return existing
+    func prepareViewModel() {
+        if self.internalViewModel == nil {
+            self.internalViewModel = HistoryViewModel(
+                modelContext: self.modelContext,
+                storageMonitor: self.storage
+            )
         }
-
-        let created = HistoryViewModel(
-            modelContext: self.modelContext,
-            storageMonitor: self.storage
-        )
-        self.internalViewModel = created
-        return created
     }
 }
 
