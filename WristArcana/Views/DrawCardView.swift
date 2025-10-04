@@ -70,16 +70,19 @@ struct DrawCardView: View {
         }
         .sheet(isPresented: self.$showingCard) {
             if let card = viewModel?.currentCard, let histViewModel = historyViewModel {
+                let dismissCard: () -> Void = {
+                    self.showingCard = false
+                    self.viewModel?.dismissCard()
+                }
+
                 CardDisplayView(
                     card: card,
                     cardPull: self.viewModel?.currentCardPull,
-                    onAddNote: { pull in
-                        histViewModel.startAddingNote(to: pull)
-                    },
-                    onDismiss: {
-                        self.showingCard = false
-                        self.viewModel?.dismissCard()
-                    }
+                    onAddNote: makeAddNoteHandler(
+                        historyViewModel: histViewModel,
+                        dismissCard: dismissCard
+                    ),
+                    onDismiss: dismissCard
                 )
             }
         }
@@ -152,4 +155,14 @@ struct DrawCardView: View {
 #Preview {
     DrawCardView()
         .modelContainer(for: [CardPull.self])
+}
+
+func makeAddNoteHandler(
+    historyViewModel: HistoryViewModel,
+    dismissCard: @escaping () -> Void
+) -> (CardPull) -> Void {
+    { pull in
+        historyViewModel.startAddingNote(to: pull)
+        dismissCard()
+    }
 }
