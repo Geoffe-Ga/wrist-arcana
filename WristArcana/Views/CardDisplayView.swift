@@ -12,7 +12,7 @@ struct CardDisplayView: View {
 
     let card: TarotCard
     let cardPull: CardPull?
-    var historyViewModel: HistoryViewModel?
+    let onAddNote: ((CardPull) -> Void)?
     let onDismiss: () -> Void
 
     // MARK: - Body
@@ -40,8 +40,8 @@ struct CardDisplayView: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
 
-                // Note Section (if cardPull and historyViewModel are available)
-                if let pull = cardPull, let viewModel = historyViewModel {
+                // Note Section (if cardPull and onAddNote callback are available)
+                if let pull = cardPull, onAddNote != nil {
                     Divider()
                         .padding(.horizontal)
 
@@ -63,7 +63,7 @@ struct CardDisplayView: View {
 
                             Button(
                                 action: {
-                                    viewModel.startAddingNote(to: pull)
+                                    self.onAddNote?(pull)
                                 },
                                 label: {
                                     Label("Edit Note", systemImage: "pencil")
@@ -74,7 +74,7 @@ struct CardDisplayView: View {
                         } else {
                             Button(
                                 action: {
-                                    viewModel.startAddingNote(to: pull)
+                                    self.onAddNote?(pull)
                                 },
                                 label: {
                                     Label("Add Note", systemImage: "note.text.badge.plus")
@@ -96,21 +96,6 @@ struct CardDisplayView: View {
                 }
             }
         }
-        .sheet(isPresented: Binding(
-            get: { self.historyViewModel?.showsNoteEditor ?? false },
-            set: { if !$0 { self.historyViewModel?.dismissNoteEditor() } }
-        )) {
-            if let activeViewModel = historyViewModel {
-                NoteEditorView(
-                    note: Binding(
-                        get: { activeViewModel.editingNote },
-                        set: { activeViewModel.editingNote = $0 }
-                    ),
-                    onSave: { activeViewModel.saveNote() },
-                    onCancel: { activeViewModel.dismissNoteEditor() }
-                )
-            }
-        }
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Card details for \(self.card.name)")
     }
@@ -129,7 +114,7 @@ struct CardDisplayView: View {
                 keywords: ["New Beginnings", "Optimism", "Trust"]
             ),
             cardPull: nil,
-            historyViewModel: nil,
+            onAddNote: nil,
             onDismiss: {}
         )
     }

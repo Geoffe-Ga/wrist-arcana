@@ -69,15 +69,37 @@ struct DrawCardView: View {
             Spacer()
         }
         .sheet(isPresented: self.$showingCard) {
-            if let card = viewModel?.currentCard {
+            if let card = viewModel?.currentCard, let histViewModel = historyViewModel {
                 CardDisplayView(
                     card: card,
                     cardPull: self.viewModel?.currentCardPull,
-                    historyViewModel: self.historyViewModel
-                ) {
-                    self.showingCard = false
-                    self.viewModel?.dismissCard()
-                }
+                    onAddNote: { pull in
+                        histViewModel.startAddingNote(to: pull)
+                    },
+                    onDismiss: {
+                        self.showingCard = false
+                        self.viewModel?.dismissCard()
+                    }
+                )
+            }
+        }
+        .sheet(isPresented: Binding(
+            get: { self.historyViewModel?.showsNoteEditor ?? false },
+            set: { if !$0 { self.historyViewModel?.dismissNoteEditor() } }
+        )) {
+            if let histViewModel = historyViewModel {
+                NoteEditorView(
+                    note: Binding(
+                        get: { histViewModel.editingNote },
+                        set: { histViewModel.editingNote = $0 }
+                    ),
+                    onSave: {
+                        histViewModel.saveNote()
+                    },
+                    onCancel: {
+                        histViewModel.dismissNoteEditor()
+                    }
+                )
             }
         }
         .alert("Storage Warning", isPresented: Binding(
