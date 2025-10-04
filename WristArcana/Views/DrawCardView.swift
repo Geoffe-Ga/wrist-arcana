@@ -162,7 +162,9 @@ func makeAddNoteHandler(
     dismissCard: @escaping () -> Void
 ) -> (CardPull) -> Void {
     { pull in
-        historyViewModel.startAddingNote(to: pull)
-        dismissCard()
+        Task { @MainActor in
+            historyViewModel.startAddingNote(to: pull)
+            dismissCard()
+        }
     }
 }

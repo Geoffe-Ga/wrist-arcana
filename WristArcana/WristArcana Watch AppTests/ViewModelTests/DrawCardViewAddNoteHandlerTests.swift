@@ -56,6 +56,7 @@ struct DrawCardViewAddNoteHandlerTests {
 
         // When
         handler(pull)
+        try await Task.sleep(nanoseconds: 50_000_000)
 
         // Then
         #expect(historyViewModel.showsNoteEditor == true)
