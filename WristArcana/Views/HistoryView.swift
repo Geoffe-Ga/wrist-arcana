@@ -13,6 +13,7 @@ struct HistoryView: View {
     // MARK: - Environment
 
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.scenePhase) private var scenePhase
 
     // MARK: - State
 
@@ -45,13 +46,12 @@ struct HistoryView: View {
             }
             .navigationTitle("History")
         }
-        .onAppear {
-            if self.internalViewModel == nil {
-                self.internalViewModel = HistoryViewModel(
-                    modelContext: self.modelContext,
-                    storageMonitor: self.storage
-                )
-            }
+        .task {
+            await self.refreshHistoryIfNeeded()
+        }
+        .task(id: self.scenePhase) { phase in
+            guard phase == .active else { return }
+            await self.refreshHistoryIfNeeded()
         }
     }
 }
@@ -113,6 +113,29 @@ private struct HistoryListContent: View {
                 onCancel: { self.viewModel.dismissNoteEditor() }
             )
         }
+    }
+}
+
+// MARK: - Private Helpers
+
+private extension HistoryView {
+    func refreshHistoryIfNeeded() async {
+        let viewModel = await MainActor.run { self.resolveViewModel() }
+        await viewModel.loadHistory()
+    }
+
+    @MainActor
+    func resolveViewModel() -> HistoryViewModel {
+        if let existing = self.internalViewModel {
+            return existing
+        }
+
+        let created = HistoryViewModel(
+            modelContext: self.modelContext,
+            storageMonitor: self.storage
+        )
+        self.internalViewModel = created
+        return created
     }
 }
 
