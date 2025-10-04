@@ -13,7 +13,11 @@ final class HistoryViewModel: ObservableObject {
     // MARK: - Published Properties
 
     @Published var pulls: [CardPull] = []
+    @Published var selectedPull: CardPull?
     @Published var showsPruningAlert: Bool = false
+    @Published var showsNoteEditor: Bool = false
+    @Published var editingNote: String = ""
+    @Published var isEditingExistingNote: Bool = false
 
     // MARK: - Private Properties
 
@@ -55,6 +59,10 @@ final class HistoryViewModel: ObservableObject {
         }
     }
 
+    func selectPull(_ pull: CardPull) {
+        self.selectedPull = pull
+    }
+
     func checkStorageAndPruneIfNeeded() async {
         if self.storageMonitor.isNearCapacity() {
             self.showsPruningAlert = true
@@ -75,5 +83,55 @@ final class HistoryViewModel: ObservableObject {
         } catch {
             print("⚠️ Failed to prune history: \(error)")
         }
+    }
+
+    // MARK: - Note Management
+
+    func startAddingNote(to pull: CardPull) {
+        self.selectedPull = pull
+        self.editingNote = pull.note ?? ""
+        self.isEditingExistingNote = pull.hasNote
+        self.showsNoteEditor = true
+    }
+
+    func saveNote() {
+        guard let pull = self.selectedPull else {
+            print("⚠️ No pull selected for note save")
+            return
+        }
+
+        let sanitized = NoteInputSanitizer.sanitize(self.editingNote)
+
+        if sanitized.isEmpty {
+            pull.note = nil
+        } else {
+            pull.note = sanitized
+        }
+
+        do {
+            try self.modelContext.save()
+            Task {
+                await self.loadHistory()
+            }
+        } catch {
+            print("⚠️ Failed to save note: \(error)")
+        }
+
+        self.dismissNoteEditor()
+    }
+
+    func deleteNote(from pull: CardPull) {
+        pull.note = nil
+        try? self.modelContext.save()
+        Task {
+            await self.loadHistory()
+        }
+    }
+
+    func dismissNoteEditor() {
+        self.showsNoteEditor = false
+        self.editingNote = ""
+        self.selectedPull = nil
+        self.isEditingExistingNote = false
     }
 }

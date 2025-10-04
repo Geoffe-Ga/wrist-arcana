@@ -16,6 +16,7 @@ struct DrawCardView: View {
     // MARK: - State
 
     @State private var viewModel: CardDrawViewModel?
+    @State private var historyViewModel: HistoryViewModel?
     @State private var showingCard = false
 
     // Dependencies
@@ -69,7 +70,11 @@ struct DrawCardView: View {
         }
         .sheet(isPresented: self.$showingCard) {
             if let card = viewModel?.currentCard {
-                CardDisplayView(card: card) {
+                CardDisplayView(
+                    card: card,
+                    cardPull: self.viewModel?.currentCardPull,
+                    historyViewModel: self.historyViewModel
+                ) {
                     self.showingCard = false
                     self.viewModel?.dismissCard()
                 }
@@ -104,6 +109,13 @@ struct DrawCardView: View {
                     repository: self.repository,
                     storageMonitor: self.storage,
                     modelContext: self.modelContext
+                )
+            }
+            if self.historyViewModel == nil {
+                // Create HistoryViewModel for note-taking
+                self.historyViewModel = HistoryViewModel(
+                    modelContext: self.modelContext,
+                    storageMonitor: self.storage
                 )
             }
         }

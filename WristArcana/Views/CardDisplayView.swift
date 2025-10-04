@@ -11,6 +11,8 @@ struct CardDisplayView: View {
     // MARK: - Properties
 
     let card: TarotCard
+    let cardPull: CardPull?
+    var historyViewModel: HistoryViewModel?
     let onDismiss: () -> Void
 
     // MARK: - Body
@@ -37,7 +39,54 @@ struct CardDisplayView: View {
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
-                    .padding(.bottom, 20)
+
+                // Note Section (if cardPull and historyViewModel are available)
+                if let pull = cardPull, let viewModel = historyViewModel {
+                    Divider()
+                        .padding(.horizontal)
+
+                    VStack(spacing: 12) {
+                        if let note = pull.note, !note.isEmpty {
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Your Note")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+
+                                Text(note)
+                                    .font(.body)
+                                    .padding()
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .background(Color.secondary.opacity(0.1))
+                                    .cornerRadius(8)
+                            }
+                            .padding(.horizontal)
+
+                            Button(
+                                action: {
+                                    viewModel.startAddingNote(to: pull)
+                                },
+                                label: {
+                                    Label("Edit Note", systemImage: "pencil")
+                                        .font(.caption)
+                                }
+                            )
+                            .buttonStyle(.bordered)
+                        } else {
+                            Button(
+                                action: {
+                                    viewModel.startAddingNote(to: pull)
+                                },
+                                label: {
+                                    Label("Add Note", systemImage: "note.text.badge.plus")
+                                }
+                            )
+                            .buttonStyle(.borderedProminent)
+                        }
+                    }
+                }
+
+                Spacer()
+                    .frame(height: 20)
             }
         }
         .toolbar {
@@ -45,6 +94,21 @@ struct CardDisplayView: View {
                 Button("Done") {
                     self.onDismiss()
                 }
+            }
+        }
+        .sheet(isPresented: Binding(
+            get: { self.historyViewModel?.showsNoteEditor ?? false },
+            set: { if !$0 { self.historyViewModel?.dismissNoteEditor() } }
+        )) {
+            if let activeViewModel = historyViewModel {
+                NoteEditorView(
+                    note: Binding(
+                        get: { activeViewModel.editingNote },
+                        set: { activeViewModel.editingNote = $0 }
+                    ),
+                    onSave: { activeViewModel.saveNote() },
+                    onCancel: { activeViewModel.dismissNoteEditor() }
+                )
             }
         }
         .accessibilityElement(children: .contain)
@@ -64,6 +128,8 @@ struct CardDisplayView: View {
                 reversed: "Recklessness, taken advantage of, inconsideration",
                 keywords: ["New Beginnings", "Optimism", "Trust"]
             ),
+            cardPull: nil,
+            historyViewModel: nil,
             onDismiss: {}
         )
     }

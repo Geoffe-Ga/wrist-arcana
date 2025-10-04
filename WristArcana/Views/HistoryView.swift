@@ -40,7 +40,9 @@ struct HistoryView: View {
                         )
                     } else {
                         ForEach(viewModel.pulls) { pull in
-                            HistoryRow(pull: pull)
+                            NavigationLink(destination: HistoryDetailView(pull: pull, viewModel: viewModel)) {
+                                HistoryRow(pull: pull)
+                            }
                         }
                         .onDelete { indexSet in
                             for index in indexSet {
@@ -67,6 +69,21 @@ struct HistoryView: View {
                     }
                 } message: {
                     Text("Your card history is full. Delete old readings to free up space?")
+                }
+                .sheet(isPresented: Binding(
+                    get: { viewModel.showsNoteEditor },
+                    set: { if !$0 { viewModel.dismissNoteEditor() } }
+                )) {
+                    if let activeViewModel = self.viewModel {
+                        NoteEditorView(
+                            note: Binding(
+                                get: { activeViewModel.editingNote },
+                                set: { activeViewModel.editingNote = $0 }
+                            ),
+                            onSave: { activeViewModel.saveNote() },
+                            onCancel: { activeViewModel.dismissNoteEditor() }
+                        )
+                    }
                 }
             } else {
                 ProgressView()

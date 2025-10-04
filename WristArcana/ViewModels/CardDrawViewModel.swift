@@ -14,6 +14,7 @@ final class CardDrawViewModel: ObservableObject {
     // MARK: - Published Properties
 
     @Published var currentCard: TarotCard?
+    @Published var currentCardPull: CardPull?
     @Published var isDrawing: Bool = false
     @Published var showsStorageWarning: Bool = false
     @Published var errorMessage: String?
@@ -78,6 +79,7 @@ final class CardDrawViewModel: ObservableObject {
 
     func dismissCard() {
         self.currentCard = nil
+        self.currentCardPull = nil
     }
 
     func acknowledgeStorageWarning() {
@@ -109,10 +111,14 @@ final class CardDrawViewModel: ObservableObject {
             date: Date(),
             cardName: card.name,
             deckName: deck.name,
-            cardImageName: card.imageName
+            cardImageName: card.imageName,
+            cardDescription: card.upright
         )
 
         self.modelContext.insert(pull)
         try self.modelContext.save()
+
+        // Store reference to the saved pull for note-taking
+        self.currentCardPull = pull
     }
 }
