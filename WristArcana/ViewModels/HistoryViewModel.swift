@@ -57,6 +57,7 @@ final class HistoryViewModel: ObservableObject {
         Task {
             await self.loadHistory()
         }
+        NotificationCenter.default.post(name: .cardPullHistoryDidChange, object: nil)
     }
 
     func selectPull(_ pull: CardPull) {
@@ -83,6 +84,7 @@ final class HistoryViewModel: ObservableObject {
         } catch {
             print("⚠️ Failed to prune history: \(error)")
         }
+        NotificationCenter.default.post(name: .cardPullHistoryDidChange, object: nil)
     }
 
     // MARK: - Note Management
@@ -117,6 +119,8 @@ final class HistoryViewModel: ObservableObject {
             print("⚠️ Failed to save note: \(error)")
         }
 
+        NotificationCenter.default.post(name: .cardPullHistoryDidChange, object: nil)
+
         self.dismissNoteEditor()
     }
 
@@ -126,6 +130,7 @@ final class HistoryViewModel: ObservableObject {
         Task {
             await self.loadHistory()
         }
+        NotificationCenter.default.post(name: .cardPullHistoryDidChange, object: nil)
     }
 
     func dismissNoteEditor() {

@@ -50,6 +50,10 @@ struct HistoryView: View {
             self.prepareViewModel()
             Task { await self.internalViewModel?.loadHistory() }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .cardPullHistoryDidChange)) { _ in
+            self.prepareViewModel()
+            Task { await self.internalViewModel?.loadHistory() }
+        }
     }
 }
 

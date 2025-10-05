@@ -39,8 +39,9 @@
 		676E571A2E9A4C000F22194 /* CardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E57192E9A4C000F22194 /* CardListView.swift */; };
 		676E571C2E9A4C000F22194 /* CardReferenceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E571B2E9A4C000F22194 /* CardReferenceDetailView.swift */; };
 		676E571D2E9A4D000F22194 /* NoteInputSanitizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E571E2E9A4D000F22194 /* NoteInputSanitizer.swift */; };
-		676E57212E9A4E000F22194 /* NoteEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E571F2E9A4E000F22194 /* NoteEditorView.swift */; };
-		676E57222E9A4E000F22194 /* HistoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E57202E9A4E000F22194 /* HistoryDetailView.swift */; };
+                676E57212E9A4E000F22194 /* NoteEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E571F2E9A4E000F22194 /* NoteEditorView.swift */; };
+                676E57222E9A4E000F22194 /* HistoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E57202E9A4E000F22194 /* HistoryDetailView.swift */; };
+                676E57242E9A4E010F22194 /* NotificationName+History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E57232E9A4E010F22194 /* NotificationName+History.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,9 +117,10 @@
 		676E57172E9A4C000F22194 /* CardReferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardReferenceView.swift; sourceTree = "<group>"; };
 		676E57192E9A4C000F22194 /* CardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListView.swift; sourceTree = "<group>"; };
 		676E571B2E9A4C000F22194 /* CardReferenceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardReferenceDetailView.swift; sourceTree = "<group>"; };
-		676E571E2E9A4D000F22194 /* NoteInputSanitizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteInputSanitizer.swift; sourceTree = "<group>"; };
-		676E571F2E9A4E000F22194 /* NoteEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditorView.swift; sourceTree = "<group>"; };
-		676E57202E9A4E000F22194 /* HistoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailView.swift; sourceTree = "<group>"; };
+                676E571E2E9A4D000F22194 /* NoteInputSanitizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteInputSanitizer.swift; sourceTree = "<group>"; };
+                676E571F2E9A4E000F22194 /* NoteEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditorView.swift; sourceTree = "<group>"; };
+                676E57202E9A4E000F22194 /* HistoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailView.swift; sourceTree = "<group>"; };
+                676E57232E9A4E010F22194 /* NotificationName+History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+History.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -274,14 +276,15 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
-		676E55EF2E8DF49000F22194 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				676E55EE2E8DF49000F22194 /* Date+Formatting.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
+                676E55EF2E8DF49000F22194 /* Extensions */ = {
+                        isa = PBXGroup;
+                        children = (
+                                676E55EE2E8DF49000F22194 /* Date+Formatting.swift */,
+                                676E57232E9A4E010F22194 /* NotificationName+History.swift */,
+                        );
+                        path = Extensions;
+                        sourceTree = "<group>";
+                };
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -487,9 +490,10 @@
 				676E560F2E8DF4D300F22194 /* TarotCard.swift in Sources */,
 				676E56102E8DF4D300F22194 /* TarotDeck.swift in Sources */,
 				676E571D2E9A4D000F22194 /* NoteInputSanitizer.swift in Sources */,
-				676E57212E9A4E000F22194 /* NoteEditorView.swift in Sources */,
-				676E57222E9A4E000F22194 /* HistoryDetailView.swift in Sources */,
-			);
+                                676E57212E9A4E000F22194 /* NoteEditorView.swift in Sources */,
+                                676E57222E9A4E000F22194 /* HistoryDetailView.swift in Sources */,
+                                676E57242E9A4E010F22194 /* NotificationName+History.swift in Sources */,
+                        );
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		676E55A92E8DE4F400F22194 /* Sources */ = {

@@ -120,5 +120,7 @@ final class CardDrawViewModel: ObservableObject {
 
         // Store reference to the saved pull for note-taking
         self.currentCardPull = pull
+
+        NotificationCenter.default.post(name: .cardPullHistoryDidChange, object: nil)
     }
 }
