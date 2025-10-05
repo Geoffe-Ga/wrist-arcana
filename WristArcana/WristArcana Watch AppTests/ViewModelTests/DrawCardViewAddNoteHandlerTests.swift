@@ -5,6 +5,7 @@
 //  Created by OpenAI Assistant on 3/6/24.
 //
 
+import Foundation
 import SwiftData
 import Testing
 @testable import WristArcana_Watch_App

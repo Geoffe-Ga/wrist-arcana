@@ -70,7 +70,7 @@ struct DrawCardView: View {
             Spacer()
         }
         .sheet(isPresented: self.$showingCard) {
-            if let card = viewModel?.currentCard, let histViewModel = historyViewModel {
+            if let card = viewModel?.currentCard {
                 let dismissCard: () -> Void = {
                     self.showingCard = false
                     self.viewModel?.dismissCard()
@@ -92,29 +92,28 @@ struct DrawCardView: View {
         .onChange(of: self.showingCard) { _, isShowingCard in
             guard !isShowingCard,
                   let histViewModel = self.historyViewModel,
-                  let pull = drainPendingNotePull(&self.pendingNotePull) else {
+                  let pull = drainPendingNotePull(&self.pendingNotePull)
+            else {
                 return
             }
 
-            Task { @MainActor in
-                histViewModel.startAddingNote(to: pull)
-            }
+            histViewModel.startAddingNote(to: pull)
         }
         .sheet(isPresented: Binding(
             get: { self.historyViewModel?.showsNoteEditor ?? false },
             set: { if !$0 { self.historyViewModel?.dismissNoteEditor() } }
         )) {
-            if let histViewModel = historyViewModel {
+            if let historyViewModel = self.historyViewModel {
                 NoteEditorView(
                     note: Binding(
-                        get: { histViewModel.editingNote },
-                        set: { histViewModel.editingNote = $0 }
+                        get: { self.historyViewModel?.editingNote ?? "" },
+                        set: { self.historyViewModel?.editingNote = $0 }
                     ),
                     onSave: {
-                        histViewModel.saveNote()
+                        self.historyViewModel?.saveNote()
                     },
                     onCancel: {
-                        histViewModel.dismissNoteEditor()
+                        self.historyViewModel?.dismissNoteEditor()
                     }
                 )
             }
