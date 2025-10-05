@@ -80,7 +80,9 @@ struct DrawCardUseCase {
         let availableCards = shouldReset ? deck.cards : filteredCards
 
         var generator = SystemRandomNumberGenerator()
-        guard let card = availableCards.randomElement(using: &generator) ?? deck.cards.randomElement(using: &generator) else {
+        guard let card = availableCards.randomElement(using: &generator)
+            ?? deck.cards.randomElement(using: &generator)
+        else {
             preconditionFailure("Deck must contain at least one card")
         }
 

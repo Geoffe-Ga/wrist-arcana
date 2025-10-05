@@ -19,7 +19,7 @@ struct DrawTarotCardIntent: AppIntent {
     }
 
     func perform() async throws -> some IntentResult & ProvidesDialog & ShowsSnippetView {
-        let contextProvider = IntentModelContextProvider()
+        let contextProvider = await IntentModelContextProvider()
         let useCase = DrawCardUseCase(
             repository: DeckRepository(),
             storageMonitor: StorageMonitor(),
@@ -42,18 +42,18 @@ struct DrawTarotShortcuts: AppShortcutsProvider {
         let shortcut = AppShortcut(
             intent: DrawTarotCardIntent(),
             phrases: [
-                AppShortcutInvocationPhrase("Draw a tarot card"),
-                AppShortcutInvocationPhrase("Draw a tarot card in \(.applicationName)"),
-                AppShortcutInvocationPhrase("Pull a tarot card")
+                "Draw a tarot card",
+                "Draw a tarot card in WristArcana",
+                "Pull a tarot card"
             ],
             shortTitle: "Draw Card",
-            systemImageName: "sparkles",
-            categories: [.watch]
+            systemImageName: "sparkles"
         )
         return [shortcut]
     }
 }
 
+@MainActor
 private struct IntentModelContextProvider {
     private static var cachedContainer: ModelContainer?
 
@@ -68,7 +68,7 @@ private struct IntentModelContextProvider {
     }
 }
 
-private struct DrawTarotCardResultView: View, AppIntentSnippetView {
+private struct DrawTarotCardResultView: View {
     let cardName: String
     let deckName: String
     let description: String

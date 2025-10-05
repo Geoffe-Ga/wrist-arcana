@@ -11,6 +11,7 @@ import Testing
 @testable import WristArcana_Watch_App
 
 @MainActor
+// swiftlint:disable:next type_body_length
 struct HistoryViewModelTests {
     // MARK: - Test Helpers
 
@@ -547,3 +548,5 @@ struct HistoryViewModelTests {
         #expect(sut.selectedPull?.id == pull.id)
     }
 }
+
+// swiftlint:disable:this file_length

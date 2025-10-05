@@ -1,0 +1,24 @@
+excluded:
+  - build
+  - DerivedData
+  - "**/*GeneratedAssetSymbols.swift"
+
+line_length:
+  warning: 120
+  error: 120
+
+function_body_length:
+  warning: 50
+  error: 50
+
+type_body_length:
+  warning: 250
+  error: 250
+
+file_length:
+  warning: 400
+  error: 400
+
+cyclomatic_complexity:
+  warning: 10
+  error: 15
