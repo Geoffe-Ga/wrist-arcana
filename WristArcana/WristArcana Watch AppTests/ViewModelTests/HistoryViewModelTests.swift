@@ -25,13 +25,17 @@ struct HistoryViewModelTests {
         date: Date = Date(),
         cardName: String = "The Fool",
         deckName: String = "Rider-Waite",
-        imageName: String = "major_00"
+        imageName: String = "major_00",
+        cardDescription: String = "New beginnings",
+        note: String? = nil
     ) -> CardPull {
         CardPull(
             date: date,
             cardName: cardName,
             deckName: deckName,
-            cardImageName: imageName
+            cardImageName: imageName,
+            cardDescription: cardDescription,
+            note: note
         )
     }
 
@@ -354,5 +358,192 @@ struct HistoryViewModelTests {
 
         // Then
         #expect(sut.pulls.isEmpty)
+    }
+
+    // MARK: - Note Management Tests
+
+    @Test func startAddingNote_setsSelectedPullAndShowsEditor() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+        context.insert(pull)
+        try context.save()
+
+        // When
+        sut.startAddingNote(to: pull)
+
+        // Then
+        #expect(sut.selectedPull?.id == pull.id)
+        #expect(sut.showsNoteEditor == true)
+        #expect(sut.editingNote == "")
+        #expect(sut.isEditingExistingNote == false)
+    }
+
+    @Test func startAddingNote_withExistingNote_prefillsEditor() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull(note: "Existing note")
+        context.insert(pull)
+        try context.save()
+
+        // When
+        sut.startAddingNote(to: pull)
+
+        // Then
+        #expect(sut.selectedPull?.id == pull.id)
+        #expect(sut.editingNote == "Existing note")
+        #expect(sut.isEditingExistingNote == true)
+    }
+
+    @Test func saveNote_addsNoteToCardPull() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+        context.insert(pull)
+        try context.save()
+
+        sut.selectedPull = pull
+        sut.editingNote = "This was a powerful reading"
+
+        // When
+        sut.saveNote()
+
+        // Then
+        #expect(pull.note == "This was a powerful reading")
+    }
+
+    @Test func saveNote_sanitizesInput() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+        context.insert(pull)
+        try context.save()
+
+        sut.selectedPull = pull
+        sut.editingNote = "  Whitespace test  "
+
+        // When
+        sut.saveNote()
+
+        // Then
+        #expect(pull.note == "Whitespace test")
+    }
+
+    @Test func saveNote_removesNoteIfEmpty() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull(note: "Existing note")
+        context.insert(pull)
+        try context.save()
+
+        sut.selectedPull = pull
+        sut.editingNote = "   "
+
+        // When
+        sut.saveNote()
+
+        // Then
+        #expect(pull.note == nil)
+    }
+
+    @Test func saveNote_dismissesEditor() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+        context.insert(pull)
+        try context.save()
+
+        sut.selectedPull = pull
+        sut.editingNote = "Test note"
+        sut.showsNoteEditor = true
+
+        // When
+        sut.saveNote()
+
+        // Then
+        #expect(sut.showsNoteEditor == false)
+        #expect(sut.selectedPull == nil)
+        #expect(sut.editingNote == "")
+    }
+
+    @Test func deleteNote_removesNoteFromPull() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull(note: "Note to delete")
+        context.insert(pull)
+        try context.save()
+
+        // When
+        sut.deleteNote(from: pull)
+
+        // Then
+        #expect(pull.note == nil)
+    }
+
+    @Test func dismissNoteEditor_clearsState() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+        sut.selectedPull = pull
+        sut.editingNote = "Test"
+        sut.showsNoteEditor = true
+        sut.isEditingExistingNote = true
+
+        // When
+        sut.dismissNoteEditor()
+
+        // Then
+        #expect(sut.showsNoteEditor == false)
+        #expect(sut.selectedPull == nil)
+        #expect(sut.editingNote == "")
+        #expect(sut.isEditingExistingNote == false)
+    }
+
+    @Test func selectPull_setsSelectedPull() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+
+        // When
+        sut.selectPull(pull)
+
+        // Then
+        #expect(sut.selectedPull?.id == pull.id)
     }
 }

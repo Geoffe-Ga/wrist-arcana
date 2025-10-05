@@ -21,13 +21,31 @@ struct HistoryRow: View {
                 .frame(width: 40, height: 60)
 
             VStack(alignment: .leading, spacing: 4) {
-                Text(self.pull.cardName)
-                    .font(.headline)
-                    .lineLimit(1)
+                // Card name with note indicator
+                HStack {
+                    Text(self.pull.cardName)
+                        .font(.headline)
+                        .lineLimit(1)
+
+                    if self.pull.hasNote {
+                        Image(systemName: "note.text")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
+                }
 
                 Text(self.pull.date, style: .date)
                     .font(.caption)
                     .foregroundStyle(.secondary)
+
+                // Note preview (if exists)
+                if let truncatedNote = self.pull.truncatedNote {
+                    Text(truncatedNote)
+                        .font(.caption2)
+                        .foregroundStyle(.tertiary)
+                        .lineLimit(2)
+                        .padding(.top, 2)
+                }
             }
 
             Spacer()
@@ -44,7 +62,8 @@ struct HistoryRow: View {
             pull: CardPull(
                 cardName: "The Fool",
                 deckName: "Rider-Waite",
-                cardImageName: "major_00"
+                cardImageName: "major_00",
+                cardDescription: "New beginnings"
             )
         )
 
@@ -53,7 +72,8 @@ struct HistoryRow: View {
                 date: Date().addingTimeInterval(-86_400),
                 cardName: "The Magician",
                 deckName: "Rider-Waite",
-                cardImageName: "major_01"
+                cardImageName: "major_01",
+                cardDescription: "Manifestation"
             )
         )
     }

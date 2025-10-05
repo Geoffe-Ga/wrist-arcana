@@ -26,6 +26,12 @@
 - **🎴 Complete Rider-Waite Deck** — All 78 authentic tarot cards with high-quality public domain imagery
 - **🎲 Cryptographic Randomization** — True randomness using `SystemRandomNumberGenerator` with Fisher-Yates shuffle
 - **📖 Persistent History** — Track your spiritual journey with SwiftData-powered local storage
+- **📝 Personal Notes** — Add reflections and insights to any card reading
+  - Voice-to-text, scribble, or keyboard input
+  - 500 character limit with live counter
+  - Sanitized and stored securely on-device
+  - View truncated notes in history list
+  - Tap for full detail view with complete note and card meaning
 - **💾 Smart Storage Management** — Automatic capacity monitoring with intelligent pruning alerts
 - **⚡ Instant Response** — <100ms draw time, <16ms image rendering for buttery-smooth animations
 - **🌙 Offline First** — Zero network dependencies, works anywhere your wrist goes
@@ -35,6 +41,7 @@
 ### User Experience
 - **Haptic Feedback** — Tactile response on card draw for satisfying interaction
 - **Scrollable Card Details** — Digital Crown scrolling for card names and meanings
+- **Note Taking** — Add personal reflections immediately after drawing or from history
 - **Swipe to Delete** — Intuitive history management
 - **Storage Warnings** — Proactive alerts before capacity issues
 

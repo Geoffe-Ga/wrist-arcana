@@ -16,6 +16,7 @@ struct DrawCardView: View {
     // MARK: - State
 
     @State private var viewModel: CardDrawViewModel?
+    @State private var historyViewModel: HistoryViewModel?
     @State private var showingCard = false
 
     // Dependencies
@@ -68,11 +69,37 @@ struct DrawCardView: View {
             Spacer()
         }
         .sheet(isPresented: self.$showingCard) {
-            if let card = viewModel?.currentCard {
-                CardDisplayView(card: card) {
-                    self.showingCard = false
-                    self.viewModel?.dismissCard()
-                }
+            if let card = viewModel?.currentCard, let histViewModel = historyViewModel {
+                CardDisplayView(
+                    card: card,
+                    cardPull: self.viewModel?.currentCardPull,
+                    onAddNote: { pull in
+                        histViewModel.startAddingNote(to: pull)
+                    },
+                    onDismiss: {
+                        self.showingCard = false
+                        self.viewModel?.dismissCard()
+                    }
+                )
+            }
+        }
+        .sheet(isPresented: Binding(
+            get: { self.historyViewModel?.showsNoteEditor ?? false },
+            set: { if !$0 { self.historyViewModel?.dismissNoteEditor() } }
+        )) {
+            if let histViewModel = historyViewModel {
+                NoteEditorView(
+                    note: Binding(
+                        get: { histViewModel.editingNote },
+                        set: { histViewModel.editingNote = $0 }
+                    ),
+                    onSave: {
+                        histViewModel.saveNote()
+                    },
+                    onCancel: {
+                        histViewModel.dismissNoteEditor()
+                    }
+                )
             }
         }
         .alert("Storage Warning", isPresented: Binding(
@@ -104,6 +131,13 @@ struct DrawCardView: View {
                     repository: self.repository,
                     storageMonitor: self.storage,
                     modelContext: self.modelContext
+                )
+            }
+            if self.historyViewModel == nil {
+                // Create HistoryViewModel for note-taking
+                self.historyViewModel = HistoryViewModel(
+                    modelContext: self.modelContext,
+                    storageMonitor: self.storage
                 )
             }
         }
