@@ -27,11 +27,14 @@ struct CardDrawViewModelTests {
         modelContext: ModelContext? = nil
     ) -> CardDrawViewModel {
         let container = self.createInMemoryModelContainer()
-        return CardDrawViewModel(
+        let context = modelContext ?? ModelContext(container)
+        let useCase = DrawCardUseCase(
             repository: repository ?? MockDeckRepository(),
             storageMonitor: storageMonitor ?? MockStorageMonitor(),
-            modelContext: modelContext ?? ModelContext(container)
+            modelContext: context
         )
+
+        return CardDrawViewModel(drawCardUseCase: useCase, donateShortcut: false)
     }
 
     // MARK: - Initialization Tests

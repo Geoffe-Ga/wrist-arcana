@@ -5,6 +5,7 @@
 //  Created by Geoff Gallinger on 10/1/25.
 //
 
+import AppIntents
 import Foundation
 import SwiftData
 import WatchKit
@@ -21,21 +22,29 @@ final class CardDrawViewModel: ObservableObject {
 
     // MARK: - Private Properties
 
-    private let repository: DeckRepositoryProtocol
-    private let storageMonitor: StorageMonitorProtocol
-    private let modelContext: ModelContext
+    private let drawCardUseCase: DrawCardUseCase
+    private let shouldDonateShortcut: Bool
     private var drawnCardsThisSession: Set<UUID> = []
 
     // MARK: - Initialization
 
-    init(
+    init(drawCardUseCase: DrawCardUseCase, donateShortcut: Bool = true) {
+        self.drawCardUseCase = drawCardUseCase
+        self.shouldDonateShortcut = donateShortcut
+    }
+
+    convenience init(
         repository: DeckRepositoryProtocol,
         storageMonitor: StorageMonitorProtocol,
-        modelContext: ModelContext
+        modelContext: ModelContext,
+        donateShortcut: Bool = true
     ) {
-        self.repository = repository
-        self.storageMonitor = storageMonitor
-        self.modelContext = modelContext
+        let useCase = DrawCardUseCase(
+            repository: repository,
+            storageMonitor: storageMonitor,
+            modelContext: modelContext
+        )
+        self.init(drawCardUseCase: useCase, donateShortcut: donateShortcut)
     }
 
     // MARK: - Public Methods
@@ -54,22 +63,21 @@ final class CardDrawViewModel: ObservableObject {
         try? await Task.sleep(nanoseconds: AppConstants.minimumDrawDuration)
 
         do {
-            let deck = self.repository.getCurrentDeck()
-            let card = self.selectRandomCard(from: deck)
+            let result = try self.drawCardUseCase.execute(excluding: self.drawnCardsThisSession)
 
-            self.currentCard = card
-            self.drawnCardsThisSession.insert(card.id)
-
-            // Save to history
-            try await self.saveToHistory(card: card, deck: deck)
-
-            // Check storage
-            if self.storageMonitor.isNearCapacity() {
-                self.showsStorageWarning = true
+            if result.shouldResetSession {
+                self.drawnCardsThisSession.removeAll()
             }
+
+            self.currentCard = result.card
+            self.currentCardPull = result.pull
+            self.drawnCardsThisSession.insert(result.card.id)
+            self.showsStorageWarning = result.showsStorageWarning
 
             // Haptic feedback
             WKInterfaceDevice.current().play(.click)
+
+            self.donateShortcut()
         } catch {
             self.errorMessage = "Failed to draw card. Please try again."
         }
@@ -88,37 +96,13 @@ final class CardDrawViewModel: ObservableObject {
 
     // MARK: - Private Methods
 
-    private func selectRandomCard(from deck: TarotDeck) -> TarotCard {
-        // If all cards drawn this session, reset
-        if self.drawnCardsThisSession.count >= deck.cards.count {
-            self.drawnCardsThisSession.removeAll()
+    private func donateShortcut() {
+        guard self.shouldDonateShortcut, #available(watchOS 10.0, *), self.currentCard != nil else {
+            return
         }
 
-        // Get undrawn cards
-        let availableCards = deck.cards.filter { !self.drawnCardsThisSession.contains($0.id) }
-
-        // Use cryptographically secure randomization
-        var generator = SystemRandomNumberGenerator()
-        guard let card = availableCards.randomElement(using: &generator) else {
-            // Fallback to any card if something goes wrong
-            return deck.cards.randomElement(using: &generator) ?? deck.cards[0]
+        Task {
+            try? await DrawTarotCardIntent().donate()
         }
-        return card
-    }
-
-    private func saveToHistory(card: TarotCard, deck: TarotDeck) async throws {
-        let pull = CardPull(
-            date: Date(),
-            cardName: card.name,
-            deckName: deck.name,
-            cardImageName: card.imageName,
-            cardDescription: card.upright
-        )
-
-        self.modelContext.insert(pull)
-        try self.modelContext.save()
-
-        // Store reference to the saved pull for note-taking
-        self.currentCardPull = pull
     }
 }

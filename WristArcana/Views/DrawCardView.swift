@@ -143,11 +143,12 @@ struct DrawCardView: View {
         .onAppear {
             if self.viewModel == nil {
                 // Create ViewModel with proper environment context
-                self.viewModel = CardDrawViewModel(
+                let useCase = DrawCardUseCase(
                     repository: self.repository,
                     storageMonitor: self.storage,
                     modelContext: self.modelContext
                 )
+                self.viewModel = CardDrawViewModel(drawCardUseCase: useCase)
             }
             if self.historyViewModel == nil {
                 // Create HistoryViewModel for note-taking
