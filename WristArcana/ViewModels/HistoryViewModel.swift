@@ -30,9 +30,6 @@ final class HistoryViewModel: ObservableObject {
     init(modelContext: ModelContext, storageMonitor: StorageMonitorProtocol) {
         self.modelContext = modelContext
         self.storageMonitor = storageMonitor
-        Task {
-            await self.loadHistory()
-        }
     }
 
     // MARK: - Public Methods

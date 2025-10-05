@@ -73,7 +73,7 @@ struct HistoryViewModelTests {
 
         // When
         let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
-        try await Task.sleep(nanoseconds: 100_000_000) // 0.1s
+        await sut.loadHistory()
 
         // Then
         #expect(sut.pulls.count == 2)
