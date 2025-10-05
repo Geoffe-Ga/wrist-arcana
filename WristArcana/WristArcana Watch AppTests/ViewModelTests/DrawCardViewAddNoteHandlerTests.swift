@@ -34,7 +34,27 @@ struct DrawCardViewAddNoteHandlerTests {
     // MARK: - Tests
 
     @Test
-    func makeAddNoteHandler_startsNoteEditorAndDismissesCard() async throws {
+    func makeAddNoteHandler_stagesPendingPullAndDismissesCard() {
+        // Given
+        let pull = self.createSamplePull()
+        var stagedPullID: UUID?
+        var dismissCount = 0
+
+        let handler = makeAddNoteHandler(
+            stageNote: { stagedPullID = $0.id },
+            dismissCard: { dismissCount += 1 }
+        )
+
+        // When
+        handler(pull)
+
+        // Then
+        #expect(stagedPullID == pull.id)
+        #expect(dismissCount == 1)
+    }
+
+    @Test
+    func drainPendingNotePull_returnsPullAndClearsState() async throws {
         // Given
         let container = self.createInMemoryModelContainer()
         let context = ModelContext(container)
@@ -45,22 +65,35 @@ struct DrawCardViewAddNoteHandlerTests {
         )
         try await Task.sleep(nanoseconds: 50_000_000)
 
-        let pull = self.createSamplePull()
-        context.insert(pull)
-        try context.save()
-
-        var dismissCount = 0
-        let handler = makeAddNoteHandler(historyViewModel: historyViewModel) {
-            dismissCount += 1
-        }
+        var pendingPull: CardPull? = self.createSamplePull()
+        let originalID = pendingPull?.id
 
         // When
-        handler(pull)
-        try await Task.sleep(nanoseconds: 50_000_000)
+        let drained = drainPendingNotePull(&pendingPull)
 
         // Then
+        #expect(drained?.id == originalID)
+        #expect(drained != nil)
+        #expect(pendingPull == nil)
+
+        if let drained {
+            historyViewModel.startAddingNote(to: drained)
+        }
+
         #expect(historyViewModel.showsNoteEditor == true)
-        #expect(historyViewModel.selectedPull?.id == pull.id)
-        #expect(dismissCount == 1)
+        #expect(historyViewModel.selectedPull?.id == originalID)
+    }
+
+    @Test
+    func drainPendingNotePull_withNoPendingPullReturnsNil() {
+        // Given
+        var pendingPull: CardPull?
+
+        // When
+        let drained = drainPendingNotePull(&pendingPull)
+
+        // Then
+        #expect(drained == nil)
+        #expect(pendingPull == nil)
     }
 }

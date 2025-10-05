@@ -18,6 +18,7 @@ struct DrawCardView: View {
     @State private var viewModel: CardDrawViewModel?
     @State private var historyViewModel: HistoryViewModel?
     @State private var showingCard = false
+    @State private var pendingNotePull: CardPull?
 
     // Dependencies
     private let repository: DeckRepositoryProtocol
@@ -79,11 +80,24 @@ struct DrawCardView: View {
                     card: card,
                     cardPull: self.viewModel?.currentCardPull,
                     onAddNote: makeAddNoteHandler(
-                        historyViewModel: histViewModel,
+                        stageNote: { pull in
+                            self.pendingNotePull = pull
+                        },
                         dismissCard: dismissCard
                     ),
                     onDismiss: dismissCard
                 )
+            }
+        }
+        .onChange(of: self.showingCard) { _, isShowingCard in
+            guard !isShowingCard,
+                  let histViewModel = self.historyViewModel,
+                  let pull = drainPendingNotePull(&self.pendingNotePull) else {
+                return
+            }
+
+            Task { @MainActor in
+                histViewModel.startAddingNote(to: pull)
             }
         }
         .sheet(isPresented: Binding(
@@ -158,13 +172,17 @@ struct DrawCardView: View {
 }
 
 func makeAddNoteHandler(
-    historyViewModel: HistoryViewModel,
+    stageNote: @escaping (CardPull) -> Void,
     dismissCard: @escaping () -> Void
 ) -> (CardPull) -> Void {
     { pull in
-        Task { @MainActor in
-            historyViewModel.startAddingNote(to: pull)
-            dismissCard()
-        }
+        stageNote(pull)
+        dismissCard()
     }
+}
+
+func drainPendingNotePull(_ pendingPull: inout CardPull?) -> CardPull? {
+    guard let pull = pendingPull else { return nil }
+    pendingPull = nil
+    return pull
 }
