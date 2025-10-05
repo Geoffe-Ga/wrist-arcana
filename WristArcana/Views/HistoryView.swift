@@ -16,12 +16,7 @@ struct HistoryView: View {
 
     // MARK: - State
 
-    @State private var internalViewModel: HistoryViewModel?
-
-    // Observed wrapper to trigger updates
-    private var viewModel: HistoryViewModel? {
-        self.internalViewModel
-    }
+    @State private var viewModel: HistoryViewModel?
 
     // Dependencies
     private let storage: StorageMonitorProtocol
@@ -37,8 +32,8 @@ struct HistoryView: View {
     var body: some View {
         NavigationStack {
             Group {
-                if let histViewModel = internalViewModel {
-                    HistoryListContent(viewModel: histViewModel)
+                if let viewModel {
+                    HistoryListContent(viewModel: viewModel)
                 } else {
                     ProgressView()
                 }
@@ -46,8 +41,8 @@ struct HistoryView: View {
             .navigationTitle("History")
         }
         .onAppear {
-            if self.internalViewModel == nil {
-                self.internalViewModel = HistoryViewModel(
+            if self.viewModel == nil {
+                self.viewModel = HistoryViewModel(
                     modelContext: self.modelContext,
                     storageMonitor: self.storage
                 )
@@ -82,7 +77,11 @@ private struct HistoryListContent: View {
                 }
             }
         }
+        .refreshable {
+            await self.viewModel.loadHistory()
+        }
         .task {
+            await self.viewModel.loadHistory()
             await self.viewModel.checkStorageAndPruneIfNeeded()
         }
         .alert("Storage Full", isPresented: Binding(
