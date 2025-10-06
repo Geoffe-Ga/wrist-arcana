@@ -13,6 +13,7 @@ struct HistoryView: View {
     // MARK: - Environment
 
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.autoSleepManager) private var autoSleepManager
 
     // MARK: - State
 
@@ -46,6 +47,7 @@ struct HistoryView: View {
                     modelContext: self.modelContext,
                     storageMonitor: self.storage
                 )
+                self.autoSleepManager.registerInteraction()
             }
         }
     }
@@ -54,6 +56,7 @@ struct HistoryView: View {
 // MARK: - Supporting Views
 
 private struct HistoryListContent: View {
+    @Environment(\.autoSleepManager) private var autoSleepManager
     @ObservedObject var viewModel: HistoryViewModel
 
     var body: some View {
@@ -103,6 +106,8 @@ private struct HistoryListContent: View {
             get: { self.viewModel.showsNoteEditor },
             set: { if !$0 { self.viewModel.dismissNoteEditor() } }
         )) {
+            self.autoSleepManager.registerInteraction()
+
             NoteEditorView(
                 note: Binding(
                     get: { self.viewModel.editingNote },

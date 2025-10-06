@@ -10,6 +10,8 @@ import SwiftUI
 struct CTAButton: View {
     // MARK: - Properties
 
+    @Environment(\.autoSleepManager) private var autoSleepManager
+
     let title: String
     let isLoading: Bool
     let action: () -> Void
@@ -17,7 +19,10 @@ struct CTAButton: View {
     // MARK: - Body
 
     var body: some View {
-        Button(action: self.action) {
+        Button(action: {
+            self.autoSleepManager.registerInteraction()
+            self.action()
+        }) {
             ZStack {
                 Circle()
                     .fill(Theme.Colors.primaryGradient)

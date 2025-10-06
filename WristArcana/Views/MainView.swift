@@ -10,6 +10,7 @@ import SwiftUI
 struct MainView: View {
     // MARK: - State
 
+    @Environment(\.autoSleepManager) private var autoSleepManager
     @State private var selectedTab = 1
 
     // MARK: - Body
@@ -35,6 +36,12 @@ struct MainView: View {
                 }
         }
         .tabViewStyle(.page)
+        .onAppear {
+            self.autoSleepManager.registerInteraction()
+        }
+        .onChange(of: self.selectedTab) { _, _ in
+            self.autoSleepManager.registerInteraction()
+        }
     }
 }
 

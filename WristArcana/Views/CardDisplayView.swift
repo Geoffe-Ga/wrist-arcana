@@ -10,6 +10,7 @@ import SwiftUI
 struct CardDisplayView: View {
     // MARK: - Properties
 
+    @Environment(\.autoSleepManager) private var autoSleepManager
     let card: TarotCard
     let cardPull: CardPull?
     let onAddNote: ((CardPull) -> Void)?
@@ -95,6 +96,9 @@ struct CardDisplayView: View {
                     self.onDismiss()
                 }
             }
+        }
+        .onAppear {
+            self.autoSleepManager.registerInteraction()
         }
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Card details for \(self.card.name)")

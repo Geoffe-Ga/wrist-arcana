@@ -10,6 +10,7 @@ import SwiftUI
 struct NoteEditorView: View {
     // MARK: - Properties
 
+    @Environment(\.autoSleepManager) private var autoSleepManager
     @Binding var note: String
     let onSave: () -> Void
     let onCancel: () -> Void
@@ -68,6 +69,7 @@ struct NoteEditorView: View {
                 }
             }
             .onAppear {
+                self.autoSleepManager.registerInteraction()
                 self.localNote = self.note
             }
         }

@@ -10,6 +10,7 @@ import SwiftUI
 struct HistoryDetailView: View {
     // MARK: - Properties
 
+    @Environment(\.autoSleepManager) private var autoSleepManager
     let pull: CardPull
     @ObservedObject var viewModel: HistoryViewModel
     @State private var showDeleteNoteAlert = false
@@ -121,6 +122,9 @@ struct HistoryDetailView: View {
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("Are you sure you want to delete this note? This cannot be undone.")
+        }
+        .onAppear {
+            self.autoSleepManager.registerInteraction()
         }
     }
 }
