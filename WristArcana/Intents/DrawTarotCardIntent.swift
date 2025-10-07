@@ -42,9 +42,9 @@ struct DrawTarotShortcuts: AppShortcutsProvider {
         let shortcut = AppShortcut(
             intent: DrawTarotCardIntent(),
             phrases: [
-                "Draw a tarot card",
-                "Draw a tarot card in WristArcana",
-                "Pull a tarot card"
+                "Draw a tarot card in \(.applicationName)",
+                "Pull a tarot card in \(.applicationName)",
+                "Get a tarot reading in \(.applicationName)"
             ],
             shortTitle: "Draw Card",
             systemImageName: "sparkles"
