@@ -19,6 +19,7 @@ struct DrawCardView: View {
     @State private var historyViewModel: HistoryViewModel?
     @State private var showingCard = false
     @State private var pendingNotePull: CardPull?
+    @State private var showNoteEditor = false
 
     // Dependencies
     private let repository: DeckRepositoryProtocol
@@ -98,22 +99,22 @@ struct DrawCardView: View {
             }
 
             histViewModel.startAddingNote(to: pull)
+            self.showNoteEditor = true
         }
-        .sheet(isPresented: Binding(
-            get: { self.historyViewModel?.showsNoteEditor ?? false },
-            set: { if !$0 { self.historyViewModel?.dismissNoteEditor() } }
-        )) {
+        .sheet(isPresented: self.$showNoteEditor) {
             if let historyViewModel = self.historyViewModel {
                 NoteEditorView(
                     note: Binding(
-                        get: { self.historyViewModel?.editingNote ?? "" },
-                        set: { self.historyViewModel?.editingNote = $0 }
+                        get: { historyViewModel.editingNote },
+                        set: { historyViewModel.editingNote = $0 }
                     ),
                     onSave: {
-                        self.historyViewModel?.saveNote()
+                        historyViewModel.saveNote()
+                        self.showNoteEditor = false
                     },
                     onCancel: {
-                        self.historyViewModel?.dismissNoteEditor()
+                        historyViewModel.dismissNoteEditor()
+                        self.showNoteEditor = false
                     }
                 )
             }
@@ -142,7 +143,6 @@ struct DrawCardView: View {
         }
         .onAppear {
             if self.viewModel == nil {
-                // Create ViewModel with proper environment context
                 self.viewModel = CardDrawViewModel(
                     repository: self.repository,
                     storageMonitor: self.storage,
@@ -150,7 +150,6 @@ struct DrawCardView: View {
                 )
             }
             if self.historyViewModel == nil {
-                // Create HistoryViewModel for note-taking
                 self.historyViewModel = HistoryViewModel(
                     modelContext: self.modelContext,
                     storageMonitor: self.storage

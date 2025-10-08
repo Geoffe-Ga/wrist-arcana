@@ -101,7 +101,7 @@ private struct HistoryListContent: View {
         }
         .sheet(isPresented: Binding(
             get: { self.viewModel.showsNoteEditor },
-            set: { if !$0 { self.viewModel.dismissNoteEditor() } }
+            set: { _ in }
         )) {
             NoteEditorView(
                 note: Binding(
