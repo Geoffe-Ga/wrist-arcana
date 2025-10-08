@@ -14,6 +14,7 @@ Thank you for your interest in contributing to Tarot Watch! This document provid
 - [Commit Guidelines](#-commit-guidelines)
 - [Pull Request Process](#-pull-request-process)
 - [Architecture Principles](#-architecture-principles)
+- [Repository Directory Overview](#-%F0%9F%97%82%EF%B8%8F-repository-directory-overview)
 
 ---
 
@@ -84,6 +85,23 @@ xcodebuild test -scheme WristArcana \
 3. `WristArcana/ViewModels/` - Business logic layer
 4. `WristArcana/Views/` - UI implementation
 5. `WristArcanaTests/` - Test patterns and examples
+
+## 🗂️ Repository Directory Overview
+
+- `WristArcana/` – Open this project in Xcode. New contributors should start by skimming these subfolders:
+  - `Views/` – SwiftUI interfaces for Reference, Draw, and History flows plus modal/detail experiences.
+  - `ViewModels/` – Observable objects that orchestrate card draws, history persistence, deck filtering, and note validation.
+  - `Models/` – Tarot entities (`TarotCard`, `TarotDeck`, `CardPull`) and repositories abstracting SwiftData + bundled JSON.
+  - `Components/` – Shared UI widgets (CTA button, flow layout, card imagery) that enforce consistent styling.
+  - `Configuration/` – Central constants for haptics, date formatting, typography, and palette choices.
+  - `Utilities/` – Cross-cutting helpers for randomness, storage pressure, sanitization, and extensions leveraged by view models/tests.
+  - `Resources/` – Deck metadata (`DecksData.json`) and the asset catalog containing processed card art.
+  - `WristArcanaApp.swift` – App entry point that provides the SwiftData container to the scene hierarchy.
+  - `WristArcana Watch AppTests/` & `WristArcana Watch AppUITests/` – Swift Testing and UI test targets with mocks/fixtures.
+- `scripts/` – CLI automation for downloading tarot artwork, processing images, and inspecting simulator data directories.
+- `prompts/` – Product context and debugging prompts gathered during development.
+- `TEST_FILES_TO_ADD.md` – Checklist tracking outstanding assets or fixtures.
+- Root documentation (`README.md`, `CLAUDE.md`, `AGENTS.md`) – Onboarding material and collaboration guidelines.
 
 ---
 

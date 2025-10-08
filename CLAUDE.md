@@ -13,6 +13,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Architecture:** MVVM with protocol-based dependency injection
 - **Testing:** XCTest for unit tests, XCUITest for UI automation
 
+## Repository Directory Overview
+
+- `WristArcana/` – Open this Xcode project to work on the app. Key subfolders include:
+  - `Views/` – SwiftUI tab roots plus supporting flows (card list/detail, draw experience, note editor) that stay presentation-only.
+  - `ViewModels/` – MVVM layer exposing async business logic, storage coordination, and protocol-driven dependencies for testing.
+  - `Models/` – Tarot domain types, SwiftData models, and repositories that hydrate decks from JSON and persist history entries.
+  - `Components/` – Shared UI primitives (CTA button, card artwork renderer, flow layout) reused across views.
+  - `Configuration/` – Centralized theme palette, typography, and UX constants.
+  - `Utilities/` – Supporting services (random generator, storage monitor, sanitizer, extensions) consumed by view models and tests.
+  - `Resources/` – Bundled deck JSON and asset catalog with card art/complications.
+  - `WristArcanaApp.swift` – Scene entry point that configures the shared SwiftData container.
+  - `WristArcana Watch AppTests/` & `WristArcana Watch AppUITests/` – Swift Testing suites and UI test scaffolding.
+- `scripts/` – Automation for card art download/processing and simulator datastore inspection.
+- `prompts/` – Historical product briefs and bug analyses for AI collaborators.
+- `TEST_FILES_TO_ADD.md` – Pending assets/data checklist.
+- Root documentation (`README.md`, `CONTRIBUTING.md`, `AGENTS.md`) – Onboarding information for human and AI contributors.
+
 ## Build and Test Commands
 
 ### Building the Project

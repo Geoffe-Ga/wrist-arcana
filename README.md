@@ -59,21 +59,24 @@ xcodebuild test \
 - `scripts/process_images.sh` – Resizes and centers each card into @1x/@2x/@3x PNGs for the watch asset catalog.
 - `scripts/find_simulator_db.sh` – Locates the SwiftData store inside a running watch simulator for debugging saved pulls.【F:scripts/find_simulator_db.sh†L1-L55】
 
-## 📁 Repository layout
+## 🗂️ Directory overview
 
-```
-WristArcana/
-├── Components/              # Reusable SwiftUI building blocks
-├── Configuration/           # Theme and constants
-├── Models/                  # TarotCard, TarotDeck, CardPull, repositories
-├── Resources/               # DecksData.json + Assets.xcassets
-├── Utilities/               # Storage monitor, random generator, note sanitizer
-├── ViewModels/              # MVVM logic for each tab
-├── Views/                   # SwiftUI screens (Main, Draw, Reference, History)
-├── WristArcana Watch AppTests/   # Swift Testing suites + mocks
-├── WristArcana Watch AppUITests/ # UI test target scaffold
-└── WristArcana.xcodeproj
-```
+- `WristArcana/` – watchOS project you open in Xcode. Start here when orienting yourself to the code:
+  - `Views/` – SwiftUI screens for the three tabs plus supporting flows such as `NoteEditorView` and `CardReferenceDetailView`. Every screen leans on a matching view model and keeps the body declarative.【F:WristArcana/Views/MainView.swift†L1-L36】【F:WristArcana/Views/NoteEditorView.swift†L1-L148】
+  - `ViewModels/` – MVVM state holders that coordinate persistence, validation, and navigation. Each view model exposes protocol-driven dependencies to make unit testing straightforward.【F:WristArcana/ViewModels/CardDrawViewModel.swift†L1-L128】【F:WristArcana/ViewModels/HistoryViewModel.swift†L1-L123】
+  - `Models/` – Domain types plus repositories for loading card metadata and wrapping SwiftData access to `CardPull` history objects.【F:WristArcana/Models/TarotCard.swift†L1-L70】【F:WristArcana/Models/CardRepository.swift†L1-L74】
+  - `Components/` – Reusable UI building blocks such as the CTA button, flowing keyword layout, and shared card art renderer used across multiple screens.【F:WristArcana/Components/CTAButton.swift†L1-L82】【F:WristArcana/Components/FlowLayout.swift†L1-L108】
+  - `Configuration/` – App-wide constants and theming helpers that centralize typography, color palette, and haptics tuning.【F:WristArcana/Configuration/AppConstants.swift†L1-L66】【F:WristArcana/Configuration/Theme.swift†L1-L69】
+  - `Utilities/` – Cross-cutting services such as secure randomness, note sanitizing, storage pressure monitoring, and shared extensions. These utilities back the view models and tests.【F:WristArcana/Utilities/RandomGenerator.swift†L1-L60】【F:WristArcana/Utilities/StorageMonitor.swift†L1-L66】
+  - `Resources/` – Bundled assets. `DecksData.json` holds the full Rider–Waite card corpus while `Assets.xcassets` stores processed artwork and watch complications.【F:WristArcana/Resources/DecksData.json†L1-L28】
+  - `WristArcanaApp.swift` – watchOS app entry point that wires the shared model container into the scene hierarchy.【F:WristArcana/WristArcanaApp.swift†L1-L57】
+  - `WristArcana Watch AppTests/` – Swift Testing suites with repository and view-model coverage supported by in-memory container fixtures.【F:WristArcana/WristArcana Watch AppTests/ViewModelTests/HistoryViewModelTests.swift†L1-L164】
+  - `WristArcana Watch AppUITests/` – UI test scaffold prepared for future integration runs.
+  - `WristArcana.xcodeproj` – The project file; open this to work in Xcode.
+- `scripts/` – Automation for fetching tarot artwork, resizing image assets, and introspecting simulator data stores.【F:scripts/download_rws_cards.sh†L1-L92】【F:scripts/find_simulator_db.sh†L1-L55】
+- `prompts/` – Product briefs, QA notes, and AI collaboration history that capture the design intent of major features.
+- `TEST_FILES_TO_ADD.md` – Checklist of remaining resources or fixtures that still need to land in the repo.
+- Root documentation (`README.md`, `CONTRIBUTING.md`, `CLAUDE.md`, `AGENTS.md`) – Onboarding material for maintainers and collaborating agents.
 
 ## 📜 License & attribution
 
