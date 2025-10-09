@@ -93,28 +93,40 @@ final class HistoryViewModel: ObservableObject {
 
     func saveNote() {
         guard let pull = self.selectedPull else {
-            print("⚠️ No pull selected for note save")
+            self.dismissNoteEditor()
             return
         }
 
         let sanitized = NoteInputSanitizer.sanitize(self.editingNote)
 
-        if sanitized.isEmpty {
-            pull.note = nil
-        } else {
-            pull.note = sanitized
-        }
+        // Fetch the pull from the context to ensure it's properly managed
+        let pullID = pull.id
+        let descriptor = FetchDescriptor<CardPull>(
+            predicate: #Predicate<CardPull> { cardPull in
+                cardPull.id == pullID
+            }
+        )
 
         do {
+            guard let managedPull = try self.modelContext.fetch(descriptor).first else {
+                self.dismissNoteEditor()
+                return
+            }
+
+            if sanitized.isEmpty {
+                managedPull.note = nil
+            } else {
+                managedPull.note = sanitized
+            }
+
             try self.modelContext.save()
             Task {
                 await self.loadHistory()
             }
+            self.dismissNoteEditor()
         } catch {
-            print("⚠️ Failed to save note: \(error)")
+            self.dismissNoteEditor()
         }
-
-        self.dismissNoteEditor()
     }
 
     func deleteNote(from pull: CardPull) {
