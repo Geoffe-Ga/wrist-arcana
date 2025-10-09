@@ -12,6 +12,7 @@ struct DrawCardView: View {
     // MARK: - Environment
 
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.autoSleepManager) private var autoSleepManager
 
     // MARK: - State
 
@@ -91,6 +92,10 @@ struct DrawCardView: View {
             }
         }
         .onChange(of: self.showingCard) { _, isShowingCard in
+            if isShowingCard {
+                self.autoSleepManager.registerInteraction()
+            }
+
             guard !isShowingCard,
                   let histViewModel = self.historyViewModel,
                   let pull = drainPendingNotePull(&self.pendingNotePull)
@@ -103,6 +108,8 @@ struct DrawCardView: View {
         }
         .sheet(isPresented: self.$showNoteEditor) {
             if let historyViewModel = self.historyViewModel {
+                self.autoSleepManager.registerInteraction()
+
                 NoteEditorView(
                     note: Binding(
                         get: { historyViewModel.editingNote },

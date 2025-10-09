@@ -8,8 +8,20 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.autoSleepManager) private var autoSleepManager
+    @Environment(\.scenePhase) private var scenePhase
+
     var body: some View {
         MainView()
+            .reportUserInteractions(using: self.autoSleepManager)
+            .onAppear {
+                self.autoSleepManager.registerInteraction()
+            }
+            .onChange(of: self.scenePhase) { _, newPhase in
+                if newPhase == .active {
+                    self.autoSleepManager.registerInteraction()
+                }
+            }
     }
 }
 
