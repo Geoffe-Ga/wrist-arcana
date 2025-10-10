@@ -210,6 +210,129 @@ struct HistoryViewModelTests {
         #expect(sut.pulls.first?.cardName == "Card 2")
     }
 
+    @Test func toggleSelection_addsAndRemovesPullID() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+        context.insert(pull)
+        try context.save()
+
+        // When
+        sut.toggleSelection(for: pull)
+
+        // Then
+        #expect(sut.selectedPullIDs.contains(pull.id))
+
+        // When
+        sut.toggleSelection(for: pull)
+
+        // Then
+        #expect(!sut.selectedPullIDs.contains(pull.id))
+    }
+
+    @Test func requestDeleteSelectedPulls_setsConfirmationWhenNeeded() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+        context.insert(pull)
+        try context.save()
+
+        sut.toggleSelection(for: pull)
+
+        // When
+        sut.requestDeleteSelectedPulls()
+
+        // Then
+        #expect(sut.showsDeleteSelectionConfirmation)
+    }
+
+    @Test func requestDeleteSelectedPulls_ignoresWhenNoSelection() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        // When
+        sut.requestDeleteSelectedPulls()
+
+        // Then
+        #expect(!sut.showsDeleteSelectionConfirmation)
+    }
+
+    @Test func deleteSelectedPulls_removesSelectedEntries() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let keepPull = self.createSamplePull(cardName: "Keep")
+        let deletePull = self.createSamplePull(cardName: "Delete")
+        context.insert(keepPull)
+        context.insert(deletePull)
+        try context.save()
+        await sut.loadHistory()
+
+        sut.toggleSelection(for: deletePull)
+
+        // When
+        sut.deleteSelectedPulls()
+        try await Task.sleep(nanoseconds: 100_000_000)
+
+        // Then
+        #expect(sut.pulls.count == 1)
+        #expect(sut.pulls.first?.cardName == "Keep")
+        #expect(sut.selectedPullIDs.isEmpty)
+        #expect(!sut.showsDeleteSelectionConfirmation)
+    }
+
+    @Test func requestDeleteAllPulls_setsConfirmation() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        // When
+        sut.requestDeleteAllPulls()
+
+        // Then
+        #expect(sut.showsDeleteAllConfirmation)
+    }
+
+    @Test func deleteAllPulls_removesEveryEntry() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull1 = self.createSamplePull(cardName: "Card 1")
+        let pull2 = self.createSamplePull(cardName: "Card 2")
+        context.insert(pull1)
+        context.insert(pull2)
+        try context.save()
+        await sut.loadHistory()
+
+        // When
+        sut.deleteAllPulls()
+        try await Task.sleep(nanoseconds: 100_000_000)
+
+        // Then
+        #expect(sut.pulls.isEmpty)
+        #expect(!sut.showsDeleteAllConfirmation)
+        #expect(sut.selectedPullIDs.isEmpty)
+    }
+
     // MARK: - Storage Check Tests
 
     @Test func checkStorage_setsAlertWhenNearCapacity() async throws {

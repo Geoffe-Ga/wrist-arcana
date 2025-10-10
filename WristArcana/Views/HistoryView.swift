@@ -55,6 +55,7 @@ struct HistoryView: View {
 
 private struct HistoryListContent: View {
     @ObservedObject var viewModel: HistoryViewModel
+    @State private var isEditingSelection: Bool = false
 
     var body: some View {
         List {
@@ -66,8 +67,22 @@ private struct HistoryListContent: View {
                 )
             } else {
                 ForEach(self.viewModel.pulls) { pull in
-                    NavigationLink(destination: HistoryDetailView(pull: pull, viewModel: self.viewModel)) {
-                        HistoryRow(pull: pull)
+                    if self.isEditingSelection {
+                        HStack(spacing: 12) {
+                            Image(systemName: self.viewModel.isPullSelected(pull) ? "checkmark.circle.fill" : "circle")
+                                .imageScale(.large)
+                                .foregroundStyle(self.viewModel.isPullSelected(pull) ? .accent : .secondary)
+
+                            HistoryRow(pull: pull)
+                        }
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            self.viewModel.toggleSelection(for: pull)
+                        }
+                    } else {
+                        NavigationLink(destination: HistoryDetailView(pull: pull, viewModel: self.viewModel)) {
+                            HistoryRow(pull: pull)
+                        }
                     }
                 }
                 .onDelete { indexSet in
@@ -77,12 +92,47 @@ private struct HistoryListContent: View {
                 }
             }
         }
+        .animation(.default, value: self.isEditingSelection)
         .refreshable {
             await self.viewModel.loadHistory()
         }
         .task {
             await self.viewModel.loadHistory()
             await self.viewModel.checkStorageAndPruneIfNeeded()
+        }
+        .onChange(of: self.isEditingSelection) { isEditing in
+            if !isEditing {
+                self.viewModel.clearSelection()
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(self.isEditingSelection ? "Done" : "Select") {
+                    withAnimation {
+                        self.isEditingSelection.toggle()
+                    }
+                }
+                .disabled(self.viewModel.pulls.isEmpty)
+            }
+
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Clear All", role: .destructive) {
+                    self.viewModel.requestDeleteAllPulls()
+                }
+                .disabled(self.viewModel.pulls.isEmpty)
+            }
+
+            ToolbarItem(placement: .bottomBar) {
+                if self.isEditingSelection {
+                    Button(role: .destructive) {
+                        self.viewModel.requestDeleteSelectedPulls()
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                            .labelStyle(.titleAndIcon)
+                    }
+                    .disabled(self.viewModel.selectedPullIDs.isEmpty)
+                }
+            }
         }
         .alert("Storage Full", isPresented: Binding(
             get: { self.viewModel.showsPruningAlert },
@@ -98,6 +148,40 @@ private struct HistoryListContent: View {
             }
         } message: {
             Text("Your card history is full. Delete old readings to free up space?")
+        }
+        .confirmationDialog(
+            "Delete selected readings?",
+            isPresented: Binding(
+                get: { self.viewModel.showsDeleteSelectionConfirmation },
+                set: { self.viewModel.showsDeleteSelectionConfirmation = $0 }
+            ),
+            titleVisibility: .visible
+        ) {
+            Button("Delete Selected", role: .destructive) {
+                self.viewModel.deleteSelectedPulls()
+            }
+            Button("Cancel", role: .cancel) {
+                self.viewModel.showsDeleteSelectionConfirmation = false
+            }
+        } message: {
+            Text("This will remove all selected readings from your history.")
+        }
+        .confirmationDialog(
+            "Clear entire history?",
+            isPresented: Binding(
+                get: { self.viewModel.showsDeleteAllConfirmation },
+                set: { self.viewModel.showsDeleteAllConfirmation = $0 }
+            ),
+            titleVisibility: .visible
+        ) {
+            Button("Delete All", role: .destructive) {
+                self.viewModel.deleteAllPulls()
+            }
+            Button("Cancel", role: .cancel) {
+                self.viewModel.showsDeleteAllConfirmation = false
+            }
+        } message: {
+            Text("This action cannot be undone. All saved readings will be deleted.")
         }
         .sheet(isPresented: Binding(
             get: { self.viewModel.showsNoteEditor },

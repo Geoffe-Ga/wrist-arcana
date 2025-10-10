@@ -14,7 +14,10 @@ final class HistoryViewModel: ObservableObject {
 
     @Published var pulls: [CardPull] = []
     @Published var selectedPull: CardPull?
+    @Published var selectedPullIDs: Set<UUID> = []
     @Published var showsPruningAlert: Bool = false
+    @Published var showsDeleteSelectionConfirmation: Bool = false
+    @Published var showsDeleteAllConfirmation: Bool = false
     @Published var showsNoteEditor: Bool = false
     @Published var editingNote: String = ""
     @Published var isEditingExistingNote: Bool = false
@@ -53,6 +56,72 @@ final class HistoryViewModel: ObservableObject {
         try? self.modelContext.save()
         Task {
             await self.loadHistory()
+        }
+    }
+
+    func toggleSelection(for pull: CardPull) {
+        if self.selectedPullIDs.contains(pull.id) {
+            self.selectedPullIDs.remove(pull.id)
+        } else {
+            self.selectedPullIDs.insert(pull.id)
+        }
+    }
+
+    func isPullSelected(_ pull: CardPull) -> Bool {
+        self.selectedPullIDs.contains(pull.id)
+    }
+
+    func clearSelection() {
+        self.selectedPullIDs.removeAll()
+    }
+
+    func requestDeleteSelectedPulls() {
+        guard !self.selectedPullIDs.isEmpty else { return }
+        self.showsDeleteSelectionConfirmation = true
+    }
+
+    func deleteSelectedPulls() {
+        let ids = Array(self.selectedPullIDs)
+        guard !ids.isEmpty else { return }
+
+        let descriptor = FetchDescriptor<CardPull>(
+            predicate: #Predicate<CardPull> { pull in
+                ids.contains(pull.id)
+            }
+        )
+
+        do {
+            let pullsToDelete = try self.modelContext.fetch(descriptor)
+            pullsToDelete.forEach { self.modelContext.delete($0) }
+            try self.modelContext.save()
+            self.selectedPullIDs.removeAll()
+            self.showsDeleteSelectionConfirmation = false
+            Task {
+                await self.loadHistory()
+            }
+        } catch {
+            print("⚠️ Failed to delete selected pulls: \(error)")
+        }
+    }
+
+    func requestDeleteAllPulls() {
+        self.showsDeleteAllConfirmation = true
+    }
+
+    func deleteAllPulls() {
+        let descriptor = FetchDescriptor<CardPull>()
+
+        do {
+            let allPulls = try self.modelContext.fetch(descriptor)
+            allPulls.forEach { self.modelContext.delete($0) }
+            try self.modelContext.save()
+            self.selectedPullIDs.removeAll()
+            self.showsDeleteAllConfirmation = false
+            Task {
+                await self.loadHistory()
+            }
+        } catch {
+            print("⚠️ Failed to delete all pulls: \(error)")
         }
     }
 
