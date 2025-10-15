@@ -96,4 +96,232 @@ final class WristArcanaWatchAppUITests: XCTestCase {
             "At least one history entry should appear after drawing a card"
         )
     }
+
+    // MARK: - Regression Tests for Multi-Delete Feature
+
+    @MainActor
+    func testHistoryItemsAreClickableInNormalMode() throws {
+        // Regression test: Ensure history items remain clickable/tappable
+        // Bug: Replacing NavigationLink with Button broke navigation
+
+        let app = XCUIApplication()
+        app.launch()
+
+        // Draw a card first
+        let drawButton = app.buttons["DRAW"]
+        XCTAssertTrue(drawButton.waitForExistence(timeout: 2))
+        drawButton.tap()
+
+        let doneButton = app.buttons["Done"]
+        XCTAssertTrue(doneButton.waitForExistence(timeout: 5))
+        doneButton.tap()
+
+        // Navigate to History
+        let historyTab = app.buttons["History"]
+        historyTab.tap()
+
+        // Wait for history list
+        let historyList = app.tables.firstMatch
+        XCTAssertTrue(historyList.waitForExistence(timeout: 2))
+
+        // CRITICAL: Tap on the first history item
+        let firstCell = historyList.cells.firstMatch
+        XCTAssertTrue(firstCell.waitForExistence(timeout: 2), "First cell should exist")
+        firstCell.tap()
+
+        // Verify we navigated to detail view
+        // Look for elements that only exist in HistoryDetailView
+        let detailView = app.navigationBars.firstMatch
+        XCTAssertTrue(
+            detailView.waitForExistence(timeout: 3),
+            "Should navigate to detail view when tapping history item in normal mode"
+        )
+    }
+
+    @MainActor
+    func testManagementButtonsAreVisible() throws {
+        // Regression test: Management buttons should be visible at top of history list
+        // Bug: Buttons were completely missing
+
+        let app = XCUIApplication()
+        app.launch()
+
+        // Draw a card to have history
+        let drawButton = app.buttons["DRAW"]
+        drawButton.tap()
+
+        let doneButton = app.buttons["Done"]
+        XCTAssertTrue(doneButton.waitForExistence(timeout: 5))
+        doneButton.tap()
+
+        // Navigate to History
+        let historyTab = app.buttons["History"]
+        historyTab.tap()
+
+        // Wait for list to appear
+        let historyList = app.tables.firstMatch
+        XCTAssertTrue(historyList.waitForExistence(timeout: 2))
+
+        // Buttons should be visible at top of list
+        let selectButton = app.buttons["Select"]
+        XCTAssertTrue(
+            selectButton.waitForExistence(timeout: 2),
+            "Select button should be visible in history"
+        )
+
+        let clearAllButton = app.buttons["Clear All"]
+        XCTAssertTrue(
+            clearAllButton.waitForExistence(timeout: 2),
+            "Clear All button should be visible in history"
+        )
+    }
+
+    @MainActor
+    func testSelectButtonEntersEditMode() throws {
+        // Test that Select button properly activates multi-select mode
+
+        let app = XCUIApplication()
+        app.launch()
+
+        // Draw cards
+        for _ in 1 ... 2 {
+            let drawButton = app.buttons["DRAW"]
+            drawButton.tap()
+            let doneButton = app.buttons["Done"]
+            XCTAssertTrue(doneButton.waitForExistence(timeout: 5))
+            doneButton.tap()
+        }
+
+        // Go to History
+        app.buttons["History"].tap()
+
+        // Wait for list
+        let historyList = app.tables.firstMatch
+        XCTAssertTrue(historyList.waitForExistence(timeout: 2))
+
+        // Tap Select
+        let selectButton = app.buttons["Select"]
+        XCTAssertTrue(selectButton.waitForExistence(timeout: 2))
+        selectButton.tap()
+
+        // Verify Done button appears (indicates edit mode)
+        let doneButton = app.buttons["Done"]
+        XCTAssertTrue(
+            doneButton.waitForExistence(timeout: 2),
+            "Done button should appear in toolbar when edit mode is active"
+        )
+
+        // Verify selection indicators appear on items
+        // In edit mode, items should show circle/checkmark icons
+        let checkmarkImage = app.images["circle"]
+        XCTAssertTrue(
+            checkmarkImage.exists,
+            "Selection indicators should appear on history items in edit mode"
+        )
+    }
+
+    @MainActor
+    func testMultiSelectAndDelete() throws {
+        // End-to-end test for multi-delete functionality
+
+        let app = XCUIApplication()
+        app.launch()
+
+        // Draw 3 cards
+        for _ in 1 ... 3 {
+            app.buttons["DRAW"].tap()
+            let done = app.buttons["Done"]
+            XCTAssertTrue(done.waitForExistence(timeout: 5))
+            done.tap()
+        }
+
+        // Go to History
+        app.buttons["History"].tap()
+
+        let historyList = app.tables.firstMatch
+        XCTAssertTrue(historyList.waitForExistence(timeout: 2))
+
+        // Count initial items
+        let initialCellCount = historyList.cells.count
+        XCTAssertEqual(initialCellCount, 3, "Should have 3 history items")
+
+        // Enter edit mode
+        let selectButton = app.buttons["Select"]
+        XCTAssertTrue(selectButton.waitForExistence(timeout: 2))
+        selectButton.tap()
+
+        // Select 2 items
+        let firstCell = historyList.cells.element(boundBy: 0)
+        firstCell.tap()
+
+        let secondCell = historyList.cells.element(boundBy: 1)
+        secondCell.tap()
+
+        // Delete button should appear at bottom
+        let deleteButton = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Delete'")).firstMatch
+        XCTAssertTrue(
+            deleteButton.waitForExistence(timeout: 2),
+            "Delete button should appear when items are selected"
+        )
+
+        // Tap delete
+        deleteButton.tap()
+
+        // Confirm in alert
+        let deleteAlertButton = app.buttons["Delete"]
+        XCTAssertTrue(deleteAlertButton.waitForExistence(timeout: 2))
+        deleteAlertButton.tap()
+
+        // Wait for deletion to complete
+        Thread.sleep(forTimeInterval: 1)
+
+        // Verify only 1 item remains
+        let finalCellCount = historyList.cells.count
+        XCTAssertEqual(finalCellCount, 1, "Should have 1 history item after deleting 2")
+    }
+
+    @MainActor
+    func testClearAllDeletesAllHistory() throws {
+        // Test Clear All functionality
+
+        let app = XCUIApplication()
+        app.launch()
+
+        // Draw 2 cards
+        for _ in 1 ... 2 {
+            app.buttons["DRAW"].tap()
+            let done = app.buttons["Done"]
+            XCTAssertTrue(done.waitForExistence(timeout: 5))
+            done.tap()
+        }
+
+        // Go to History
+        app.buttons["History"].tap()
+
+        let historyList = app.tables.firstMatch
+        XCTAssertTrue(historyList.waitForExistence(timeout: 2))
+
+        // Verify we have items
+        XCTAssertGreaterThan(historyList.cells.count, 0)
+
+        // Tap Clear All
+        let clearAllButton = app.buttons["Clear All"]
+        XCTAssertTrue(clearAllButton.exists)
+        clearAllButton.tap()
+
+        // Confirm deletion
+        let deleteAllButton = app.buttons["Delete All"]
+        XCTAssertTrue(deleteAllButton.waitForExistence(timeout: 2))
+        deleteAllButton.tap()
+
+        // Wait for deletion
+        Thread.sleep(forTimeInterval: 1)
+
+        // Verify empty state appears
+        let emptyMessage = app.staticTexts["No Readings Yet"]
+        XCTAssertTrue(
+            emptyMessage.waitForExistence(timeout: 3),
+            "Empty state should appear after clearing all history"
+        )
+    }
 }
