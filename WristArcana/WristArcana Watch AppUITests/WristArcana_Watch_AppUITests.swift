@@ -324,4 +324,71 @@ final class WristArcanaWatchAppUITests: XCTestCase {
             "Empty state should appear after clearing all history"
         )
     }
+
+    @MainActor
+    func testManagementButtonsAccessibleViaScrollUp() throws {
+        // CRITICAL TEST: Buttons should be accessible at top of list
+        // They appear as the first row and can be accessed by scrolling to top
+
+        let app = XCUIApplication()
+        app.launch()
+
+        // Draw 5 cards to ensure we have scrollable content
+        for _ in 1 ... 5 {
+            app.buttons["DRAW"].tap()
+            let done = app.buttons["Done"]
+            XCTAssertTrue(done.waitForExistence(timeout: 5))
+            done.tap()
+        }
+
+        // Navigate to History
+        app.buttons["History"].tap()
+
+        let historyList = app.tables.firstMatch
+        XCTAssertTrue(historyList.waitForExistence(timeout: 2))
+
+        // Buttons should be at the top of the list
+        let selectButton = app.buttons["Select"]
+        let clearAllButton = app.buttons["Clear All"]
+
+        // Buttons should exist and be accessible
+        XCTAssertTrue(
+            selectButton.waitForExistence(timeout: 2),
+            "Select button should exist at top of list"
+        )
+        XCTAssertTrue(
+            clearAllButton.waitForExistence(timeout: 2),
+            "Clear All button should exist at top of list"
+        )
+
+        // If we've scrolled down, scroll back up to make buttons visible
+        if !selectButton.isHittable {
+            // Scroll to top of list
+            historyList.swipeDown()
+            historyList.swipeDown()
+
+            // Give animation time to complete
+            Thread.sleep(forTimeInterval: 0.5)
+        }
+
+        // Buttons should now be hittable
+        XCTAssertTrue(
+            selectButton.isHittable,
+            "Select button should be hittable at top of list"
+        )
+        XCTAssertTrue(
+            clearAllButton.isHittable,
+            "Clear All button should be hittable at top of list"
+        )
+
+        // CRITICAL: Verify buttons are functional - tap Select button
+        selectButton.tap()
+
+        // Verify we entered edit mode
+        let doneButton = app.buttons["Done"]
+        XCTAssertTrue(
+            doneButton.waitForExistence(timeout: 2),
+            "Done button should appear, confirming Select button worked"
+        )
+    }
 }

@@ -67,7 +67,8 @@ private struct HistoryListContent: View {
                 // MARK: - History Items Section
 
                 Section {
-                    // Management buttons (only when not in edit mode and has items)
+                    // Management buttons positioned at top of list
+                    // Always accessible by scrolling to top
                     if !self.viewModel.pulls.isEmpty, !self.viewModel.isInEditMode {
                         self.managementButtonsView
                             .listRowBackground(Color.clear)
