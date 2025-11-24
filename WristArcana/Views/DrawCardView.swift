@@ -41,9 +41,7 @@ struct DrawCardView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                Spacer()
-
-                // App Title
+                // App Title - positioned just below clock
                 Text("Tarot")
                     .font(.system(
                         size: self.scaledTitleSize(for: geometry.size.height),
@@ -51,10 +49,11 @@ struct DrawCardView: View {
                         design: .serif
                     ))
                     .foregroundStyle(.purple)
+                    .padding(.top, 8)
 
                 Spacer()
 
-                // Main CTA Button
+                // Main CTA Button - positioned above tab indicators
                 if let viewModel {
                     CTAButton(
                         title: "DRAW",
@@ -80,8 +79,11 @@ struct DrawCardView: View {
                         )
                 }
 
+                // Space for tab indicators (dots) - typically ~20-24pt
                 Spacer()
+                    .frame(height: 24)
             }
+            .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
         }
         .sheet(isPresented: self.$showingPreview) {
             if let card = viewModel?.currentCard {
