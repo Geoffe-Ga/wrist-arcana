@@ -45,7 +45,7 @@ jobs:
           xcodebuild build \
             -project WristArcana/WristArcana.xcodeproj \
             -target "WristArcana Watch App" \
-            -sdk watchos \
+            -destination 'generic/platform=watchOS' \
             -configuration Debug \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGN_IDENTITY="-"
