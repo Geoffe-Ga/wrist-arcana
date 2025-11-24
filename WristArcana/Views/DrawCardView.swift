@@ -83,7 +83,7 @@ struct DrawCardView: View {
                 Spacer()
                     .frame(height: 24)
             }
-            .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
+            .frame(width: geometry.size.width, height: geometry.size.height)
         }
         .sheet(isPresented: self.$showingPreview) {
             if let card = viewModel?.currentCard {
