@@ -50,7 +50,7 @@ struct DrawCardView: View {
                     ))
                     .foregroundStyle(.purple)
 
-                Spacer()
+                Spacer(minLength: 0)
 
                 // Main CTA Button - positioned above tab indicators
                 if let viewModel {
@@ -70,19 +70,17 @@ struct DrawCardView: View {
                         width: self.scaledButtonSize(for: geometry.size),
                         height: self.scaledButtonSize(for: geometry.size)
                     )
+                    .padding(.bottom, 10)
                 } else {
                     ProgressView()
                         .frame(
                             width: self.scaledButtonSize(for: geometry.size),
                             height: self.scaledButtonSize(for: geometry.size)
                         )
+                        .padding(.bottom, 10)
                 }
-
-                // Space for tab indicators (dots) - minimal spacing
-                Spacer()
-                    .frame(height: 10)
             }
-            .frame(width: geometry.size.width, height: geometry.size.height)
+            .frame(width: geometry.size.width, height: geometry.size.height, alignment: .top)
         }
         .sheet(isPresented: self.$showingPreview) {
             if let card = viewModel?.currentCard {
