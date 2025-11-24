@@ -39,37 +39,49 @@ struct DrawCardView: View {
     // MARK: - Body
 
     var body: some View {
-        VStack(spacing: 20) {
-            Spacer()
+        GeometryReader { geometry in
+            VStack(spacing: 0) {
+                Spacer()
 
-            // App Title
-            Text("Tarot")
-                .font(Theme.Fonts.title)
-                .foregroundStyle(.purple)
+                // App Title
+                Text("Tarot")
+                    .font(.system(
+                        size: self.scaledTitleSize(for: geometry.size.height),
+                        weight: .bold,
+                        design: .serif
+                    ))
+                    .foregroundStyle(.purple)
 
-            Spacer()
+                Spacer()
 
-            // Main CTA Button
-            if let viewModel {
-                CTAButton(
-                    title: "DRAW",
-                    isLoading: viewModel.isDrawing,
-                    action: {
-                        Task {
-                            await viewModel.drawCard()
-                            if viewModel.currentCard != nil {
-                                self.showingPreview = true
+                // Main CTA Button
+                if let viewModel {
+                    CTAButton(
+                        title: "DRAW",
+                        isLoading: viewModel.isDrawing,
+                        action: {
+                            Task {
+                                await viewModel.drawCard()
+                                if viewModel.currentCard != nil {
+                                    self.showingPreview = true
+                                }
                             }
                         }
-                    }
-                )
-                .frame(width: 140, height: 140)
-            } else {
-                ProgressView()
-                    .frame(width: 140, height: 140)
-            }
+                    )
+                    .frame(
+                        width: self.scaledButtonSize(for: geometry.size),
+                        height: self.scaledButtonSize(for: geometry.size)
+                    )
+                } else {
+                    ProgressView()
+                        .frame(
+                            width: self.scaledButtonSize(for: geometry.size),
+                            height: self.scaledButtonSize(for: geometry.size)
+                        )
+                }
 
-            Spacer()
+                Spacer()
+            }
         }
         .sheet(isPresented: self.$showingPreview) {
             if let card = viewModel?.currentCard {
@@ -176,6 +188,24 @@ struct DrawCardView: View {
                 )
             }
         }
+    }
+
+    // MARK: - Responsive Sizing Helpers
+
+    /// Calculate scaled button size based on screen dimensions
+    /// - Formula: 70% of screen width, constrained between 120-160pt
+    /// - Returns square dimension (width == height)
+    private func scaledButtonSize(for screenSize: CGSize) -> CGFloat {
+        let baseSize = screenSize.width * 0.7
+        return max(120, min(160, baseSize))
+    }
+
+    /// Calculate scaled title font size based on screen height
+    /// - Formula: 12% of screen height, constrained between 28-36pt
+    /// - Ensures readable title on all Apple Watch sizes
+    private func scaledTitleSize(for screenHeight: CGFloat) -> CGFloat {
+        let baseSize = screenHeight * 0.12
+        return max(28, min(36, baseSize))
     }
 }
 
