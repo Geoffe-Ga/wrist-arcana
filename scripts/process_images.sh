@@ -16,30 +16,27 @@ mkdir -p "$PROCESSED_DIR/@3x"
 for img in "$DOWNLOAD_DIR"/*.jpg; do
     basename=$(basename "$img" .jpg)
     echo "  Processing $basename..."
-    
-    # @3x (highest resolution) - 1200x2000px
+
+    # Canonical tarot aspect ratio is 11:19 (~0.579)
+    # We preserve original proportions to maintain authentic Rider-Waite artwork
+
+    # @3x (highest resolution) - height 2000px, width scales proportionally
     magick "$img" \
-        -resize 1200x2000^ \
-        -gravity center \
-        -extent 1200x2000 \
+        -resize x2000 \
         -quality 90 \
         -strip \
         "$PROCESSED_DIR/@3x/${basename}.png"
-    
-    # @2x - 800x1333px
+
+    # @2x - height 1333px, width scales proportionally
     magick "$img" \
-        -resize 800x1333^ \
-        -gravity center \
-        -extent 800x1333 \
+        -resize x1333 \
         -quality 90 \
         -strip \
         "$PROCESSED_DIR/@2x/${basename}.png"
-    
-    # @1x - 400x666px
+
+    # @1x - height 666px, width scales proportionally
     magick "$img" \
-        -resize 400x666^ \
-        -gravity center \
-        -extent 400x666 \
+        -resize x666 \
         -quality 90 \
         -strip \
         "$PROCESSED_DIR/@1x/${basename}.png"
