@@ -17,15 +17,25 @@ struct CardPreviewView: View {
     // MARK: - Body
 
     var body: some View {
-        VStack(spacing: 0) {
-            // Full-height card image (tappable)
-            Button(action: self.onShowDetail) {
-                CardImageView(imageName: self.card.imageName, cardName: self.card.name)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .aspectRatio(0.6, contentMode: .fit)
+        GeometryReader { geometry in
+            HStack(spacing: 0) {
+                Spacer()
+
+                // Full-height card image (tappable, width calculated from height)
+                Button(action: self.onShowDetail) {
+                    CardImageView(imageName: self.card.imageName, cardName: self.card.name)
+                        .frame(
+                            width: geometry.size.height * (11.0 / 19.0),
+                            height: geometry.size.height
+                        )
+                }
+                .buttonStyle(.plain)
+
+                Spacer()
             }
-            .buttonStyle(.plain)
         }
+        .background(Color.black.opacity(0.9))
+        .ignoresSafeArea(edges: .bottom)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("Done") {
@@ -43,7 +53,6 @@ struct CardPreviewView: View {
                 .accessibilityHint("Opens detailed view with card meaning and description")
             }
         }
-        .background(Color.black.opacity(0.9))
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Card preview for \(self.card.name). Tap to view detailed meaning.")
     }
