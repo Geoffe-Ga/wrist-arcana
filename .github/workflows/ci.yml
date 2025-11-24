@@ -42,9 +42,7 @@ jobs:
           NSUnbufferedIO: "YES"
         run: |
           set -eo pipefail
-          xcodebuild build \
-            -project WristArcana/WristArcana.xcodeproj \
-            -target "WristArcana Watch App" \
-            -sdk watchsimulator \
-            -configuration Debug \
+          xcodebuild build-for-testing \
+            -scheme WristArcana \
+            -destination 'platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)' \
             CODE_SIGNING_ALLOWED=NO
