@@ -17,7 +17,8 @@ struct DrawCardView: View {
 
     @State private var viewModel: CardDrawViewModel?
     @State private var historyViewModel: HistoryViewModel?
-    @State private var showingCard = false
+    @State private var showingPreview = false
+    @State private var showingDetail = false
     @State private var pendingNotePull: CardPull?
     @State private var showNoteEditor = false
 
@@ -57,7 +58,7 @@ struct DrawCardView: View {
                         Task {
                             await viewModel.drawCard()
                             if viewModel.currentCard != nil {
-                                self.showingCard = true
+                                self.showingPreview = true
                             }
                         }
                     }
@@ -70,28 +71,47 @@ struct DrawCardView: View {
 
             Spacer()
         }
-        .sheet(isPresented: self.$showingCard) {
+        .sheet(isPresented: self.$showingPreview) {
             if let card = viewModel?.currentCard {
                 let dismissCard: () -> Void = {
-                    self.showingCard = false
+                    self.showingPreview = false
                     self.viewModel?.dismissCard()
                 }
 
-                CardDisplayView(
+                CardPreviewView(
                     card: card,
-                    cardPull: self.viewModel?.currentCardPull,
-                    onAddNote: makeAddNoteHandler(
-                        stageNote: { pull in
-                            self.pendingNotePull = pull
-                        },
-                        dismissCard: dismissCard
-                    ),
-                    onDismiss: dismissCard
+                    onDismiss: dismissCard,
+                    onShowDetail: {
+                        self.showingDetail = true
+                    }
                 )
+                .sheet(isPresented: self.$showingDetail) {
+                    CardDisplayView(
+                        card: card,
+                        cardPull: self.viewModel?.currentCardPull,
+                        onAddNote: makeAddNoteHandler(
+                            stageNote: { pull in
+                                self.pendingNotePull = pull
+                            },
+                            dismissCard: {
+                                // Dismiss BOTH sheets
+                                self.showingDetail = false
+                                self.showingPreview = false
+                                self.viewModel?.dismissCard()
+                            }
+                        ),
+                        onDismiss: {
+                            // Dismiss BOTH sheets, return directly to DrawCardView
+                            self.showingDetail = false
+                            self.showingPreview = false
+                            self.viewModel?.dismissCard()
+                        }
+                    )
+                }
             }
         }
-        .onChange(of: self.showingCard) { _, isShowingCard in
-            guard !isShowingCard,
+        .onChange(of: self.showingPreview) { _, isShowing in
+            guard !isShowing, !self.showingDetail,
                   let histViewModel = self.historyViewModel,
                   let pull = drainPendingNotePull(&self.pendingNotePull)
             else {

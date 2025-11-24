@@ -41,6 +41,7 @@
 		676E571D2E9A4D000F22194 /* NoteInputSanitizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E571E2E9A4D000F22194 /* NoteInputSanitizer.swift */; };
 		676E57212E9A4E000F22194 /* NoteEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E571F2E9A4E000F22194 /* NoteEditorView.swift */; };
 		676E57222E9A4E000F22194 /* HistoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E57202E9A4E000F22194 /* HistoryDetailView.swift */; };
+		6772B29B2ED4D02A00877DAA /* CardPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6772B29A2ED4D02A00877DAA /* CardPreviewView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +120,7 @@
 		676E571E2E9A4D000F22194 /* NoteInputSanitizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteInputSanitizer.swift; sourceTree = "<group>"; };
 		676E571F2E9A4E000F22194 /* NoteEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditorView.swift; sourceTree = "<group>"; };
 		676E57202E9A4E000F22194 /* HistoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailView.swift; sourceTree = "<group>"; };
+		6772B29A2ED4D02A00877DAA /* CardPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPreviewView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -219,6 +221,7 @@
 		676E55D12E8DE5CB00F22194 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6772B29A2ED4D02A00877DAA /* CardPreviewView.swift */,
 				676E55FB2E8DF4B700F22194 /* CardDisplayView.swift */,
 				676E57172E9A4C000F22194 /* CardReferenceView.swift */,
 				676E57192E9A4C000F22194 /* CardListView.swift */,
@@ -465,6 +468,7 @@
 				676E56002E8DF4B700F22194 /* MainView.swift in Sources */,
 				676E57182E9A4C000F22194 /* CardReferenceView.swift in Sources */,
 				676E571A2E9A4C000F22194 /* CardListView.swift in Sources */,
+				6772B29B2ED4D02A00877DAA /* CardPreviewView.swift in Sources */,
 				676E571C2E9A4C000F22194 /* CardReferenceDetailView.swift in Sources */,
 				676E56012E8DF4B700F22194 /* HistoryView.swift in Sources */,
 				676E56022E8DF4B700F22194 /* DeckSelectionView.swift in Sources */,
