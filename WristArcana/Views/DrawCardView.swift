@@ -41,7 +41,7 @@ struct DrawCardView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                // App Title - positioned just below clock
+                // App Title - positioned just below clock (safe area handles clock spacing)
                 Text("Tarot")
                     .font(.system(
                         size: self.scaledTitleSize(for: geometry.size.height),
@@ -49,7 +49,6 @@ struct DrawCardView: View {
                         design: .serif
                     ))
                     .foregroundStyle(.purple)
-                    .padding(.top, 8)
 
                 Spacer()
 
@@ -79,9 +78,9 @@ struct DrawCardView: View {
                         )
                 }
 
-                // Space for tab indicators (dots) - typically ~20-24pt
+                // Space for tab indicators (dots) - minimal spacing
                 Spacer()
-                    .frame(height: 24)
+                    .frame(height: 10)
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
