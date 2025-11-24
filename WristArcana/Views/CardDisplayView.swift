@@ -23,7 +23,7 @@ struct CardDisplayView: View {
                 // Card Image
                 CardImageView(imageName: self.card.imageName, cardName: self.card.name)
                     .frame(maxWidth: .infinity)
-                    .aspectRatio(0.6, contentMode: .fit)
+                    .aspectRatio(11.0 / 19.0, contentMode: .fit)
                     .padding(.top, 20)
 
                 // Card Name

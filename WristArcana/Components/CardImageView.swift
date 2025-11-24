@@ -33,7 +33,7 @@ struct CardImageView: View {
                             endPoint: .bottomTrailing
                         )
                     )
-                    .aspectRatio(0.6, contentMode: .fit)
+                    .aspectRatio(11.0 / 19.0, contentMode: .fit)
                     .cornerRadius(8)
 
                 VStack {

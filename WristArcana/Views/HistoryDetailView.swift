@@ -25,7 +25,7 @@ struct HistoryDetailView: View {
                     cardName: self.pull.cardName
                 )
                 .frame(maxWidth: .infinity)
-                .aspectRatio(0.6, contentMode: .fit)
+                .aspectRatio(11.0 / 19.0, contentMode: .fit)
                 .padding(.top, 20)
 
                 // Card Info
