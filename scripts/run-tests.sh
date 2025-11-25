@@ -57,44 +57,16 @@ else
   ONLY_TESTING_VALUE="$TEST_TARGET"
 fi
 
-# Step 1: Build for testing (watchOS only)
-echo "▶️  Building for testing..."
-echo ""
-
-xcodebuild build-for-testing \
-  -project "$PROJECT_DIR/$PROJECT_FILE" \
-  -scheme "$SCHEME" \
-  -destination "platform=watchOS Simulator,name=$SIMULATOR" \
-  -only-testing:"$ONLY_TESTING_VALUE" \
-  CODE_SIGNING_ALLOWED=NO \
-  2>&1 | tee /tmp/wrist-arcana-build-output.log | \
-  grep -E "(Build|BUILD|SUCCEEDED|FAILED|error:|Error)" || true
-
-BUILD_EXIT_CODE=${PIPESTATUS[0]}
-
-if [ $BUILD_EXIT_CODE -ne 0 ]; then
-    echo ""
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "❌ Build failed (exit code: $BUILD_EXIT_CODE)"
-    echo ""
-    echo "⚠️  Build errors:"
-    grep -i "error:" /tmp/wrist-arcana-build-output.log | head -10 || echo "  (No build errors found)"
-    echo ""
-    exit 1
-fi
-
-echo "✅ Build succeeded"
-echo ""
-
-# Step 2: Run tests without rebuilding
+# Run tests (skip iOS stub target to avoid simulator runtime mismatch in CI)
 echo "▶️  Running tests..."
 echo ""
 
-xcodebuild test-without-building \
+xcodebuild test \
   -project "$PROJECT_DIR/$PROJECT_FILE" \
   -scheme "$SCHEME" \
   -destination "platform=watchOS Simulator,name=$SIMULATOR" \
   -only-testing:"$ONLY_TESTING_VALUE" \
+  -skip-testing:WristArcana \
   CODE_SIGNING_ALLOWED=NO \
   2>&1 | tee /tmp/wrist-arcana-test-output.log | \
   grep -E "(Testing started|Test case.*passed|Test case.*failed|TEST FAILED|TEST SUCCEEDED|Failing tests:|error:|Error)" || true
