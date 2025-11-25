@@ -48,10 +48,6 @@ echo ""
 # Navigate to project directory
 cd "$(dirname "$0")/.."
 
-# Run tests
-echo "▶️  Starting test run..."
-echo ""
-
 # Build test command based on whether we're testing a specific suite or all tests
 if [ -n "$TEST_SUITE" ]; then
   # Specific test suite
@@ -61,15 +57,47 @@ else
   ONLY_TESTING_VALUE="$TEST_TARGET"
 fi
 
-xcodebuild test \
+# Step 1: Build for testing
+echo "▶️  Building for testing..."
+echo ""
+
+xcodebuild build-for-testing \
+  -project "$PROJECT_DIR/$PROJECT_FILE" \
+  -scheme "$SCHEME" \
+  -destination "platform=watchOS Simulator,name=$SIMULATOR" \
+  -derivedDataPath /tmp/wrist-arcana-derived-data \
+  CODE_SIGNING_ALLOWED=NO \
+  CODE_SIGN_IDENTITY="" \
+  2>&1 | tee /tmp/wrist-arcana-build-output.log | \
+  grep -E "(Build|BUILD|SUCCEEDED|FAILED|error:|Error)" || true
+
+BUILD_EXIT_CODE=${PIPESTATUS[0]}
+
+if [ $BUILD_EXIT_CODE -ne 0 ]; then
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "❌ Build failed (exit code: $BUILD_EXIT_CODE)"
+    echo ""
+    echo "⚠️  Build errors:"
+    grep -i "error:" /tmp/wrist-arcana-build-output.log | head -10 || echo "  (No build errors found)"
+    echo ""
+    exit 1
+fi
+
+echo "✅ Build succeeded"
+echo ""
+
+# Step 2: Run tests without building
+echo "▶️  Running tests..."
+echo ""
+
+xcodebuild test-without-building \
   -project "$PROJECT_DIR/$PROJECT_FILE" \
   -scheme "$SCHEME" \
   -destination "platform=watchOS Simulator,name=$SIMULATOR" \
   -only-testing:"$ONLY_TESTING_VALUE" \
-  -skip-testing:WristArcana \
-  -configuration Debug \
+  -derivedDataPath /tmp/wrist-arcana-derived-data \
   CODE_SIGNING_ALLOWED=NO \
-  CODE_SIGN_IDENTITY="" \
   2>&1 | tee /tmp/wrist-arcana-test-output.log | \
   grep -E "(Testing started|Test case.*passed|Test case.*failed|TEST FAILED|TEST SUCCEEDED|Failing tests:|error:|Error)" || true
 
