@@ -57,17 +57,17 @@ else
   ONLY_TESTING_VALUE="$TEST_TARGET"
 fi
 
-# Step 1: Build for testing
-echo "▶️  Building for testing..."
+# Step 1: Build watch app and test targets
+echo "▶️  Building watch app and test targets..."
 echo ""
 
-xcodebuild build-for-testing \
+xcodebuild build \
   -project "$PROJECT_DIR/$PROJECT_FILE" \
-  -scheme "$SCHEME" \
+  -target "WristArcana Watch App" \
+  -target "$TEST_TARGET" \
   -destination "platform=watchOS Simulator,name=$SIMULATOR" \
-  -derivedDataPath /tmp/wrist-arcana-derived-data \
+  ENABLE_TESTABILITY=YES \
   CODE_SIGNING_ALLOWED=NO \
-  CODE_SIGN_IDENTITY="" \
   2>&1 | tee /tmp/wrist-arcana-build-output.log | \
   grep -E "(Build|BUILD|SUCCEEDED|FAILED|error:|Error)" || true
 
@@ -87,16 +87,16 @@ fi
 echo "✅ Build succeeded"
 echo ""
 
-# Step 2: Run tests without building
+# Step 2: Run tests
 echo "▶️  Running tests..."
 echo ""
 
-xcodebuild test-without-building \
+xcodebuild test \
   -project "$PROJECT_DIR/$PROJECT_FILE" \
   -scheme "$SCHEME" \
   -destination "platform=watchOS Simulator,name=$SIMULATOR" \
   -only-testing:"$ONLY_TESTING_VALUE" \
-  -derivedDataPath /tmp/wrist-arcana-derived-data \
+  -skip-test-configuration \
   CODE_SIGNING_ALLOWED=NO \
   2>&1 | tee /tmp/wrist-arcana-test-output.log | \
   grep -E "(Testing started|Test case.*passed|Test case.*failed|TEST FAILED|TEST SUCCEEDED|Failing tests:|error:|Error)" || true
