@@ -57,7 +57,15 @@ else
   ONLY_TESTING_VALUE="$TEST_TARGET"
 fi
 
-# Run tests (skip iOS stub target to avoid simulator runtime mismatch in CI)
+# Enable code coverage for unit tests only (more meaningful than UI test coverage)
+if [ "$TEST_TYPE" = "unit" ]; then
+  COVERAGE_FLAGS="-enableCodeCoverage YES -resultBundlePath /tmp/TestResults.xcresult"
+  echo "📊 Code coverage enabled"
+else
+  COVERAGE_FLAGS=""
+fi
+
+# Run tests
 echo "▶️  Running tests..."
 echo ""
 
@@ -66,6 +74,7 @@ xcodebuild test \
   -scheme "$SCHEME" \
   -destination "platform=watchOS Simulator,name=$SIMULATOR" \
   -only-testing:"$ONLY_TESTING_VALUE" \
+  $COVERAGE_FLAGS \
   CODE_SIGNING_ALLOWED=NO \
   2>&1 | tee /tmp/wrist-arcana-test-output.log | \
   grep -E "(Testing started|Test case.*passed|Test case.*failed|TEST FAILED|TEST SUCCEEDED|Failing tests:|error:|Error)" || true
@@ -77,6 +86,21 @@ if [ $EXIT_CODE -eq 0 ]; then
     echo ""
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo "✅ All tests passed!"
+
+    # Show coverage report if enabled
+    if [ "$TEST_TYPE" = "unit" ] && [ -d "/tmp/TestResults.xcresult" ]; then
+        echo ""
+        echo "📊 Code Coverage Report:"
+        if command -v jq >/dev/null 2>&1; then
+            xcrun xccov view --report --json /tmp/TestResults.xcresult > /tmp/coverage.json 2>/dev/null || true
+            COVERAGE=$(jq ".lineCoverage" /tmp/coverage.json 2>/dev/null || echo "0")
+            COVERAGE_PCT=$(echo "$COVERAGE * 100" | bc 2>/dev/null || echo "N/A")
+            echo "   Line Coverage: ${COVERAGE_PCT}%"
+        else
+            echo "   (Install jq for detailed coverage: brew install jq)"
+            xcrun xccov view --report /tmp/TestResults.xcresult 2>/dev/null || echo "   Coverage data not available"
+        fi
+    fi
     exit 0
 else
     echo ""
