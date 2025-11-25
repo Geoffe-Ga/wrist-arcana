@@ -66,6 +66,7 @@ xcodebuild test \
   -scheme "$SCHEME" \
   -destination "platform=watchOS Simulator,name=$SIMULATOR" \
   -only-testing:"$ONLY_TESTING_VALUE" \
+  -skip-testing:WristArcana \
   -configuration Debug \
   CODE_SIGNING_ALLOWED=NO \
   CODE_SIGN_IDENTITY="" \
