@@ -24,27 +24,35 @@ repos:
         pass_filenames: false
         stages: [pre-commit]
 
-      - id: xcodebuild-test
-        name: Xcode Tests with Coverage
-        entry: bash -c 'xcodebuild test -project WristArcana/WristArcana.xcodeproj -scheme "WristArcana Watch App" -destination "platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)" -only-testing:"WristArcana Watch AppTests" -only-testing:"WristArcana Watch AppUITests" -enableCodeCoverage YES -resultBundlePath /tmp/TestResults 2>&1 | grep -E "(TEST|SUCCEEDED|FAILED)" | tail -1'
+      - id: unit-tests
+        name: Unit Tests (WristArcana Watch AppTests)
+        entry: bash -c './scripts/run-tests.sh unit'
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: ui-tests
+        name: UI Tests (DrawCardViewResponsivenessUITests)
+        entry: bash -c './scripts/run-tests.sh DrawCardViewResponsivenessUITests'
         language: system
         pass_filenames: false
         stages: [pre-push]
 
       - id: coverage-check
-        name: Code Coverage ≥30% (TODO increase to 80%)
+        name: "Code Coverage ≥50% (goal: 60%+)"
         entry: bash
         args:
           - -c
           - |
             xcrun xccov view --report --json /tmp/TestResults.xcresult > /tmp/coverage.json
             COVERAGE=$(jq ".lineCoverage" /tmp/coverage.json)
-            echo "Coverage: $COVERAGE"
-            if (( $(echo "$COVERAGE < 0.30" | bc -l) )); then
-              echo "❌ Coverage below 30% threshold"
+            COVERAGE_PCT=$(echo "$COVERAGE * 100" | bc)
+            echo "Coverage: ${COVERAGE_PCT}%"
+            if (( $(echo "$COVERAGE < 0.50" | bc -l) )); then
+              echo "❌ Coverage below 50% threshold (current: ${COVERAGE_PCT}%)"
               exit 1
             fi
-            echo "✅ Coverage: $(echo "$COVERAGE * 100" | bc)%"
+            echo "✅ Coverage: ${COVERAGE_PCT}% (target: 60%+)"
         language: system
         pass_filenames: false
         stages: [pre-push]

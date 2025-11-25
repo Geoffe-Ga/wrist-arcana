@@ -32,7 +32,9 @@ final class DeckSelectionViewModel: ObservableObject {
         do {
             self.availableDecks = try self.repository.loadDecks()
             self.selectedDeckId = self.repository.getCurrentDeck().id
+            self.errorMessage = nil // Clear error on success
         } catch {
+            self.availableDecks = [] // Clear decks on error
             self.errorMessage = "Failed to load decks"
             print("⚠️ Failed to load decks: \(error)")
         }

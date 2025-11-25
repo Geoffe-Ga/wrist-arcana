@@ -83,6 +83,7 @@ struct DrawCardView: View {
                         )
                     )
                     .frame(maxWidth: .infinity, alignment: .center)
+                    .accessibilityIdentifier("draw-button")
                 } else {
                     ProgressView()
                         .frame(

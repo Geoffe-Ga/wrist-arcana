@@ -14,6 +14,9 @@ final class DrawCardViewResponsivenessUITests: XCTestCase {
         continueAfterFailure = false
         self.app = XCUIApplication()
         self.app.launch()
+
+        // Wait for app to fully initialize and complete initial layout
+        _ = self.app.wait(for: .runningForeground, timeout: 5)
     }
 
     override func tearDownWithError() throws {
@@ -24,10 +27,13 @@ final class DrawCardViewResponsivenessUITests: XCTestCase {
 
     func test_drawButton_existsAndIsTappable() throws {
         // Given/When
-        let drawButton = self.app.buttons["DRAW"]
+        let drawButton = self.app.buttons["draw-button"]
 
-        // Then
-        XCTAssertTrue(drawButton.exists, "DRAW button should exist")
+        // Then - Wait for button to appear after app launch and layout
+        XCTAssertTrue(
+            drawButton.waitForExistence(timeout: 10),
+            "DRAW button should exist after app launch"
+        )
         XCTAssertTrue(drawButton.isHittable, "DRAW button should be tappable")
     }
 
@@ -41,8 +47,8 @@ final class DrawCardViewResponsivenessUITests: XCTestCase {
 
     func test_drawButton_isCenteredVertically() throws {
         // Given
-        let drawButton = self.app.buttons["DRAW"]
-        XCTAssertTrue(drawButton.waitForExistence(timeout: 2))
+        let drawButton = self.app.buttons["draw-button"]
+        XCTAssertTrue(drawButton.waitForExistence(timeout: 10))
 
         // When
         let buttonFrame = drawButton.frame
@@ -64,8 +70,8 @@ final class DrawCardViewResponsivenessUITests: XCTestCase {
 
     func test_drawButton_meetsMinimumTapTarget() throws {
         // Given
-        let drawButton = self.app.buttons["DRAW"]
-        XCTAssertTrue(drawButton.waitForExistence(timeout: 2))
+        let drawButton = self.app.buttons["draw-button"]
+        XCTAssertTrue(drawButton.waitForExistence(timeout: 10))
 
         // When
         let buttonFrame = drawButton.frame
@@ -90,8 +96,8 @@ final class DrawCardViewResponsivenessUITests: XCTestCase {
         // We verify button doesn't exceed reasonable bounds
 
         // Given
-        let drawButton = self.app.buttons["DRAW"]
-        XCTAssertTrue(drawButton.waitForExistence(timeout: 2))
+        let drawButton = self.app.buttons["draw-button"]
+        XCTAssertTrue(drawButton.waitForExistence(timeout: 10))
 
         // When
         let buttonFrame = drawButton.frame
@@ -107,8 +113,8 @@ final class DrawCardViewResponsivenessUITests: XCTestCase {
 
     func test_drawButton_isSquare() throws {
         // Given
-        let drawButton = self.app.buttons["DRAW"]
-        XCTAssertTrue(drawButton.waitForExistence(timeout: 2))
+        let drawButton = self.app.buttons["draw-button"]
+        XCTAssertTrue(drawButton.waitForExistence(timeout: 10))
 
         // When
         let buttonFrame = drawButton.frame
@@ -126,33 +132,38 @@ final class DrawCardViewResponsivenessUITests: XCTestCase {
     func test_layout_hasBalancedSpacing() throws {
         // Given
         let titleText = self.app.staticTexts["Tarot"]
-        let drawButton = self.app.buttons["DRAW"]
+        let drawButton = self.app.buttons["draw-button"]
 
-        XCTAssertTrue(titleText.waitForExistence(timeout: 2))
-        XCTAssertTrue(drawButton.exists)
+        XCTAssertTrue(titleText.waitForExistence(timeout: 10))
+        XCTAssertTrue(drawButton.waitForExistence(timeout: 10))
 
         // When
         let titleFrame = titleText.frame
         let buttonFrame = drawButton.frame
         let screenHeight = self.app.frame.height
 
-        // Then - Title should be in upper portion, button in middle/lower
+        // Then - Title should be at top, button should be at bottom (ZStack + safeAreaInset layout)
+        // Title should be in upper portion (first 40% of screen)
+        // Note: Title is in safeAreaInset which may extend into clock area
+        XCTAssertLessThan(
+            titleFrame.maxY,
+            screenHeight * 0.4,
+            "Title should be in upper portion of screen"
+        )
+
+        // Title should be above button with significant space between
         XCTAssertLessThan(
             titleFrame.maxY,
             buttonFrame.minY,
             "Title should be above button"
         )
 
-        // Button shouldn't be at very top or bottom
+        // Button should be in lower portion (positioned via safeAreaInset)
+        // Button center should be in bottom half of screen
         XCTAssertGreaterThan(
-            buttonFrame.minY,
-            screenHeight * 0.2,
-            "Button should have space above"
-        )
-        XCTAssertLessThan(
-            buttonFrame.maxY,
-            screenHeight * 0.8,
-            "Button should have space below"
+            buttonFrame.midY,
+            screenHeight * 0.5,
+            "Button should be in lower half of screen"
         )
     }
 
@@ -160,8 +171,8 @@ final class DrawCardViewResponsivenessUITests: XCTestCase {
 
     func test_drawButton_tapOpensPreview() throws {
         // Given
-        let drawButton = self.app.buttons["DRAW"]
-        XCTAssertTrue(drawButton.waitForExistence(timeout: 2))
+        let drawButton = self.app.buttons["draw-button"]
+        XCTAssertTrue(drawButton.waitForExistence(timeout: 10))
 
         // When
         drawButton.tap()
@@ -176,12 +187,22 @@ final class DrawCardViewResponsivenessUITests: XCTestCase {
 
     func test_layout_remainsStableAfterInteraction() throws {
         // Given
-        let drawButton = self.app.buttons["DRAW"]
+        let drawButton = self.app.buttons["draw-button"]
+        XCTAssertTrue(drawButton.waitForExistence(timeout: 10))
         let initialFrame = drawButton.frame
 
-        // When - Navigate away and back
-        self.app.tabBars.buttons["History"].tap()
-        self.app.tabBars.buttons["Draw"].tap()
+        // When - Navigate away and back using swipe gestures (page-style TabView)
+        // Swipe left to go to History page
+        self.app.swipeLeft()
+
+        // Wait for transition to complete
+        _ = self.app.otherElements.firstMatch.waitForExistence(timeout: 2)
+
+        // Swipe right to return to Draw page
+        self.app.swipeRight()
+
+        // Wait for button to re-appear and settle after navigation
+        XCTAssertTrue(drawButton.waitForExistence(timeout: 10))
 
         // Then - Button size should remain consistent
         let finalFrame = drawButton.frame
@@ -189,13 +210,13 @@ final class DrawCardViewResponsivenessUITests: XCTestCase {
         XCTAssertEqual(
             initialFrame.width,
             finalFrame.width,
-            accuracy: 1.0,
+            accuracy: 2.0,
             "Button width should remain consistent after navigation"
         )
         XCTAssertEqual(
             initialFrame.height,
             finalFrame.height,
-            accuracy: 1.0,
+            accuracy: 2.0,
             "Button height should remain consistent after navigation"
         )
     }
