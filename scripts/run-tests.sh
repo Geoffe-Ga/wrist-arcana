@@ -13,7 +13,7 @@ set -e  # Exit on error
 PROJECT_DIR="WristArcana"
 PROJECT_FILE="WristArcana.xcodeproj"
 SCHEME="WristArcana Watch App"
-SIMULATOR="Apple Watch Ultra 2 (49mm)"
+SIMULATOR="${SIMULATOR:-Apple Watch Ultra 2 (49mm)}"  # Allow override via env var
 
 # Parse arguments
 TEST_TYPE="${1:-unit}"  # Default to unit tests
@@ -68,10 +68,12 @@ xcodebuild test \
   -only-testing:"$ONLY_TESTING_VALUE" \
   CODE_SIGNING_ALLOWED=NO \
   2>&1 | tee /tmp/wrist-arcana-test-output.log | \
-  grep -E "(Testing started|Test case.*passed|Test case.*failed|TEST FAILED|TEST SUCCEEDED|Failing tests:)" || true
+  grep -E "(Testing started|Test case.*passed|Test case.*failed|TEST FAILED|TEST SUCCEEDED|Failing tests:|error:|Error)" || true
 
 # Check exit status
-if [ ${PIPESTATUS[0]} -eq 0 ]; then
+EXIT_CODE=${PIPESTATUS[0]}
+
+if [ $EXIT_CODE -eq 0 ]; then
     echo ""
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo "✅ All tests passed!"
@@ -79,8 +81,20 @@ if [ ${PIPESTATUS[0]} -eq 0 ]; then
 else
     echo ""
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "❌ Tests failed"
+    echo "❌ Tests failed (exit code: $EXIT_CODE)"
+    echo ""
+    echo "📋 Failing tests:"
+    grep "Failing tests:" /tmp/wrist-arcana-test-output.log || echo "  (No failing tests list found)"
+    grep -A 1 "Failing tests:" /tmp/wrist-arcana-test-output.log | tail -n +2 || true
+    echo ""
+    echo "🔍 Recent failures:"
+    grep "failed on" /tmp/wrist-arcana-test-output.log | tail -10 || echo "  (No test failures found)"
+    echo ""
+    echo "⚠️  Build errors:"
+    grep -i "error:" /tmp/wrist-arcana-test-output.log | head -10 || echo "  (No build errors found)"
     echo ""
     echo "Full output saved to: /tmp/wrist-arcana-test-output.log"
+    echo ""
+    echo "💡 View full log: cat /tmp/wrist-arcana-test-output.log"
     exit 1
 fi
