@@ -45,7 +45,7 @@ jobs:
           xcodebuild build \
             -project WristArcana/WristArcana.xcodeproj \
             -target "WristArcana Watch App" \
-            -destination 'platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)' \
+            -destination 'platform=watchOS Simulator,name=Apple Watch Ultra 2 (49mm)' \
             CODE_SIGNING_ALLOWED=NO
 
   test:
@@ -59,7 +59,7 @@ jobs:
       - name: Run unit tests
         env:
           NSUnbufferedIO: "YES"
-          SIMULATOR: "Apple Watch Series 10 (46mm)"
+          SIMULATOR: "Apple Watch Ultra 2 (49mm)"
         run: |
           set -eo pipefail
           ./scripts/run-tests.sh unit
@@ -67,7 +67,7 @@ jobs:
       - name: Run UI tests (DrawCardViewResponsivenessUITests)
         env:
           NSUnbufferedIO: "YES"
-          SIMULATOR: "Apple Watch Series 10 (46mm)"
+          SIMULATOR: "Apple Watch Ultra 2 (49mm)"
         run: |
           set -eo pipefail
           ./scripts/run-tests.sh DrawCardViewResponsivenessUITests
