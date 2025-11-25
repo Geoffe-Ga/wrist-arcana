@@ -39,37 +39,65 @@ struct DrawCardView: View {
     // MARK: - Body
 
     var body: some View {
-        VStack(spacing: 20) {
-            Spacer()
-
-            // App Title
-            Text("Tarot")
-                .font(Theme.Fonts.title)
-                .foregroundStyle(.purple)
-
-            Spacer()
-
-            // Main CTA Button
-            if let viewModel {
-                CTAButton(
-                    title: "DRAW",
-                    isLoading: viewModel.isDrawing,
-                    action: {
-                        Task {
-                            await viewModel.drawCard()
-                            if viewModel.currentCard != nil {
-                                self.showingPreview = true
+        GeometryReader { geometry in
+            ZStack {
+                Color.clear
+            }
+            .safeAreaInset(edge: .top) {
+                // Title positioned directly under clock
+                Text("Tarot")
+                    .font(.system(
+                        size: self.scaledTitleSize(
+                            for: geometry.size.height,
+                            safeAreaInsets: geometry.safeAreaInsets
+                        ),
+                        weight: .bold,
+                        design: .serif
+                    ))
+                    .foregroundStyle(.purple)
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
+            .safeAreaInset(edge: .bottom) {
+                // Button at bottom - glow extends to absolute edge
+                if let viewModel {
+                    CTAButton(
+                        title: "DRAW",
+                        isLoading: viewModel.isDrawing,
+                        action: {
+                            Task {
+                                await viewModel.drawCard()
+                                if viewModel.currentCard != nil {
+                                    self.showingPreview = true
+                                }
                             }
                         }
-                    }
-                )
-                .frame(width: 140, height: 140)
-            } else {
-                ProgressView()
-                    .frame(width: 140, height: 140)
+                    )
+                    .frame(
+                        width: self.scaledButtonSize(
+                            for: geometry.size,
+                            safeAreaInsets: geometry.safeAreaInsets
+                        ),
+                        height: self.scaledButtonSize(
+                            for: geometry.size,
+                            safeAreaInsets: geometry.safeAreaInsets
+                        )
+                    )
+                    .frame(maxWidth: .infinity, alignment: .center)
+                } else {
+                    ProgressView()
+                        .frame(
+                            width: self.scaledButtonSize(
+                                for: geometry.size,
+                                safeAreaInsets: geometry.safeAreaInsets
+                            ),
+                            height: self.scaledButtonSize(
+                                for: geometry.size,
+                                safeAreaInsets: geometry.safeAreaInsets
+                            )
+                        )
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
             }
-
-            Spacer()
         }
         .sheet(isPresented: self.$showingPreview) {
             if let card = viewModel?.currentCard {
@@ -177,14 +205,45 @@ struct DrawCardView: View {
             }
         }
     }
+
+    // MARK: - Responsive Sizing Helpers
+
+    /// Calculate scaled button size based on screen dimensions
+    /// - Formula: 70% of screen width, constrained between 120-160pt
+    /// - Returns square dimension (width == height)
+    /// - Respects safe area insets to prevent collisions with title
+    private func scaledButtonSize(for screenSize: CGSize, safeAreaInsets: EdgeInsets) -> CGFloat {
+        let baseSize = screenSize.width * 0.7
+        let availableHeight = screenSize.height - safeAreaInsets.top - safeAreaInsets.bottom
+
+        // Cap button height to prevent collision with title when safe area shrinks space
+        let maxButtonHeight = availableHeight * 0.6
+
+        return max(120, min(160, min(baseSize, maxButtonHeight)))
+    }
+
+    /// Calculate scaled title font size based on screen height
+    /// - Formula: 12% of screen height, constrained between 28-36pt
+    /// - Ensures readable title on all Apple Watch sizes
+    /// - Respects safe area insets for consistent positioning
+    private func scaledTitleSize(for screenHeight: CGFloat, safeAreaInsets: EdgeInsets) -> CGFloat {
+        let availableHeight = screenHeight - safeAreaInsets.top - safeAreaInsets.bottom
+        let baseSize = availableHeight * 0.12
+        return max(28, min(36, baseSize))
+    }
 }
 
-#Preview {
+#Preview("41mm Watch") {
     DrawCardView()
         .modelContainer(for: [CardPull.self])
 }
 
-#Preview {
+#Preview("45mm Watch") {
+    DrawCardView()
+        .modelContainer(for: [CardPull.self])
+}
+
+#Preview("49mm Ultra") {
     DrawCardView()
         .modelContainer(for: [CardPull.self])
 }
