@@ -546,4 +546,482 @@ struct HistoryViewModelTests {
         // Then
         #expect(sut.selectedPull?.id == pull.id)
     }
+
+    // MARK: - Multi-Select Edit Mode Tests
+
+    @Test func enterEditMode_setsIsInEditModeTrue() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        #expect(sut.isInEditMode == false)
+
+        // When
+        sut.enterEditMode()
+
+        // Then
+        #expect(sut.isInEditMode == true)
+    }
+
+    @Test func enterEditMode_clearsExistingSelections() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull1 = self.createSamplePull(cardName: "Card 1")
+        let pull2 = self.createSamplePull(cardName: "Card 2")
+        context.insert(pull1)
+        context.insert(pull2)
+        try context.save()
+
+        // Pre-populate selections
+        sut.isInEditMode = true
+        sut.selectedPullIds = [pull1.id, pull2.id]
+        #expect(sut.selectedPullIds.count == 2)
+
+        // When
+        sut.enterEditMode()
+
+        // Then
+        #expect(sut.selectedPullIds.isEmpty)
+    }
+
+    @Test func exitEditMode_setsIsInEditModeFalse() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        sut.isInEditMode = true
+
+        // When
+        sut.exitEditMode()
+
+        // Then
+        #expect(sut.isInEditMode == false)
+    }
+
+    @Test func exitEditMode_clearsSelections() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+        context.insert(pull)
+        try context.save()
+
+        sut.isInEditMode = true
+        sut.selectedPullIds = [pull.id]
+        #expect(!sut.selectedPullIds.isEmpty)
+
+        // When
+        sut.exitEditMode()
+
+        // Then
+        #expect(sut.selectedPullIds.isEmpty)
+    }
+
+    // MARK: - Toggle Selection Tests
+
+    @Test func toggleSelection_addsIdWhenNotSelected() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+        context.insert(pull)
+        try context.save()
+
+        #expect(sut.selectedPullIds.isEmpty)
+
+        // When
+        sut.toggleSelection(for: pull)
+
+        // Then
+        #expect(sut.selectedPullIds.contains(pull.id))
+        #expect(sut.selectedPullIds.count == 1)
+    }
+
+    @Test func toggleSelection_removesIdWhenAlreadySelected() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+        context.insert(pull)
+        try context.save()
+
+        sut.selectedPullIds.insert(pull.id)
+        #expect(sut.selectedPullIds.contains(pull.id))
+
+        // When
+        sut.toggleSelection(for: pull)
+
+        // Then
+        #expect(!sut.selectedPullIds.contains(pull.id))
+        #expect(sut.selectedPullIds.isEmpty)
+    }
+
+    @Test func toggleSelection_handlesMultipleSelections() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull1 = self.createSamplePull(cardName: "Card 1")
+        let pull2 = self.createSamplePull(cardName: "Card 2")
+        let pull3 = self.createSamplePull(cardName: "Card 3")
+        context.insert(pull1)
+        context.insert(pull2)
+        context.insert(pull3)
+        try context.save()
+
+        // When
+        sut.toggleSelection(for: pull1)
+        sut.toggleSelection(for: pull2)
+        sut.toggleSelection(for: pull3)
+
+        // Then
+        #expect(sut.selectedPullIds.count == 3)
+        #expect(sut.selectedPullIds.contains(pull1.id))
+        #expect(sut.selectedPullIds.contains(pull2.id))
+        #expect(sut.selectedPullIds.contains(pull3.id))
+    }
+
+    @Test func toggleSelection_canSelectDeselectRepeatedly() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+        context.insert(pull)
+        try context.save()
+
+        // When/Then
+        sut.toggleSelection(for: pull)
+        #expect(sut.selectedPullIds.contains(pull.id))
+
+        sut.toggleSelection(for: pull)
+        #expect(!sut.selectedPullIds.contains(pull.id))
+
+        sut.toggleSelection(for: pull)
+        #expect(sut.selectedPullIds.contains(pull.id))
+    }
+
+    // MARK: - IsSelected Tests
+
+    @Test func isSelected_returnsTrueWhenIdInSet() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+        context.insert(pull)
+        try context.save()
+
+        sut.selectedPullIds.insert(pull.id)
+
+        // When
+        let result = sut.isSelected(pull)
+
+        // Then
+        #expect(result == true)
+    }
+
+    @Test func isSelected_returnsFalseWhenIdNotInSet() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+        context.insert(pull)
+        try context.save()
+
+        #expect(sut.selectedPullIds.isEmpty)
+
+        // When
+        let result = sut.isSelected(pull)
+
+        // Then
+        #expect(result == false)
+    }
+
+    @Test func isSelected_handlesEmptySelectionSet() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+
+        // When
+        let result = sut.isSelected(pull)
+
+        // Then
+        #expect(result == false)
+    }
+
+    // MARK: - Delete Multiple Pulls Tests
+
+    @Test func deleteMultiplePulls_removesAllSpecifiedPulls() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull1 = self.createSamplePull(cardName: "Card 1")
+        let pull2 = self.createSamplePull(cardName: "Card 2")
+        let pull3 = self.createSamplePull(cardName: "Card 3")
+        context.insert(pull1)
+        context.insert(pull2)
+        context.insert(pull3)
+        try context.save()
+        await sut.loadHistory()
+
+        #expect(sut.pulls.count == 3)
+
+        // When
+        await sut.deleteMultiplePulls(ids: [pull1.id, pull2.id])
+
+        // Then
+        #expect(sut.pulls.count == 1)
+        #expect(sut.pulls.first?.cardName == "Card 3")
+    }
+
+    @Test func deleteMultiplePulls_clearsSelectionsAfterDeletion() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull1 = self.createSamplePull(cardName: "Card 1")
+        let pull2 = self.createSamplePull(cardName: "Card 2")
+        context.insert(pull1)
+        context.insert(pull2)
+        try context.save()
+        await sut.loadHistory()
+
+        sut.selectedPullIds = [pull1.id, pull2.id]
+        #expect(sut.selectedPullIds.count == 2)
+
+        // When
+        await sut.deleteMultiplePulls(ids: [pull1.id])
+
+        // Then
+        #expect(sut.selectedPullIds.isEmpty)
+    }
+
+    @Test func deleteMultiplePulls_exitsEditModeAfterDeletion() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+        context.insert(pull)
+        try context.save()
+        await sut.loadHistory()
+
+        sut.isInEditMode = true
+        #expect(sut.isInEditMode == true)
+
+        // When
+        await sut.deleteMultiplePulls(ids: [pull.id])
+
+        // Then
+        #expect(sut.isInEditMode == false)
+    }
+
+    @Test func deleteMultiplePulls_reloadsHistory() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull1 = self.createSamplePull(cardName: "Card 1")
+        let pull2 = self.createSamplePull(cardName: "Card 2")
+        context.insert(pull1)
+        context.insert(pull2)
+        try context.save()
+        await sut.loadHistory()
+
+        let initialPullsCount = sut.pulls.count
+
+        // When
+        await sut.deleteMultiplePulls(ids: [pull1.id])
+
+        // Then - Verify history was reloaded (count changed)
+        #expect(sut.pulls.count == initialPullsCount - 1)
+    }
+
+    @Test func deleteMultiplePulls_handlesEmptyIdSet() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+        context.insert(pull)
+        try context.save()
+        await sut.loadHistory()
+
+        // When
+        await sut.deleteMultiplePulls(ids: [])
+
+        // Then - No pulls deleted
+        #expect(sut.pulls.count == 1)
+    }
+
+    @Test func deleteMultiplePulls_handlesSinglePull() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+        context.insert(pull)
+        try context.save()
+        await sut.loadHistory()
+
+        // When
+        await sut.deleteMultiplePulls(ids: [pull.id])
+
+        // Then
+        #expect(sut.pulls.isEmpty)
+    }
+
+    @Test func deleteMultiplePulls_handlesAllPulls() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull1 = self.createSamplePull(cardName: "Card 1")
+        let pull2 = self.createSamplePull(cardName: "Card 2")
+        let pull3 = self.createSamplePull(cardName: "Card 3")
+        context.insert(pull1)
+        context.insert(pull2)
+        context.insert(pull3)
+        try context.save()
+        await sut.loadHistory()
+
+        // When
+        await sut.deleteMultiplePulls(ids: [pull1.id, pull2.id, pull3.id])
+
+        // Then
+        #expect(sut.pulls.isEmpty)
+    }
+
+    // MARK: - Clear All History Tests
+
+    @Test func clearAllHistory_removesAllPulls() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull1 = self.createSamplePull(cardName: "Card 1")
+        let pull2 = self.createSamplePull(cardName: "Card 2")
+        let pull3 = self.createSamplePull(cardName: "Card 3")
+        context.insert(pull1)
+        context.insert(pull2)
+        context.insert(pull3)
+        try context.save()
+        await sut.loadHistory()
+
+        #expect(sut.pulls.count == 3)
+
+        // When
+        await sut.clearAllHistory()
+
+        // Then
+        #expect(sut.pulls.isEmpty)
+    }
+
+    @Test func clearAllHistory_clearsSelections() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+        context.insert(pull)
+        try context.save()
+        await sut.loadHistory()
+
+        sut.selectedPullIds = [pull.id]
+        #expect(!sut.selectedPullIds.isEmpty)
+
+        // When
+        await sut.clearAllHistory()
+
+        // Then
+        #expect(sut.selectedPullIds.isEmpty)
+    }
+
+    @Test func clearAllHistory_exitsEditMode() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        let pull = self.createSamplePull()
+        context.insert(pull)
+        try context.save()
+        await sut.loadHistory()
+
+        sut.isInEditMode = true
+        #expect(sut.isInEditMode == true)
+
+        // When
+        await sut.clearAllHistory()
+
+        // Then
+        #expect(sut.isInEditMode == false)
+    }
+
+    @Test func clearAllHistory_handlesEmptyHistory() async throws {
+        // Given
+        let container = self.createInMemoryModelContainer()
+        let context = ModelContext(container)
+        let storageMonitor = MockStorageMonitor()
+        let sut = HistoryViewModel(modelContext: context, storageMonitor: storageMonitor)
+
+        #expect(sut.pulls.isEmpty)
+
+        // When
+        await sut.clearAllHistory()
+
+        // Then
+        #expect(sut.pulls.isEmpty)
+    }
 }

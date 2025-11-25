@@ -214,6 +214,16 @@ All features MUST follow the Red-Green-Refactor cycle:
 3. **Refactor:** Clean up while keeping tests green
 4. **Verify:** Run full test suite to ensure no regressions
 
+**Critical Testing Principles:**
+- **NO SHORTCUTS**: Every test must validate real behavior, not just pass
+- **Real Assertions**: Test actual output values, state changes, side effects
+- **Avoid Tautologies**: Don't test `x == x` or mock return values you just set
+- **Test Edge Cases**: Empty arrays, nil values, errors, boundary conditions
+- **One Behavior Per Test**: Each test should verify ONE specific behavior
+- **Descriptive Names**: Test names should read like documentation
+  - Good: `loadDecks_setsErrorMessageOnFailure()`
+  - Bad: `testLoadDecks()` or `test1()`
+
 **Coverage Requirements (CI enforced):**
 - **Overall: ≥50%** code coverage (CI fails below this)
   - Current: 49.54% - actively working toward 60%+ goal
