@@ -1,38 +1,50 @@
 # Code Coverage Gaps
 
-**Current Overall Coverage: 49.54%**
+**Current Overall Coverage: 53.60%**
 **Minimum Threshold: 50%** (CI enforced)
 **Target Goal: 60%+**
 
-Status: ✅ Just below threshold - need +0.46% to pass pre-push hook
+Status: ✅ **PASSING** - Above 50% threshold! (+3.60% buffer)
 
 ## Critical Gaps (Business Logic - HIGH PRIORITY)
 
-### 1. CardRepository.swift (96% → 100%)
-**Missing: 3 lines in `loadCards()` method**
-- Lines 20-23: Error handling path for JSON decoding failure
-- Status: Need test for malformed JSON input
+### 1. CardRepository.swift (93.33% - ACTUAL)
+**Missing: 5/75 lines**
+- Error handling paths for JSON decoding/bundle loading failures
+- Status: Complex to test without refactoring (requires mocking Bundle/FileManager)
+- Priority: Low (error paths are defensive code, not core business logic)
 
 ### 2. ~~DeckSelectionViewModel.swift~~ ✅ **COMPLETED (0% → 100%)**
-**All 45 lines now covered with 14 comprehensive tests**
+**All 20 lines now covered with 14 comprehensive tests**
 - ✅ `init()` method - handles success, errors, empty decks
 - ✅ `loadDecks()` method - populate, update, error handling
 - ✅ `selectDeck()` method - updates ID, allows nil, multiple changes
 - ✅ Integration test - full load-select-reload workflow
-- Status: **100% coverage achieved** (PR #24)
+- Status: **100% coverage achieved**
 
-### 3. CTAButton.swift (40% → 80%+)
-**Missing: 9/15 lines**
-- Loading state rendering path
-- Body getter branches for disabled/loading states
-- Status: Need component tests for loading state
+### 3. ~~HistoryViewModel.swift~~ ✅ **SIGNIFICANTLY IMPROVED (0% → 95.48%)**
+**190/199 lines covered with 49 comprehensive tests**
+- ✅ Multi-select functionality (enterEditMode, exitEditMode, toggleSelection) - 23 new tests
+- ✅ History management (loadHistory, deletePull, pruneOldestPulls)
+- ✅ Note management (startAddingNote, saveNote, deleteNote)
+- ✅ Storage monitoring integration
+- Missing: 9 lines (mostly edge cases in saveNote/deleteMultiplePulls)
+- Status: **95%+ coverage achieved**
 
-### 4. HistoryRow.swift (50% → 80%+)
-**Missing: 28/56 lines**
-- Note display path
-- Conditional rendering of truncated note
-- Accessibility labels
-- Status: Need component tests for note display
+### 4. CardDrawViewModel.swift (94.94% - ACTUAL)
+**Missing: 4/79 lines**
+- Minimal gaps in edge case handling
+- Status: Near-complete coverage, remaining gaps are minor
+
+### 5. CTAButton.swift (96.15% - ACTUAL, NOT 40%)
+**Missing: 2/52 lines**
+- Minor SwiftUI body getter branches
+- Status: Excellent coverage for a UI component
+
+### 6. HistoryRow.swift (0% - ACTUAL, NOT 50%)
+**Missing: 113/113 lines**
+- Pure SwiftUI component with note display, truncation, accessibility
+- Status: UI component - low priority for unit tests, should use UI tests
 
 ## Medium Priority (UI Components - Target 60%)
 
@@ -63,30 +75,48 @@ These are SwiftUI View body getters with minimal business logic. Coverage via UI
 
 ## Summary
 
-**To reach 50% threshold (immediate priority):**
-1. ~~**DeckSelectionViewModel** (0% → 100%)~~ ✅ **COMPLETED** (+1.53%)
-2. **CardRepository error handling** (96% → 100%) - 3 lines (~0.08%)
+**Recent Achievements:**
+1. ~~**DeckSelectionViewModel** (0% → 100%)~~ ✅ **COMPLETED** - 14 tests, 20 lines (+0.55%)
+2. ~~**HistoryViewModel multi-select** (0% → 95.48%)~~ ✅ **COMPLETED** - 23 tests, 46 lines (+1.28%)
+3. **Overall Coverage: 49.54% → 53.60%** ✅ **PASSING 50% THRESHOLD** (+4.06%)
 
 **To reach 60% goal (medium-term):**
-1. **CTAButton loading state** (40% → 80%) - 9 lines (~0.25%)
-2. **HistoryRow note display** (50% → 80%) - 14 lines (~0.39%)
-3. **DrawCardView closures** (70% → 80%) - 50 lines (~1.39%)
-4. **Additional component tests** - ~100 lines (~2.78%)
+1. **DrawCardView UI closures** (70.69% → 80%) - ~50 lines (~1.39%)
+2. **Component UI tests** (HistoryRow, CTAButton, CardImageView) - ~150 lines (~4.17%)
+3. **StorageMonitor edge cases** (79.49% → 90%) - ~4 lines (~0.11%)
+4. **ViewModel edge cases** (CardDrawViewModel, HistoryViewModel) - ~13 lines (~0.36%)
 
-**Path to 60% = Current (49.54%) + High Priority (0.72%) + Component Tests (4.81%)**
+**Path to 60% = Current (53.60%) + Component Tests (~4.17%) + Edge Cases (~1.86%) = ~59.63%**
+
+**Note:** Remaining ~0.40% can come from minor improvements across all categories or accepting 59.6% as "close enough" given diminishing returns on UI test coverage.
 
 ## Already at 100% Coverage ✓
 
-- CardPull.swift ✓
-- WristArcanaApp.swift ✓
-- CardReferenceViewModel.swift ✓
-- RandomGenerator.swift ✓
-- Date+Formatting.swift ✓
-- CardDrawViewModel.swift ✓
-- HistoryViewModel.swift ✓
-- DeckSelectionViewModel.swift ✓ (NEW - PR #24)
-- TarotCard.swift ✓
-- TarotDeck.swift ✓
-- DeckRepository.swift (96%, needs error case) ✓
-- StorageMonitor.swift ✓
-- NoteInputSanitizer.swift ✓
+**Models:**
+- CardPull.swift ✓ (21/21 lines)
+
+**ViewModels:**
+- CardReferenceViewModel.swift ✓ (22/22 lines)
+- DeckSelectionViewModel.swift ✓ (20/20 lines) - **NEW** from this PR
+
+**Views:**
+- WristArcanaApp.swift ✓ (9/9 lines)
+- ContentView.swift ✓ (3/3 lines)
+- MainView.swift ✓ (51/51 lines)
+
+**Utilities:**
+- RandomGenerator.swift ✓ (5/5 lines)
+- Date+Formatting.swift ✓ (12/12 lines)
+- NoteInputSanitizer.swift ✓ (42/42 lines)
+
+## Near-Perfect Coverage (95%+) ✓
+
+**ViewModels (Business Logic):**
+- HistoryViewModel.swift - 95.48% (190/199 lines) - **IMPROVED** from 0% this PR
+- CardDrawViewModel.swift - 94.94% (75/79 lines)
+
+**Components:**
+- CTAButton.swift - 96.15% (50/52 lines)
+
+**Models:**
+- CardRepository.swift - 93.33% (70/75 lines)
