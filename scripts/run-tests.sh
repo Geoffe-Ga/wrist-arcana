@@ -57,16 +57,15 @@ else
   ONLY_TESTING_VALUE="$TEST_TARGET"
 fi
 
-# Step 1: Build watch app and test targets
-echo "▶️  Building watch app and test targets..."
+# Step 1: Build for testing (watchOS only)
+echo "▶️  Building for testing..."
 echo ""
 
-xcodebuild build \
+xcodebuild build-for-testing \
   -project "$PROJECT_DIR/$PROJECT_FILE" \
-  -target "WristArcana Watch App" \
-  -target "$TEST_TARGET" \
+  -scheme "$SCHEME" \
   -destination "platform=watchOS Simulator,name=$SIMULATOR" \
-  ENABLE_TESTABILITY=YES \
+  -only-testing:"$ONLY_TESTING_VALUE" \
   CODE_SIGNING_ALLOWED=NO \
   2>&1 | tee /tmp/wrist-arcana-build-output.log | \
   grep -E "(Build|BUILD|SUCCEEDED|FAILED|error:|Error)" || true
@@ -87,7 +86,7 @@ fi
 echo "✅ Build succeeded"
 echo ""
 
-# Step 2: Run tests
+# Step 2: Run tests without rebuilding
 echo "▶️  Running tests..."
 echo ""
 
