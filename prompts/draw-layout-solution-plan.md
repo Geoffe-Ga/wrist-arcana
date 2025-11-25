@@ -25,9 +25,11 @@
    - If UI tests exist for button visibility, extend them with assertions for element positions using snapshot/screen size heuristics.
 
 ## Execution checklist
-- [ ] Refactor `DrawCardView` layout using `ZStack` + `safeAreaInset` for top and bottom anchoring.
-- [ ] Remove bottom padding from the CTA button; ensure the glow naturally reaches the bottom edge.
-- [ ] Add alignment frames to explicitly center title and button.
-- [ ] Update size helpers to respect safe-area insets when computing heights.
-- [ ] Expand previews to cover multiple watch sizes and verify the layout contract.
-- [ ] Run SwiftFormat/SwiftLint and applicable UI tests after changes.
+- [x] Refactor `DrawCardView` layout using `ZStack` + `safeAreaInset` for top and bottom anchoring.
+- [x] Remove bottom padding from the CTA button; ensure the glow naturally reaches the bottom edge.
+- [x] Add alignment frames to explicitly center title and button.
+- [x] Update size helpers to respect safe-area insets when computing heights.
+- [x] Expand previews to cover multiple watch sizes and verify the layout contract.
+- [x] Run SwiftFormat/SwiftLint and applicable UI tests after changes.
+
+**Completed:** All checklist items implemented in commit 0e2a873. Layout now uses ZStack with safeAreaInsets, respects safe areas in sizing calculations, and includes 3 watch size previews. All linters pass.
