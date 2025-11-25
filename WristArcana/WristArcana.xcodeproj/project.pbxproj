@@ -45,13 +45,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		676E55A02E8DE4F200F22194 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 676E55922E8DE4F200F22194 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 676E559D2E8DE4F200F22194;
-			remoteInfo = "WristArcana Watch App";
-		};
 		676E55AE2E8DE4F400F22194 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 676E55922E8DE4F200F22194 /* Project object */;
@@ -69,21 +62,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		676E55C42E8DE4F400F22194 /* Embed Watch Content */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
-			dstSubfolderSpec = 16;
-			files = (
-				676E559F2E8DE4F200F22194 /* WristArcana Watch App.app in Embed Watch Content */,
-			);
-			name = "Embed Watch Content";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		676E55982E8DE4F200F22194 /* WristArcana.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WristArcana.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		676E559E2E8DE4F200F22194 /* WristArcana Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WristArcana Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		676E55A32E8DE4F200F22194 /* WristArcanaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WristArcanaApp.swift; sourceTree = "<group>"; };
 		676E55A52E8DE4F200F22194 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -187,7 +168,6 @@
 		676E55992E8DE4F200F22194 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				676E55982E8DE4F200F22194 /* WristArcana.app */,
 				676E559E2E8DE4F200F22194 /* WristArcana Watch App.app */,
 				676E55AD2E8DE4F400F22194 /* WristArcana Watch AppTests.xctest */,
 				676E55B72E8DE4F400F22194 /* WristArcana Watch AppUITests.xctest */,
@@ -288,25 +268,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		676E55972E8DE4F200F22194 /* WristArcana */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 676E55C52E8DE4F400F22194 /* Build configuration list for PBXNativeTarget "WristArcana" */;
-			buildPhases = (
-				676E55962E8DE4F200F22194 /* Resources */,
-				676E55C42E8DE4F400F22194 /* Embed Watch Content */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				676E55A12E8DE4F200F22194 /* PBXTargetDependency */,
-			);
-			name = WristArcana;
-			packageProductDependencies = (
-			);
-			productName = WristArcana;
-			productReference = 676E55982E8DE4F200F22194 /* WristArcana.app */;
-			productType = "com.apple.product-type.application.watchapp2-container";
-		};
 		676E559D2E8DE4F200F22194 /* WristArcana Watch App */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 676E55C12E8DE4F400F22194 /* Build configuration list for PBXNativeTarget "WristArcana Watch App" */;
@@ -415,7 +376,6 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				676E55972E8DE4F200F22194 /* WristArcana */,
 				676E559D2E8DE4F200F22194 /* WristArcana Watch App */,
 				676E55AC2E8DE4F400F22194 /* WristArcana Watch AppTests */,
 				676E55B62E8DE4F400F22194 /* WristArcana Watch AppUITests */,
@@ -424,13 +384,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		676E55962E8DE4F200F22194 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		676E559C2E8DE4F200F22194 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -513,11 +466,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		676E55A12E8DE4F200F22194 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 676E559D2E8DE4F200F22194 /* WristArcana Watch App */;
-			targetProxy = 676E55A02E8DE4F200F22194 /* PBXContainerItemProxy */;
-		};
 		676E55AF2E8DE4F400F22194 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 676E559D2E8DE4F200F22194 /* WristArcana Watch App */;
@@ -706,37 +654,6 @@
 			};
 			name = Release;
 		};
-		676E55C62E8DE4F400F22194 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4YP4K7RFL9;
-				INFOPLIST_KEY_CFBundleDisplayName = WristArcana;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.creekmasons.WristArcana;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		676E55C72E8DE4F400F22194 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4YP4K7RFL9;
-				INFOPLIST_KEY_CFBundleDisplayName = WristArcana;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.creekmasons.WristArcana;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_VERSION = 5.0;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 		676E55C92E8DE4F400F22194 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -834,15 +751,6 @@
 			buildConfigurations = (
 				676E55C22E8DE4F400F22194 /* Debug */,
 				676E55C32E8DE4F400F22194 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		676E55C52E8DE4F400F22194 /* Build configuration list for PBXNativeTarget "WristArcana" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				676E55C62E8DE4F400F22194 /* Debug */,
-				676E55C72E8DE4F400F22194 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
