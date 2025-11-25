@@ -24,9 +24,16 @@ repos:
         pass_filenames: false
         stages: [pre-commit]
 
-      - id: xcodebuild-test
-        name: Xcode Tests with Coverage
-        entry: bash -c 'xcodebuild test -project WristArcana/WristArcana.xcodeproj -scheme "WristArcana Watch App" -destination "platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)" -only-testing:"WristArcana Watch AppTests" -only-testing:"WristArcana Watch AppUITests" -enableCodeCoverage YES -resultBundlePath /tmp/TestResults 2>&1 | grep -E "(TEST|SUCCEEDED|FAILED)" | tail -1'
+      - id: xcodebuild-test-unit
+        name: Unit Tests (WristArcana Watch AppTests)
+        entry: bash -c 'xcodebuild test -project WristArcana/WristArcana.xcodeproj -scheme "WristArcana Watch App" -destination "platform=watchOS Simulator,name=Apple Watch Ultra 2 (49mm)" -only-testing:"WristArcana Watch AppTests" -enableCodeCoverage YES -resultBundlePath /tmp/TestResults CODE_SIGNING_ALLOWED=NO 2>&1 | grep -E "(TEST|SUCCEEDED|FAILED)" | tail -1'
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: xcodebuild-test-ui
+        name: UI Tests (DrawCardViewResponsivenessUITests)
+        entry: bash -c './scripts/run-ui-tests.sh DrawCardViewResponsivenessUITests'
         language: system
         pass_filenames: false
         stages: [pre-push]
