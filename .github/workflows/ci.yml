@@ -34,8 +34,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_16.2.app
+      - name: Select Xcode 16.4
+        run: sudo xcode-select -s /Applications/Xcode_16.4.app/Contents/Developer
 
       - name: Build watchOS app (no codesign)
         env:
@@ -45,7 +45,7 @@ jobs:
           xcodebuild build \
             -project WristArcana/WristArcana.xcodeproj \
             -target "WristArcana Watch App" \
-            -destination 'platform=watchOS Simulator,name=Apple Watch Ultra 2 (49mm)' \
+            -destination 'platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)' \
             CODE_SIGNING_ALLOWED=NO
 
   test:
@@ -53,13 +53,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_16.2.app
+      - name: Select Xcode 16.4
+        run: sudo xcode-select -s /Applications/Xcode_16.4.app/Contents/Developer
+
+      - name: Clean simulator state
+        run: |
+          xcrun simctl shutdown all || true
+          xcrun simctl erase all || true
 
       - name: Run unit tests
         env:
           NSUnbufferedIO: "YES"
-          SIMULATOR: "Apple Watch Ultra 2 (49mm)"
+          SIMULATOR: "Apple Watch Series 10 (46mm)"
         run: |
           set -eo pipefail
           ./scripts/run-tests.sh unit
@@ -67,7 +72,7 @@ jobs:
       - name: Run UI tests (DrawCardViewResponsivenessUITests)
         env:
           NSUnbufferedIO: "YES"
-          SIMULATOR: "Apple Watch Ultra 2 (49mm)"
+          SIMULATOR: "Apple Watch Series 10 (46mm)"
         run: |
           set -eo pipefail
           ./scripts/run-tests.sh DrawCardViewResponsivenessUITests
