@@ -59,6 +59,8 @@ fi
 
 # Enable code coverage for unit tests only (more meaningful than UI test coverage)
 if [ "$TEST_TYPE" = "unit" ]; then
+  # Remove old coverage results to avoid conflicts
+  rm -rf /tmp/TestResults.xcresult 2>/dev/null || true
   COVERAGE_FLAGS="-enableCodeCoverage YES -resultBundlePath /tmp/TestResults.xcresult"
   echo "📊 Code coverage enabled"
 else
