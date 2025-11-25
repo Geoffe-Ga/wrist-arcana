@@ -91,12 +91,11 @@ echo ""
 echo "▶️  Running tests..."
 echo ""
 
-xcodebuild test \
+xcodebuild test-without-building \
   -project "$PROJECT_DIR/$PROJECT_FILE" \
   -scheme "$SCHEME" \
   -destination "platform=watchOS Simulator,name=$SIMULATOR" \
   -only-testing:"$ONLY_TESTING_VALUE" \
-  -skip-test-configuration \
   CODE_SIGNING_ALLOWED=NO \
   2>&1 | tee /tmp/wrist-arcana-test-output.log | \
   grep -E "(Testing started|Test case.*passed|Test case.*failed|TEST FAILED|TEST SUCCEEDED|Failing tests:|error:|Error)" || true
