@@ -39,19 +39,20 @@ repos:
         stages: [pre-push]
 
       - id: coverage-check
-        name: Code Coverage ≥30% (TODO increase to 80%)
+        name: "Code Coverage ≥50% (goal: 60%+)"
         entry: bash
         args:
           - -c
           - |
             xcrun xccov view --report --json /tmp/TestResults.xcresult > /tmp/coverage.json
             COVERAGE=$(jq ".lineCoverage" /tmp/coverage.json)
-            echo "Coverage: $COVERAGE"
-            if (( $(echo "$COVERAGE < 0.30" | bc -l) )); then
-              echo "❌ Coverage below 30% threshold"
+            COVERAGE_PCT=$(echo "$COVERAGE * 100" | bc)
+            echo "Coverage: ${COVERAGE_PCT}%"
+            if (( $(echo "$COVERAGE < 0.50" | bc -l) )); then
+              echo "❌ Coverage below 50% threshold (current: ${COVERAGE_PCT}%)"
               exit 1
             fi
-            echo "✅ Coverage: $(echo "$COVERAGE * 100" | bc)%"
+            echo "✅ Coverage: ${COVERAGE_PCT}% (target: 60%+)"
         language: system
         pass_filenames: false
         stages: [pre-push]

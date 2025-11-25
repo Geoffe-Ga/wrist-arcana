@@ -1,7 +1,10 @@
 # Code Coverage Gaps
 
-**Current Overall Coverage: 48.01%**
-**Target: 80%+**
+**Current Overall Coverage: 49.54%**
+**Minimum Threshold: 50%** (CI enforced)
+**Target Goal: 60%+**
+
+Status: ✅ Just below threshold - need +0.46% to pass pre-push hook
 
 ## Critical Gaps (Business Logic - HIGH PRIORITY)
 
@@ -10,12 +13,13 @@
 - Lines 20-23: Error handling path for JSON decoding failure
 - Status: Need test for malformed JSON input
 
-### 2. DeckSelectionViewModel.swift (0% → 100%)
-**Missing: All 27 lines**
-- `init()` method
-- `selectDeck()` method
-- Published properties initialization
-- Status: **Completely untested - HIGHEST PRIORITY**
+### 2. ~~DeckSelectionViewModel.swift~~ ✅ **COMPLETED (0% → 100%)**
+**All 45 lines now covered with 14 comprehensive tests**
+- ✅ `init()` method - handles success, errors, empty decks
+- ✅ `loadDecks()` method - populate, update, error handling
+- ✅ `selectDeck()` method - updates ID, allows nil, multiple changes
+- ✅ Integration test - full load-select-reload workflow
+- Status: **100% coverage achieved** (PR #24)
 
 ### 3. CTAButton.swift (40% → 80%+)
 **Missing: 9/15 lines**
@@ -59,14 +63,17 @@ These are SwiftUI View body getters with minimal business logic. Coverage via UI
 
 ## Summary
 
-**To reach 80% coverage, prioritize:**
+**To reach 50% threshold (immediate priority):**
+1. ~~**DeckSelectionViewModel** (0% → 100%)~~ ✅ **COMPLETED** (+1.53%)
+2. **CardRepository error handling** (96% → 100%) - 3 lines (~0.08%)
 
-1. **DeckSelectionViewModel** (0% → 100%) - 27 lines
-2. **CardRepository error handling** (96% → 100%) - 3 lines
-3. **CTAButton loading state** (40% → 80%) - 9 lines
-4. **HistoryRow note display** (50% → 80%) - 14 lines
+**To reach 60% goal (medium-term):**
+1. **CTAButton loading state** (40% → 80%) - 9 lines (~0.25%)
+2. **HistoryRow note display** (50% → 80%) - 14 lines (~0.39%)
+3. **DrawCardView closures** (70% → 80%) - 50 lines (~1.39%)
+4. **Additional component tests** - ~100 lines (~2.78%)
 
-**Total new coverage needed: ~53 lines of critical business logic**
+**Path to 60% = Current (49.54%) + High Priority (0.72%) + Component Tests (4.81%)**
 
 ## Already at 100% Coverage ✓
 
@@ -77,6 +84,7 @@ These are SwiftUI View body getters with minimal business logic. Coverage via UI
 - Date+Formatting.swift ✓
 - CardDrawViewModel.swift ✓
 - HistoryViewModel.swift ✓
+- DeckSelectionViewModel.swift ✓ (NEW - PR #24)
 - TarotCard.swift ✓
 - TarotDeck.swift ✓
 - DeckRepository.swift (96%, needs error case) ✓

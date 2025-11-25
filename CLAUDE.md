@@ -25,10 +25,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - `Resources/` – Bundled deck JSON and asset catalog with card art/complications.
   - `WristArcanaApp.swift` – Scene entry point that configures the shared SwiftData container.
   - `WristArcana Watch AppTests/` & `WristArcana Watch AppUITests/` – Swift Testing suites and UI test scaffolding.
-- `scripts/` – Automation for card art download/processing and simulator datastore inspection.
-- `prompts/` – Historical product briefs and bug analyses for AI collaborators.
-- `TEST_FILES_TO_ADD.md` – Pending assets/data checklist.
-- Root documentation (`README.md`, `CONTRIBUTING.md`, `AGENTS.md`) – Onboarding information for human and AI contributors.
+- `scripts/` – Automation scripts:
+  - `run-tests.sh` – Unified test execution with coverage reporting
+  - `download_rws_cards.sh` & `process_images.sh` – Asset preparation
+- `COVERAGE_GAPS.md` – Test coverage tracking and improvement roadmap
+- `prompts/` – Historical product briefs and bug analyses for AI collaborators
+- Root documentation (`README.md`, `CONTRIBUTING.md`, `AGENTS.md`) – Onboarding information
 
 ## Build and Test Commands
 
@@ -45,19 +47,20 @@ xcodebuild build \
 
 ### Running Tests
 ```bash
-# Run all tests with coverage
-xcodebuild test \
-  -scheme WristArcana \
-  -destination 'platform=watchOS Simulator,name=Apple Watch Series 9 (45mm)' \
-  -enableCodeCoverage YES
+# Run all unit tests with coverage (recommended)
+./scripts/run-tests.sh unit
 
-# View coverage report
-xcodebuild test \
-  -scheme WristArcana \
-  -destination 'platform=watchOS Simulator,name=Apple Watch Series 9 (45mm)' \
-  -enableCodeCoverage YES \
-  -resultBundlePath TestResults.xcresult && \
-  open TestResults.xcresult
+# Run specific UI test suite
+./scripts/run-tests.sh DrawCardViewResponsivenessUITests
+
+# Run all UI tests
+./scripts/run-tests.sh ui
+
+# View detailed coverage report (requires unit tests to have run first)
+xcrun xccov view --report /tmp/TestResults.xcresult
+
+# View coverage as JSON
+xcrun xccov view --report --json /tmp/TestResults.xcresult
 ```
 
 ### Code Quality Tools
@@ -126,7 +129,13 @@ The app follows a strict MVVM architecture where:
 
 ### Key Architectural Decisions
 
-1. **Local Assets Only (Critical)**
+1. **Watch-Only App Architecture (Critical)**
+   - NO iOS stub target - this is a native watchOS-only app
+   - Modern watchOS apps (watchOS 6+) don't require an iOS container
+   - Project contains only 3 targets: Watch App, Watch AppTests, Watch AppUITests
+   - IMPORTANT: Never add an iOS target - it causes CI failures and is unnecessary
+
+2. **Local Assets Only (Critical)**
    - ALL 78 card images MUST be loaded from local Asset Catalog
    - NO network calls permitted - app must function 100% offline
    - Apple rejects watchOS apps that require connectivity for core features
@@ -206,11 +215,22 @@ All features MUST follow the Red-Green-Refactor cycle:
 4. **Verify:** Run full test suite to ensure no regressions
 
 **Coverage Requirements (CI enforced):**
-- Overall: ≥80% code coverage (CI fails below this)
-- Models: 100% (pure logic, trivial to test)
-- ViewModels: 95%+ (core business logic must be bulletproof)
-- Views: 60%+ (UI tests, lower due to SwiftUI complexity)
-- Utilities: 100% (reusable code must be tested)
+- **Overall: ≥50%** code coverage (CI fails below this)
+  - Current: 49.54% - actively working toward 60%+ goal
+  - Pre-push hook enforces minimum threshold
+- **Models: 95-100%** (pure data logic, straightforward to test)
+  - Current: CardPull, TarotCard, TarotDeck all at 100%
+- **ViewModels: 95-100%** (business logic must be bulletproof)
+  - Current: CardDrawViewModel, HistoryViewModel, DeckSelectionViewModel at 100%
+  - CardReferenceViewModel at 100%
+- **Utilities: 95-100%** (reusable helpers must be tested)
+  - Current: RandomGenerator, StorageMonitor, Date+Formatting at 100%
+  - NoteInputSanitizer at 100%
+- **Views: 30-40%** (SwiftUI views - UI tests provide functional coverage)
+  - Unit tests focus on testable view logic only
+  - Full flows covered by UI automation tests
+- **Components: 60%+** (reusable UI components warrant more coverage)
+  - CTAButton, HistoryRow should have state/interaction tests
 
 ### Code Quality Standards
 
