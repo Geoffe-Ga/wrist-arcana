@@ -56,10 +56,7 @@ final class MockDeckRepository: DeckRepositoryProtocol {
         return self.decks.first ?? TarotDeck(name: "Empty", cards: [])
     }
 
-    func getRandomCard(from deck: TarotDeck) -> TarotCard {
-        guard let card = deck.cards.first else {
-            fatalError("Mock deck has no cards")
-        }
-        return card
+    func getRandomCard(from deck: TarotDeck) -> TarotCard? {
+        deck.cards.first
     }
 }

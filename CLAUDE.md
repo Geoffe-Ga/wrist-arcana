@@ -34,6 +34,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Build and Test Commands
 
+**CRITICAL RULES:**
+1. **ALWAYS run commands from the project root** (`/Users/geoffgallinger/Projects/wrist-arcana`)
+2. **NEVER use `cd` in commands** - Use relative paths instead (e.g., `./WristArcana/...` or `./scripts/...`)
+3. **ALWAYS use `./scripts/run-tests.sh` to run tests** - NEVER use xcodebuild directly for testing
+
 ### Building the Project
 ```bash
 # Open the project

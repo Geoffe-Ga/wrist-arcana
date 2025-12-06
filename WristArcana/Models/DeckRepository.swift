@@ -12,7 +12,7 @@ import Foundation
 protocol DeckRepositoryProtocol {
     func loadDecks() throws -> [TarotDeck]
     func getCurrentDeck() -> TarotDeck
-    func getRandomCard(from deck: TarotDeck) -> TarotCard
+    func getRandomCard(from deck: TarotDeck) -> TarotCard?
 }
 
 // MARK: - Repository Implementation
@@ -49,12 +49,9 @@ final class DeckRepository: DeckRepositoryProtocol {
         return deck
     }
 
-    func getRandomCard(from deck: TarotDeck) -> TarotCard {
+    func getRandomCard(from deck: TarotDeck) -> TarotCard? {
         var generator = SystemRandomNumberGenerator()
-        guard let card = deck.cards.randomElement(using: &generator) else {
-            fatalError("Deck has no cards")
-        }
-        return card
+        return deck.cards.randomElement(using: &generator)
     }
 
     // MARK: - Private Methods
