@@ -171,7 +171,8 @@ struct DeckRepositoryTests {
         let card = sut.getRandomCard(from: deck)
 
         // Then
-        #expect(!card.name.isEmpty)
+        #expect(card != nil)
+        #expect(!card!.name.isEmpty)
     }
 
     @Test func getRandomCard_returnsCardFromDeck() async throws {
@@ -183,7 +184,8 @@ struct DeckRepositoryTests {
         let card = sut.getRandomCard(from: deck)
 
         // Then
-        let cardInDeck = deck.cards.contains { $0.id == card.id }
+        #expect(card != nil)
+        let cardInDeck = deck.cards.contains { $0.id == card!.id }
         #expect(cardInDeck)
     }
 
@@ -195,8 +197,9 @@ struct DeckRepositoryTests {
 
         // When - Draw 20 cards
         for _ in 0 ..< 20 {
-            let card = sut.getRandomCard(from: deck)
-            drawnCardIds.insert(card.id)
+            if let card = sut.getRandomCard(from: deck) {
+                drawnCardIds.insert(card.id)
+            }
         }
 
         // Then - Should have drawn multiple different cards
@@ -224,7 +227,7 @@ struct DeckRepositoryTests {
         let card = sut.getRandomCard(from: smallDeck)
 
         // Then
-        #expect(card.name == "Only Card")
+        #expect(card?.name == "Only Card")
     }
 
     @Test func getRandomCard_worksWithMultipleCards() async throws {
@@ -256,14 +259,30 @@ struct DeckRepositoryTests {
 
         // When - Draw multiple times
         for _ in 0 ..< 10 {
-            let card = sut.getRandomCard(from: deck)
-            cardNames.insert(card.name)
+            if let card = sut.getRandomCard(from: deck) {
+                cardNames.insert(card.name)
+            }
         }
 
         // Then - Should see both cards
         #expect(cardNames.count == 2)
         #expect(cardNames.contains("Card 1"))
         #expect(cardNames.contains("Card 2"))
+    }
+
+    @Test func getRandomCard_returnsNilForEmptyDeck() async throws {
+        // Given
+        let sut = DeckRepository()
+        let emptyDeck = TarotDeck(
+            name: "Empty Deck",
+            cards: []
+        )
+
+        // When
+        let card = sut.getRandomCard(from: emptyDeck)
+
+        // Then - Should return nil instead of crashing
+        #expect(card == nil)
     }
 
     // MARK: - Integration Tests
@@ -280,7 +299,8 @@ struct DeckRepositoryTests {
         // Then
         #expect(!decks.isEmpty)
         #expect(currentDeck.cards.count == 78)
-        #expect(!card.name.isEmpty)
+        #expect(card != nil)
+        #expect(!card!.name.isEmpty)
     }
 
     @Test func deckData_hasValidStructure() async throws {

@@ -34,15 +34,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Build and Test Commands
 
+**CRITICAL RULES:**
+1. **ALWAYS run commands from the project root** (`/Users/geoffgallinger/Projects/wrist-arcana`)
+2. **NEVER use `cd` in commands** - Use relative paths instead (e.g., `./WristArcana/...` or `./scripts/...`)
+3. **ALWAYS use `./scripts/run-tests.sh` to run tests** - NEVER use xcodebuild directly for testing
+4. **STANDARD SIMULATOR: Apple Watch Series 10 (46mm)** - Both local and CI use this by default to ensure consistent test results
+
 ### Building the Project
 ```bash
 # Open the project
 open WristArcana/WristArcana.xcodeproj
 
-# Build from command line
+# Build from command line (using standard simulator)
 xcodebuild build \
   -scheme WristArcana \
-  -destination 'platform=watchOS Simulator,name=Apple Watch Series 9 (45mm)'
+  -destination 'platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)'
 ```
 
 ### Running Tests
@@ -55,6 +61,9 @@ xcodebuild build \
 
 # Run all UI tests
 ./scripts/run-tests.sh ui
+
+# Test on different simulator (for cross-device validation)
+SIMULATOR="Apple Watch Ultra 2 (49mm)" ./scripts/run-tests.sh ui
 
 # View detailed coverage report (requires unit tests to have run first)
 xcrun xccov view --report /tmp/TestResults.xcresult
@@ -223,6 +232,34 @@ All features MUST follow the Red-Green-Refactor cycle:
 - **Descriptive Names**: Test names should read like documentation
   - Good: `loadDecks_setsErrorMessageOnFailure()`
   - Bad: `testLoadDecks()` or `test1()`
+
+**CRITICAL: Pre-PR Test Requirements**
+**BEFORE creating ANY pull request, you MUST run ALL tests locally:**
+
+```bash
+# 1. Run ALL unit tests
+bash scripts/run-tests.sh unit
+
+# 2. Run ALL UI test suites (MANDATORY - not optional!)
+bash scripts/run-tests.sh DrawCardViewResponsivenessUITests
+bash scripts/run-tests.sh CardPreviewFlowUITests
+# OR run all UI tests at once:
+bash scripts/run-tests.sh ui
+
+# 3. Verify ALL tests pass - zero failures allowed
+```
+
+**Why this is CRITICAL:**
+- CI runs BOTH unit AND UI tests - catching failures in CI wastes time and creates noise
+- Flaky tests must be caught and fixed BEFORE PR creation
+- Running only unit tests is NOT sufficient - UI test failures slip through
+- Every PR that fails CI due to test failures represents a process violation
+
+**If a test fails locally:**
+1. **DO NOT** create the PR
+2. **FIX** the failing test or your code
+3. **RE-RUN** all tests to verify the fix
+4. Only then create the PR
 
 **Coverage Requirements (CI enforced):**
 - **Overall: ≥50%** code coverage (CI fails below this)

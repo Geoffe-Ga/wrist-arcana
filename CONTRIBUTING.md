@@ -72,9 +72,9 @@ pre-commit install
 ./scripts/download_rws_cards.sh
 ./scripts/process_images.sh
 
-# 6. Run tests to verify setup
-xcodebuild test -scheme WristArcana \
-  -destination 'platform=watchOS Simulator,name=Apple Watch Series 9 (45mm)'
+# 6. Run tests to verify setup (uses standard simulator: Apple Watch Series 10 (46mm))
+./scripts/run-tests.sh unit
+./scripts/run-tests.sh ui
 ```
 
 ### Understanding the Codebase
@@ -420,6 +420,50 @@ struct DrawCardView: View {
 ---
 
 ## 🧪 Testing Requirements
+
+### PRE-PR TESTING (MANDATORY) ⚠️
+
+**BEFORE creating ANY pull request, you MUST run ALL tests locally:**
+
+```bash
+# Step 1: Run ALL unit tests
+bash scripts/run-tests.sh unit
+
+# Step 2: Run ALL UI tests (MANDATORY - not optional!)
+bash scripts/run-tests.sh DrawCardViewResponsivenessUITests
+bash scripts/run-tests.sh CardPreviewFlowUITests
+
+# OR run all UI tests at once:
+bash scripts/run-tests.sh ui
+
+# Step 3: Verify ZERO failures
+# ALL tests must pass before you create the PR
+```
+
+**📱 Standard Test Simulator**
+
+Both local and CI use **Apple Watch Series 10 (46mm)** by default. This ensures:
+- Consistent test results between local and CI environments
+- UI layout tests pass with same screen dimensions
+- No surprises when CI runs your tests
+
+To test on other simulators for cross-device validation:
+```bash
+SIMULATOR="Apple Watch Ultra 2 (49mm)" ./scripts/run-tests.sh ui
+```
+
+**🚨 CRITICAL: CI Failures Are Process Violations**
+
+- **Every PR that fails CI** due to test failures wastes team time and creates noise
+- **Running only unit tests is NOT sufficient** - UI test failures will slip through
+- **Flaky tests must be fixed BEFORE PR creation**, not after
+- CI runs the exact same test suites - if it fails in CI, it should have been caught locally
+
+**If ANY test fails locally:**
+1. ❌ **DO NOT** create the PR
+2. 🔧 **FIX** the failing test or your code
+3. ✅ **RE-RUN** all tests to verify the fix
+4. 📝 Only then create the PR
 
 ### Coverage Thresholds (Enforced by CI)
 

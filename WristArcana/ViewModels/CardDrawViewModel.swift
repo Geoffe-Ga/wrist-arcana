@@ -55,7 +55,11 @@ final class CardDrawViewModel: ObservableObject {
 
         do {
             let deck = self.repository.getCurrentDeck()
-            let card = self.selectRandomCard(from: deck)
+            guard let card = self.selectRandomCard(from: deck) else {
+                self.errorMessage = "Unable to draw card. Deck appears to be empty."
+                self.isDrawing = false
+                return
+            }
 
             self.currentCard = card
             self.drawnCardsThisSession.insert(card.id)
@@ -88,7 +92,7 @@ final class CardDrawViewModel: ObservableObject {
 
     // MARK: - Private Methods
 
-    private func selectRandomCard(from deck: TarotDeck) -> TarotCard {
+    private func selectRandomCard(from deck: TarotDeck) -> TarotCard? {
         // If all cards drawn this session, reset
         if self.drawnCardsThisSession.count >= deck.cards.count {
             self.drawnCardsThisSession.removeAll()
@@ -99,11 +103,12 @@ final class CardDrawViewModel: ObservableObject {
 
         // Use cryptographically secure randomization
         var generator = SystemRandomNumberGenerator()
-        guard let card = availableCards.randomElement(using: &generator) else {
-            // Fallback to any card if something goes wrong
-            return deck.cards.randomElement(using: &generator) ?? deck.cards[0]
+        if let card = availableCards.randomElement(using: &generator) {
+            return card
         }
-        return card
+
+        // Fallback to any card if undrawn list is empty
+        return deck.cards.randomElement(using: &generator)
     }
 
     private func saveToHistory(card: TarotCard, deck: TarotDeck) async throws {
