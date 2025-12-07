@@ -38,16 +38,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 1. **ALWAYS run commands from the project root** (`/Users/geoffgallinger/Projects/wrist-arcana`)
 2. **NEVER use `cd` in commands** - Use relative paths instead (e.g., `./WristArcana/...` or `./scripts/...`)
 3. **ALWAYS use `./scripts/run-tests.sh` to run tests** - NEVER use xcodebuild directly for testing
+4. **STANDARD SIMULATOR: Apple Watch Series 10 (46mm)** - Both local and CI use this by default to ensure consistent test results
 
 ### Building the Project
 ```bash
 # Open the project
 open WristArcana/WristArcana.xcodeproj
 
-# Build from command line
+# Build from command line (using standard simulator)
 xcodebuild build \
   -scheme WristArcana \
-  -destination 'platform=watchOS Simulator,name=Apple Watch Series 9 (45mm)'
+  -destination 'platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)'
 ```
 
 ### Running Tests
@@ -60,6 +61,9 @@ xcodebuild build \
 
 # Run all UI tests
 ./scripts/run-tests.sh ui
+
+# Test on different simulator (for cross-device validation)
+SIMULATOR="Apple Watch Ultra 2 (49mm)" ./scripts/run-tests.sh ui
 
 # View detailed coverage report (requires unit tests to have run first)
 xcrun xccov view --report /tmp/TestResults.xcresult

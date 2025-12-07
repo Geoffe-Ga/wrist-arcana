@@ -72,9 +72,9 @@ pre-commit install
 ./scripts/download_rws_cards.sh
 ./scripts/process_images.sh
 
-# 6. Run tests to verify setup
-xcodebuild test -scheme WristArcana \
-  -destination 'platform=watchOS Simulator,name=Apple Watch Series 9 (45mm)'
+# 6. Run tests to verify setup (uses standard simulator: Apple Watch Series 10 (46mm))
+./scripts/run-tests.sh unit
+./scripts/run-tests.sh ui
 ```
 
 ### Understanding the Codebase
@@ -438,6 +438,18 @@ bash scripts/run-tests.sh ui
 
 # Step 3: Verify ZERO failures
 # ALL tests must pass before you create the PR
+```
+
+**📱 Standard Test Simulator**
+
+Both local and CI use **Apple Watch Series 10 (46mm)** by default. This ensures:
+- Consistent test results between local and CI environments
+- UI layout tests pass with same screen dimensions
+- No surprises when CI runs your tests
+
+To test on other simulators for cross-device validation:
+```bash
+SIMULATOR="Apple Watch Ultra 2 (49mm)" ./scripts/run-tests.sh ui
 ```
 
 **🚨 CRITICAL: CI Failures Are Process Violations**

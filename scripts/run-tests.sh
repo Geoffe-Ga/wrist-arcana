@@ -13,7 +13,7 @@ set -e  # Exit on error
 PROJECT_DIR="WristArcana"
 PROJECT_FILE="WristArcana.xcodeproj"
 SCHEME="WristArcana Watch App"
-SIMULATOR="${SIMULATOR:-Apple Watch Ultra 2 (49mm)}"  # Allow override via env var
+SIMULATOR="${SIMULATOR:-Apple Watch Series 10 (46mm)}"  # Allow override via env var
 
 # Parse arguments
 TEST_TYPE="${1:-unit}"  # Default to unit tests
