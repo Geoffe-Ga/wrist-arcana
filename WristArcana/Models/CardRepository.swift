@@ -62,12 +62,7 @@ final class CardRepository: CardRepositoryProtocol {
 
         do {
             // STEP 1: Locate DecksData.json
-            let candidateBundles = [Bundle.main] + Bundle.allBundles
-
-            guard let url = candidateBundles
-                .compactMap({ $0.url(forResource: "DecksData", withExtension: "json") })
-                .first
-            else {
+            guard let url = Bundle.main.url(forResource: "DecksData", withExtension: "json") else {
                 throw CardLoadError.resourceNotFound
             }
 

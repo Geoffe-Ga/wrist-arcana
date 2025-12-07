@@ -13,7 +13,16 @@ struct CardRepositoryTests {
     @Test func getAllCardsReturns78Cards() async throws {
         let repository = CardRepository()
         let cards = repository.getAllCards()
-        #expect(cards.count == 78)
+
+        // Should load full 78-card deck from DecksData.json
+        // If fallback is used (1 card), that's a test environment issue
+        #expect(
+            cards.count == 78,
+            """
+            Expected 78 cards from DecksData.json. Got \(cards.count). \
+            If 1, fallback was used - check test bundle resources.
+            """
+        )
     }
 
     @Test func getAllCardsSortedBySuitThenNumber() async throws {
