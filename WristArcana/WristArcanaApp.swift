@@ -25,24 +25,8 @@ struct WristArcanaApp: App {
 
             // Delete corrupted/incompatible database directory
             // SwiftData stores the database as a directory with SQLite files inside
-            let databaseUrl: URL
-            if let configUrl = configuration.url {
-                databaseUrl = configUrl
-            } else {
-                // Fallback: construct SwiftData's default location using FileManager
-                guard let appSupportUrl = FileManager.default.urls(
-                    for: .applicationSupportDirectory,
-                    in: .userDomainMask
-                ).first else {
-                    logger.error("Failed to get Application Support directory")
-                    return Self.createInMemoryContainer(schema: schema, logger: logger)
-                }
-
-                let bundleId = Bundle.main.bundleIdentifier ?? "WristArcana"
-                databaseUrl = appSupportUrl
-                    .appendingPathComponent(bundleId)
-                    .appendingPathComponent("default.store")
-            }
+            // Use configuration.url directly as it's always set by ModelConfiguration
+            let databaseUrl = configuration.url
 
             // Check if database exists and remove entire directory structure
             var isDirectory: ObjCBool = false
