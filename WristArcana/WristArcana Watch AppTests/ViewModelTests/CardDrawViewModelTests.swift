@@ -319,4 +319,25 @@ struct CardDrawViewModelTests {
         #expect(pull.cardImageName == sut.currentCard?.imageName)
         #expect(pull.date.timeIntervalSinceNow < 1) // Recent
     }
+
+    // MARK: - Task Cancellation Tests
+
+    @Test func drawCard_resetsIsDrawingOnTaskCancellation() async throws {
+        // Given
+        let sut = self.createSUT()
+
+        // When - Cancel task during sleep
+        let task = Task {
+            await sut.drawCard()
+        }
+
+        // Cancel during the 0.5s sleep
+        try? await Task.sleep(nanoseconds: 100_000_000) // 0.1s
+        task.cancel()
+        await task.value
+
+        // Then
+        #expect(sut.isDrawing == false, "Should reset isDrawing on cancellation")
+        #expect(sut.currentCard == nil, "Should not set currentCard on cancellation")
+    }
 }
