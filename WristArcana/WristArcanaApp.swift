@@ -32,30 +32,50 @@ struct WristArcanaApp: App {
             logger.error("ModelContainer initialization failed: \(error.localizedDescription)")
             logger.warning("Attempting database reset to recover...")
 
-            // Delete corrupted/incompatible database file
-            // Use configuration.url for the actual database location, fallback to default path
+            // Delete corrupted/incompatible database directory
+            // SwiftData stores the database as a directory with SQLite files inside
             let databaseUrl = configuration.url ?? URL.applicationSupportDirectory.appending(path: "default.store")
-            do {
-                try FileManager.default.removeItem(at: databaseUrl)
-                logger.info("Deleted incompatible database at: \(databaseUrl.path)")
-            } catch let deleteError as NSError {
-                logger.error("Failed to delete database: \(deleteError.localizedDescription)")
 
-                // If file doesn't exist, that's fine - continue with recovery
-                // Otherwise, warn that fresh container init may still fail
-                if deleteError.domain != NSCocoaErrorDomain || deleteError.code != NSFileNoSuchFileError {
-                    logger.warning("Database may still be corrupted, fresh container init may fail")
+            // Check if database exists and remove entire directory structure
+            var isDirectory: ObjCBool = false
+            if FileManager.default.fileExists(atPath: databaseUrl.path, isDirectory: &isDirectory) {
+                do {
+                    try FileManager.default.removeItem(at: databaseUrl)
+                    logger.info("Deleted incompatible database directory at: \(databaseUrl.path)")
+                } catch let deleteError as NSError {
+                    logger.error("Failed to delete database: \(deleteError.localizedDescription)")
+
+                    // If file doesn't exist, that's fine - continue with recovery
+                    // Otherwise, warn that fresh container init may still fail
+                    if deleteError.domain != NSCocoaErrorDomain || deleteError.code != NSFileNoSuchFileError {
+                        logger.warning("Database may still be corrupted, fresh container init may fail")
+                    }
                 }
             }
 
-            // Create fresh container - this should always succeed with a clean slate
+            // Attempt to create fresh container
             do {
                 let freshContainer = try ModelContainer(for: schema, configurations: [configuration])
                 logger.info("Successfully created fresh ModelContainer after reset")
                 return freshContainer
             } catch {
-                // If this fails, something is seriously wrong with the environment
-                fatalError("Failed to create fresh ModelContainer: \(error)")
+                // Last resort: use in-memory container to keep app functional
+                // User can still draw cards even if history won't persist
+                logger.critical("Failed to create fresh ModelContainer: \(error.localizedDescription)")
+                logger.info("Falling back to in-memory container - history will not persist this session")
+
+                let memoryConfig = ModelConfiguration(
+                    schema: schema,
+                    isStoredInMemoryOnly: true
+                )
+
+                do {
+                    // In-memory containers should always succeed (no file system dependencies)
+                    return try ModelContainer(for: schema, configurations: [memoryConfig])
+                } catch {
+                    // If even in-memory container fails, this is a critical system error
+                    fatalError("Critical: Failed to create in-memory ModelContainer: \(error)")
+                }
             }
         }
     }
