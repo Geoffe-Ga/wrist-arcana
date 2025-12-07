@@ -30,7 +30,10 @@ final class DeckRepository: DeckRepositoryProtocol {
             self.loadedDecks = try self.loadDecksFromJSON()
             self.currentDeckId = self.loadedDecks.first?.id
         } catch {
-            print("⚠️ Failed to load decks: \(error)")
+            // CRITICAL: Load fallback deck with at least 1 card to prevent crashes
+            self.loadedDecks = [TarotDeck.fallback]
+            self.currentDeckId = TarotDeck.fallback.id
+            print("⚠️ Failed to load decks: \(error). Using fallback deck.")
         }
     }
 
@@ -44,7 +47,7 @@ final class DeckRepository: DeckRepositoryProtocol {
         guard let currentId = currentDeckId,
               let deck = loadedDecks.first(where: { $0.id == currentId })
         else {
-            return self.loadedDecks.first ?? TarotDeck.riderWaite
+            return self.loadedDecks.first ?? TarotDeck.fallback
         }
         return deck
     }

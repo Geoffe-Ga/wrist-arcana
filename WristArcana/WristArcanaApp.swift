@@ -4,19 +4,10 @@ import SwiftUI
 
 @main
 struct WristArcanaApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-        .modelContainer(self.makeModelContainer())
-    }
-
-    // MARK: - Private Methods
-
-    /// Creates a ModelContainer with proper error handling and migration support.
-    /// If migration fails (e.g., after schema changes), deletes the old database and starts fresh.
-    /// This is acceptable for v1.0 as the app stores user history only (no critical data loss).
-    private func makeModelContainer() -> ModelContainer {
+    /// Shared ModelContainer used by both the app and App Intents to prevent database conflicts.
+    /// Creating multiple containers can cause SQLite lock issues and data inconsistency.
+    /// This static property is created once at app launch, preventing race conditions.
+    static let sharedModelContainer: ModelContainer = {
         let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "WristArcana", category: "app")
         let schema = Schema([CardPull.self])
         let configuration = ModelConfiguration(
@@ -34,7 +25,24 @@ struct WristArcanaApp: App {
 
             // Delete corrupted/incompatible database directory
             // SwiftData stores the database as a directory with SQLite files inside
-            let databaseUrl = configuration.url ?? URL.applicationSupportDirectory.appending(path: "default.store")
+            let databaseUrl: URL
+            if let configUrl = configuration.url {
+                databaseUrl = configUrl
+            } else {
+                // Fallback: construct SwiftData's default location using FileManager
+                guard let appSupportUrl = FileManager.default.urls(
+                    for: .applicationSupportDirectory,
+                    in: .userDomainMask
+                ).first else {
+                    logger.error("Failed to get Application Support directory")
+                    return Self.createInMemoryContainer(schema: schema, logger: logger)
+                }
+
+                let bundleId = Bundle.main.bundleIdentifier ?? "WristArcana"
+                databaseUrl = appSupportUrl
+                    .appendingPathComponent(bundleId)
+                    .appendingPathComponent("default.store")
+            }
 
             // Check if database exists and remove entire directory structure
             var isDirectory: ObjCBool = false
@@ -60,23 +68,36 @@ struct WristArcanaApp: App {
                 return freshContainer
             } catch {
                 // Last resort: use in-memory container to keep app functional
-                // User can still draw cards even if history won't persist
                 logger.critical("Failed to create fresh ModelContainer: \(error.localizedDescription)")
                 logger.info("Falling back to in-memory container - history will not persist this session")
-
-                let memoryConfig = ModelConfiguration(
-                    schema: schema,
-                    isStoredInMemoryOnly: true
-                )
-
-                do {
-                    // In-memory containers should always succeed (no file system dependencies)
-                    return try ModelContainer(for: schema, configurations: [memoryConfig])
-                } catch {
-                    // If even in-memory container fails, this is a critical system error
-                    fatalError("Critical: Failed to create in-memory ModelContainer: \(error)")
-                }
+                return Self.createInMemoryContainer(schema: schema, logger: logger)
             }
+        }
+    }()
+
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+        .modelContainer(Self.sharedModelContainer)
+    }
+
+    // MARK: - Private Helper Methods
+
+    /// Creates an in-memory ModelContainer as last resort fallback.
+    /// This ensures the app can still function even if persistent storage fails.
+    private static func createInMemoryContainer(schema: Schema, logger: Logger) -> ModelContainer {
+        let memoryConfig = ModelConfiguration(
+            schema: schema,
+            isStoredInMemoryOnly: true
+        )
+
+        do {
+            // In-memory containers should always succeed (no file system dependencies)
+            return try ModelContainer(for: schema, configurations: [memoryConfig])
+        } catch {
+            // If even in-memory container fails, this is a critical system error
+            fatalError("Critical: Failed to create in-memory ModelContainer: \(error)")
         }
     }
 }
