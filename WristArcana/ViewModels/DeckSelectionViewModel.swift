@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OSLog
 
 @MainActor
 final class DeckSelectionViewModel: ObservableObject {
@@ -36,7 +37,8 @@ final class DeckSelectionViewModel: ObservableObject {
         } catch {
             self.availableDecks = [] // Clear decks on error
             self.errorMessage = "Failed to load decks"
-            print("⚠️ Failed to load decks: \(error)")
+            Logger(subsystem: Bundle.main.bundleIdentifier ?? "WristArcana", category: "DeckSelectionViewModel")
+                .error("Failed to load decks: \(error.localizedDescription)")
         }
     }
 
