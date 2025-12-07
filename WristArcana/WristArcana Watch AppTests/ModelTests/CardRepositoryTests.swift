@@ -67,4 +67,46 @@ struct CardRepositoryTests {
         let suits = repository.getSuits()
         #expect(suits == [.majorArcana, .swords, .wands, .pentacles, .cups])
     }
+
+    // MARK: - Error Handling Tests (BUG-006)
+
+    @Test func init_alwaysHasAtLeastOneCard() async throws {
+        // Given / When - Initialize repository (even if JSON loading fails)
+        let repository = CardRepository()
+
+        // Then - Must have at least one card (either loaded or fallback)
+        let cards = repository.getAllCards()
+        #expect(
+            !cards.isEmpty,
+            "CardRepository must never have empty cards - should use fallback if JSON fails"
+        )
+    }
+
+    @Test func getAllCards_neverReturnsEmptyArray() async throws {
+        // Given
+        let repository = CardRepository()
+
+        // When
+        let cards = repository.getAllCards()
+
+        // Then - Used throughout app, so must never be empty
+        #expect(
+            cards.count >= 1,
+            "getAllCards() must return at least 1 card to prevent crashes in CardReferenceView"
+        )
+    }
+
+    @Test func getCards_returnsAtLeastOneCardForMajorArcana() async throws {
+        // Given
+        let repository = CardRepository()
+
+        // When
+        let majorCards = repository.getCards(for: .majorArcana)
+
+        // Then - Fallback should include at least one Major Arcana card
+        #expect(
+            !majorCards.isEmpty,
+            "Should have at least one Major Arcana card (The Fool fallback)"
+        )
+    }
 }
