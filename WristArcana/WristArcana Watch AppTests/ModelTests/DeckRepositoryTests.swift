@@ -342,4 +342,87 @@ struct DeckRepositoryTests {
         #expect(fool?.suit == .majorArcana)
         #expect(fool?.imageName.contains("major") == true)
     }
+
+    // MARK: - JSON Validation Tests
+
+    @Test func loadDecks_validatesNonEmptyDecksArray() async throws {
+        // Given
+        let sut = DeckRepository()
+
+        // When
+        let decks = try sut.loadDecks()
+
+        // Then - Should have at least one deck
+        #expect(!decks.isEmpty, "DecksData.json must contain at least one deck")
+    }
+
+    @Test func loadDecks_validatesExactly78Cards() async throws {
+        // Given
+        let sut = DeckRepository()
+
+        // When
+        let decks = try sut.loadDecks()
+        let firstDeck = decks.first!
+
+        // Then - First deck must have exactly 78 cards
+        #expect(
+            firstDeck.cards.count == 78,
+            """
+            First deck must have exactly 78 cards. Found \(firstDeck.cards.count). \
+            JSON validation should catch this.
+            """
+        )
+    }
+
+    @Test func loadDecks_validatesAllCardsHaveRequiredFields() async throws {
+        // Given
+        let sut = DeckRepository()
+
+        // When
+        let decks = try sut.loadDecks()
+        let firstDeck = decks.first!
+
+        // Then - All cards must have non-empty required fields
+        for (index, card) in firstDeck.cards.enumerated() {
+            #expect(
+                !card.name.isEmpty,
+                "Card at index \(index) has empty name. ID: \(card.id)"
+            )
+            #expect(
+                !card.imageName.isEmpty,
+                "Card at index \(index) has empty imageName. ID: \(card.id)"
+            )
+            #expect(
+                !card.upright.isEmpty,
+                "Card at index \(index) has empty upright meaning. ID: \(card.id)"
+            )
+        }
+    }
+
+    @Test func loadDecks_passesSchemaValidation() async throws {
+        // Given
+        let sut = DeckRepository()
+
+        // When - Should not throw any validation errors
+        let decks = try sut.loadDecks()
+
+        // Then - Verify all validation checks passed
+        #expect(!decks.isEmpty, "Should have at least one deck")
+
+        let firstDeck = decks.first!
+        #expect(firstDeck.cards.count == 78, "First deck should have exactly 78 cards")
+
+        // Verify no card has empty required fields
+        let invalidCards = firstDeck.cards.filter { card in
+            card.name.isEmpty || card.imageName.isEmpty || card.upright.isEmpty
+        }
+
+        #expect(
+            invalidCards.isEmpty,
+            """
+            Found \(invalidCards.count) cards with empty required fields. \
+            Schema validation should have caught this.
+            """
+        )
+    }
 }

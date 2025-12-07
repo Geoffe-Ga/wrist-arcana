@@ -68,6 +68,31 @@ final class DeckRepository: DeckRepositoryProtocol {
         let decoder = JSONDecoder()
         let decksData = try decoder.decode(DecksDataContainer.self, from: data)
 
+        // Validate: Decks array must not be empty
+        guard !decksData.decks.isEmpty else {
+            throw DeckError.noDeckFound
+        }
+
+        // Validate: First deck must have exactly 78 cards
+        let firstDeck = decksData.decks[0]
+
+        guard firstDeck.cards.count == 78 else {
+            throw DeckError.invalidDeckSize(expected: 78, actual: firstDeck.cards.count)
+        }
+
+        // Validate: Each card must have required fields
+        for card in firstDeck.cards {
+            if card.name.isEmpty {
+                throw DeckError.invalidCardData(cardId: card.id.uuidString, reason: "Card name is empty")
+            }
+            if card.imageName.isEmpty {
+                throw DeckError.invalidCardData(cardId: card.id.uuidString, reason: "Image name is empty")
+            }
+            if card.upright.isEmpty {
+                throw DeckError.invalidCardData(cardId: card.id.uuidString, reason: "Upright meaning is empty")
+            }
+        }
+
         return decksData.decks.map { deckData in
             TarotDeck(
                 id: deckData.id,
@@ -84,6 +109,9 @@ enum DeckError: Error {
     case fileNotFound
     case loadFailed
     case notFound
+    case noDeckFound
+    case invalidDeckSize(expected: Int, actual: Int)
+    case invalidCardData(cardId: String, reason: String)
 }
 
 private struct DecksDataContainer: Codable {
