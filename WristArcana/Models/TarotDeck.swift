@@ -30,4 +30,23 @@ struct TarotDeck: Codable, Identifiable, Equatable {
             cards: []
         )
     }
+
+    // Minimal fallback deck with one card to prevent crashes
+    static var fallback: TarotDeck {
+        TarotDeck(
+            id: "fallback",
+            name: "Emergency Deck",
+            cards: [
+                TarotCard(
+                    name: "The Fool",
+                    imageName: "major_00",
+                    suit: .majorArcana,
+                    number: 0,
+                    upright: "New beginnings, optimism, trust in life. The universe is ready to support your journey.",
+                    reversed: "Recklessness, taken advantage of, inconsideration. Pause before leaping.",
+                    keywords: ["beginnings", "innocence", "spontaneity", "free spirit"]
+                )
+            ]
+        )
+    }
 }

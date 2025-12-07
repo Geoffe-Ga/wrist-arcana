@@ -30,6 +30,26 @@ struct DeckRepositoryTests {
         #expect(currentDeck.name == "Rider-Waite")
     }
 
+    @Test func init_currentDeckAlwaysHasCards() async throws {
+        // When
+        let sut = DeckRepository()
+
+        // Then - Even if JSON fails to load, current deck must have at least 1 card
+        let currentDeck = sut.getCurrentDeck()
+        #expect(!currentDeck.cards.isEmpty, "Current deck must never be empty to prevent crashes")
+    }
+
+    @Test func getCurrentDeck_neverReturnsEmptyDeck() async throws {
+        // Given
+        let sut = DeckRepository()
+
+        // When
+        let deck = sut.getCurrentDeck()
+
+        // Then - Must have at least 1 card to prevent fatalError in getRandomCard
+        #expect(deck.cards.count >= 1, "Deck must have at least 1 card")
+    }
+
     // MARK: - Load Decks Tests
 
     @Test func loadDecks_returnsNonEmptyArray() async throws {
