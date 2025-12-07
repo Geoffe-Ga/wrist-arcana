@@ -229,6 +229,34 @@ All features MUST follow the Red-Green-Refactor cycle:
   - Good: `loadDecks_setsErrorMessageOnFailure()`
   - Bad: `testLoadDecks()` or `test1()`
 
+**CRITICAL: Pre-PR Test Requirements**
+**BEFORE creating ANY pull request, you MUST run ALL tests locally:**
+
+```bash
+# 1. Run ALL unit tests
+bash scripts/run-tests.sh unit
+
+# 2. Run ALL UI test suites (MANDATORY - not optional!)
+bash scripts/run-tests.sh DrawCardViewResponsivenessUITests
+bash scripts/run-tests.sh CardPreviewFlowUITests
+# OR run all UI tests at once:
+bash scripts/run-tests.sh ui
+
+# 3. Verify ALL tests pass - zero failures allowed
+```
+
+**Why this is CRITICAL:**
+- CI runs BOTH unit AND UI tests - catching failures in CI wastes time and creates noise
+- Flaky tests must be caught and fixed BEFORE PR creation
+- Running only unit tests is NOT sufficient - UI test failures slip through
+- Every PR that fails CI due to test failures represents a process violation
+
+**If a test fails locally:**
+1. **DO NOT** create the PR
+2. **FIX** the failing test or your code
+3. **RE-RUN** all tests to verify the fix
+4. Only then create the PR
+
 **Coverage Requirements (CI enforced):**
 - **Overall: ≥50%** code coverage (CI fails below this)
   - Current: 49.54% - actively working toward 60%+ goal

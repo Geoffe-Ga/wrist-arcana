@@ -421,6 +421,38 @@ struct DrawCardView: View {
 
 ## 🧪 Testing Requirements
 
+### PRE-PR TESTING (MANDATORY) ⚠️
+
+**BEFORE creating ANY pull request, you MUST run ALL tests locally:**
+
+```bash
+# Step 1: Run ALL unit tests
+bash scripts/run-tests.sh unit
+
+# Step 2: Run ALL UI tests (MANDATORY - not optional!)
+bash scripts/run-tests.sh DrawCardViewResponsivenessUITests
+bash scripts/run-tests.sh CardPreviewFlowUITests
+
+# OR run all UI tests at once:
+bash scripts/run-tests.sh ui
+
+# Step 3: Verify ZERO failures
+# ALL tests must pass before you create the PR
+```
+
+**🚨 CRITICAL: CI Failures Are Process Violations**
+
+- **Every PR that fails CI** due to test failures wastes team time and creates noise
+- **Running only unit tests is NOT sufficient** - UI test failures will slip through
+- **Flaky tests must be fixed BEFORE PR creation**, not after
+- CI runs the exact same test suites - if it fails in CI, it should have been caught locally
+
+**If ANY test fails locally:**
+1. ❌ **DO NOT** create the PR
+2. 🔧 **FIX** the failing test or your code
+3. ✅ **RE-RUN** all tests to verify the fix
+4. 📝 Only then create the PR
+
 ### Coverage Thresholds (Enforced by CI)
 
 | Layer | Minimum Coverage | Target |
