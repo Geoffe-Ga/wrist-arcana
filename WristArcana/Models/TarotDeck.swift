@@ -22,12 +22,23 @@ struct TarotDeck: Codable, Identifiable, Equatable {
         self.cards = cards
     }
 
-    // Static helper for Rider-Waite deck
+    // Static helper for Rider-Waite deck with fallback card
+    // Used as last-resort fallback when repository fails to load decks
     static var riderWaite: TarotDeck {
         TarotDeck(
-            id: UUID().uuidString,
+            id: "rider-waite-fallback",
             name: "Rider-Waite",
-            cards: []
+            cards: [
+                TarotCard(
+                    name: "The Fool",
+                    imageName: "major_00",
+                    suit: .majorArcana,
+                    number: 0,
+                    upright: "New beginnings, optimism, trust in life. The universe is ready to support your journey.",
+                    reversed: "Recklessness, taken advantage of, inconsideration. Pause before leaping.",
+                    keywords: ["beginnings", "innocence", "spontaneity", "free spirit"]
+                )
+            ]
         )
     }
 }
