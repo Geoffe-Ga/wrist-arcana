@@ -26,9 +26,8 @@ struct DrawCardIntent: AppIntent {
 
     @MainActor
     func perform() async throws -> some IntentResult & ProvidesDialog {
-        // Initialize SwiftData container
-        let container = try ModelContainer(for: CardPull.self)
-        let modelContext = ModelContext(container)
+        // Use shared ModelContainer to prevent database conflicts with main app
+        let modelContext = ModelContext(WristArcanaApp.sharedModelContainer)
 
         // Initialize dependencies
         let repository = DeckRepository()
