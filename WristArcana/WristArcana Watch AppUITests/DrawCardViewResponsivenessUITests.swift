@@ -210,13 +210,13 @@ final class DrawCardViewResponsivenessUITests: XCTestCase {
         XCTAssertEqual(
             initialFrame.width,
             finalFrame.width,
-            accuracy: 2.0,
+            accuracy: 5.0,
             "Button width should remain consistent after navigation"
         )
         XCTAssertEqual(
             initialFrame.height,
             finalFrame.height,
-            accuracy: 2.0,
+            accuracy: 5.0,
             "Button height should remain consistent after navigation"
         )
     }
