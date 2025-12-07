@@ -33,12 +33,19 @@ struct WristArcanaApp: App {
             logger.warning("Attempting database reset to recover...")
 
             // Delete corrupted/incompatible database file
-            let url = URL.applicationSupportDirectory.appending(path: "default.store")
+            // Use configuration.url for the actual database location, fallback to default path
+            let databaseUrl = configuration.url ?? URL.applicationSupportDirectory.appending(path: "default.store")
             do {
-                try FileManager.default.removeItem(at: url)
-                logger.info("Deleted incompatible database at: \(url.path)")
-            } catch {
-                logger.error("Failed to delete database: \(error.localizedDescription)")
+                try FileManager.default.removeItem(at: databaseUrl)
+                logger.info("Deleted incompatible database at: \(databaseUrl.path)")
+            } catch let deleteError as NSError {
+                logger.error("Failed to delete database: \(deleteError.localizedDescription)")
+
+                // If file doesn't exist, that's fine - continue with recovery
+                // Otherwise, warn that fresh container init may still fail
+                if deleteError.domain != NSCocoaErrorDomain || deleteError.code != NSFileNoSuchFileError {
+                    logger.warning("Database may still be corrupted, fresh container init may fail")
+                }
             }
 
             // Create fresh container - this should always succeed with a clean slate
