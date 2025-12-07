@@ -17,8 +17,12 @@ struct DrawCardViewAddNoteHandlerTests {
     func createInMemoryModelContainer() -> ModelContainer {
         let schema = Schema([CardPull.self])
         let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
-        // swiftlint:disable:next force_try
-        return try! ModelContainer(for: schema, configurations: [configuration])
+
+        do {
+            return try ModelContainer(for: schema, configurations: [configuration])
+        } catch {
+            fatalError("Failed to create in-memory ModelContainer for tests: \(error.localizedDescription)")
+        }
     }
 
     func createSamplePull(note: String? = nil) -> CardPull {
