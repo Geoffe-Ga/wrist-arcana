@@ -189,24 +189,20 @@ final class DrawCardViewResponsivenessUITests: XCTestCase {
         // Given
         let drawButton = self.app.buttons["draw-button"]
         XCTAssertTrue(drawButton.waitForExistence(timeout: 10))
-
-        // Wait for initial layout to fully settle
-        Thread.sleep(forTimeInterval: 0.5)
         let initialFrame = drawButton.frame
 
         // When - Navigate away and back using swipe gestures (page-style TabView)
         // Swipe left to go to History page
         self.app.swipeLeft()
 
-        // Wait for transition to complete - longer wait for CI environment
-        Thread.sleep(forTimeInterval: 1.0)
+        // Wait for transition to complete
+        _ = self.app.otherElements.firstMatch.waitForExistence(timeout: 2)
 
         // Swipe right to return to Draw page
         self.app.swipeRight()
 
-        // Wait for button to re-appear and layout to settle completely
+        // Wait for button to re-appear and settle after navigation
         XCTAssertTrue(drawButton.waitForExistence(timeout: 10))
-        Thread.sleep(forTimeInterval: 1.0)
 
         // Then - Button size should remain consistent
         let finalFrame = drawButton.frame
@@ -214,14 +210,14 @@ final class DrawCardViewResponsivenessUITests: XCTestCase {
         XCTAssertEqual(
             initialFrame.width,
             finalFrame.width,
-            accuracy: 3.0,
-            "Button width inconsistent after navigation (\(initialFrame.width) → \(finalFrame.width))"
+            accuracy: 2.0,
+            "Button width should remain consistent after navigation"
         )
         XCTAssertEqual(
             initialFrame.height,
             finalFrame.height,
-            accuracy: 3.0,
-            "Button height inconsistent after navigation (\(initialFrame.height) → \(finalFrame.height))"
+            accuracy: 2.0,
+            "Button height should remain consistent after navigation"
         )
     }
 }
