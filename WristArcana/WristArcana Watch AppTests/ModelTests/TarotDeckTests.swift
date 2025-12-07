@@ -137,4 +137,34 @@ struct TarotDeckTests {
         // Then
         #expect(deck1 == deck2)
     }
+
+    // MARK: - Static Properties Tests
+
+    @Test func riderWaite_hasAtLeastOneCard() async throws {
+        // When
+        let deck = TarotDeck.riderWaite
+
+        // Then - Must have at least 1 card to prevent crashes in getRandomCard
+        #expect(deck.cards.count >= 1, "TarotDeck.riderWaite must have at least 1 card to prevent crashes")
+    }
+
+    @Test func riderWaite_neverReturnsEmptyDeck() async throws {
+        // When
+        let deck = TarotDeck.riderWaite
+
+        // Then - Used as fallback, so must never be empty
+        #expect(!deck.cards.isEmpty, "TarotDeck.riderWaite is used as fallback and must never be empty")
+    }
+
+    @Test func riderWaite_hasValidCardData() async throws {
+        // When
+        let deck = TarotDeck.riderWaite
+
+        // Then - First card should have valid data
+        let firstCard = deck.cards.first!
+        #expect(!firstCard.name.isEmpty, "Card must have a name")
+        #expect(!firstCard.imageName.isEmpty, "Card must have an image name")
+        #expect(!firstCard.upright.isEmpty, "Card must have upright meaning")
+        #expect(!firstCard.reversed.isEmpty, "Card must have reversed meaning")
+    }
 }
