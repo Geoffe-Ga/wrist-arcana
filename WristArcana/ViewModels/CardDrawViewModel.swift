@@ -53,6 +53,12 @@ final class CardDrawViewModel: ObservableObject {
         // Add minimum 0.5s delay for anticipation/animation
         try? await Task.sleep(nanoseconds: AppConstants.minimumDrawDuration)
 
+        // Check if task was cancelled during sleep (user navigated away)
+        guard !Task.isCancelled else {
+            self.isDrawing = false
+            return
+        }
+
         do {
             let deck = self.repository.getCurrentDeck()
             guard let card = self.selectRandomCard(from: deck) else {
