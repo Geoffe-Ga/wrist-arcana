@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OSLog
 import SwiftData
 
 @MainActor
@@ -49,7 +50,8 @@ final class HistoryViewModel: ObservableObject {
                 .prefix(self.maxPullsToDisplay)
                 .map { $0 }
         } catch {
-            print("⚠️ Failed to load history: \(error)")
+            Logger(subsystem: Bundle.main.bundleIdentifier ?? "WristArcana", category: "HistoryViewModel")
+                .error("Failed to load history: \(error.localizedDescription)")
         }
     }
 
@@ -83,7 +85,8 @@ final class HistoryViewModel: ObservableObject {
             await self.loadHistory()
             self.showsPruningAlert = false
         } catch {
-            print("⚠️ Failed to prune history: \(error)")
+            Logger(subsystem: Bundle.main.bundleIdentifier ?? "WristArcana", category: "HistoryViewModel")
+                .error("Failed to prune history: \(error.localizedDescription)")
         }
     }
 
@@ -153,14 +156,12 @@ final class HistoryViewModel: ObservableObject {
 
     /// Enters edit mode for multi-selection
     func enterEditMode() {
-        print("🔍 DEBUG: Entering edit mode")
         self.isInEditMode = true
         self.selectedPullIds.removeAll()
     }
 
     /// Exits edit mode and clears selections
     func exitEditMode() {
-        print("🔍 DEBUG: Exiting edit mode")
         self.isInEditMode = false
         self.selectedPullIds.removeAll()
     }
@@ -169,10 +170,8 @@ final class HistoryViewModel: ObservableObject {
     func toggleSelection(for pull: CardPull) {
         if self.selectedPullIds.contains(pull.id) {
             self.selectedPullIds.remove(pull.id)
-            print("🔍 DEBUG: Deselected \(pull.cardName), total: \(self.selectedPullIds.count)")
         } else {
             self.selectedPullIds.insert(pull.id)
-            print("🔍 DEBUG: Selected \(pull.cardName), total: \(self.selectedPullIds.count)")
         }
     }
 
@@ -183,22 +182,17 @@ final class HistoryViewModel: ObservableObject {
 
     /// Deletes multiple pulls by their IDs
     func deleteMultiplePulls(ids: Set<UUID>) async {
-        print("🔍 DEBUG: ========== deleteMultiplePulls() CALLED ==========")
-        print("   🗑️  Deleting \(ids.count) items")
-
         let pullsToDelete = self.pulls.filter { ids.contains($0.id) }
 
         for pull in pullsToDelete {
-            print("   ➡️  Deleting: \(pull.cardName)")
             self.modelContext.delete(pull)
         }
 
         do {
-            print("   ➡️  Saving context...")
             try self.modelContext.save()
-            print("   ✅ Successfully deleted \(ids.count) items")
         } catch {
-            print("   ❌ ERROR: Multi-delete save failed - \(error)")
+            Logger(subsystem: Bundle.main.bundleIdentifier ?? "WristArcana", category: "HistoryViewModel")
+                .error("Multi-delete save failed: \(error.localizedDescription)")
         }
 
         // Reset state
@@ -208,33 +202,25 @@ final class HistoryViewModel: ObservableObject {
         // Defer reload to avoid publishing errors
         try? await Task.sleep(nanoseconds: 100_000_000)
         await self.loadHistory()
-
-        print("🔍 DEBUG: ========== deleteMultiplePulls() COMPLETE ==========")
     }
 
     /// Deletes ALL pulls from history (nuclear option)
     func clearAllHistory() async {
-        print("🔍 DEBUG: ========== clearAllHistory() CALLED ==========")
-        print("   🗑️  Clearing ALL history (\(self.pulls.count) items)")
-
         let allPulls = self.pulls
         for pull in allPulls {
             self.modelContext.delete(pull)
         }
 
         do {
-            print("   ➡️  Saving context...")
             try self.modelContext.save()
-            print("   ✅ Successfully cleared all history")
         } catch {
-            print("   ❌ ERROR: Clear all save failed - \(error)")
+            Logger(subsystem: Bundle.main.bundleIdentifier ?? "WristArcana", category: "HistoryViewModel")
+                .error("Clear all save failed: \(error.localizedDescription)")
         }
 
         // Reset state
         self.pulls = []
         self.selectedPullIds.removeAll()
         self.isInEditMode = false
-
-        print("🔍 DEBUG: ========== clearAllHistory() COMPLETE ==========")
     }
 }

@@ -223,7 +223,6 @@ private struct HistoryListContent: View {
     private var managementButtonsView: some View {
         HStack(spacing: 8) {
             Button {
-                print("🔍 DEBUG: Select button tapped")
                 self.viewModel.enterEditMode()
             } label: {
                 Label("Select", systemImage: "checkmark.circle")
@@ -236,7 +235,6 @@ private struct HistoryListContent: View {
             .frame(maxWidth: .infinity)
 
             Button {
-                print("🔍 DEBUG: Clear All button tapped")
                 self.showClearAllAlert = true
             } label: {
                 Label("Clear All", systemImage: "trash")
@@ -253,7 +251,6 @@ private struct HistoryListContent: View {
 
     private var deleteSelectedButton: some View {
         Button {
-            print("🔍 DEBUG: Delete selected button tapped (\(self.viewModel.selectedPullIds.count) items)")
             self.showMultiDeleteAlert = true
         } label: {
             Label("Delete \(self.viewModel.selectedPullIds.count)", systemImage: "trash.fill")
