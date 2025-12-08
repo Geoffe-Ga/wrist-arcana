@@ -73,23 +73,26 @@ final class DeckRepository: DeckRepositoryProtocol {
             throw DeckError.noDeckFound
         }
 
-        // Validate: First deck must have exactly 78 cards
-        let firstDeck = decksData.decks[0]
-
-        guard firstDeck.cards.count == 78 else {
-            throw DeckError.invalidDeckSize(expected: 78, actual: firstDeck.cards.count)
-        }
-
-        // Validate: Each card must have required fields
-        for card in firstDeck.cards {
-            if card.name.isEmpty {
-                throw DeckError.invalidCardData(cardId: card.id.uuidString, reason: "Card name is empty")
+        // Validate: Each deck must have exactly 78 cards with valid data
+        for deckData in decksData.decks {
+            guard deckData.cards.count == 78 else {
+                throw DeckError.invalidDeckSize(expected: 78, actual: deckData.cards.count)
             }
-            if card.imageName.isEmpty {
-                throw DeckError.invalidCardData(cardId: card.id.uuidString, reason: "Image name is empty")
-            }
-            if card.upright.isEmpty {
-                throw DeckError.invalidCardData(cardId: card.id.uuidString, reason: "Upright meaning is empty")
+
+            // Validate: Each card must have required fields
+            for card in deckData.cards {
+                if card.name.isEmpty {
+                    throw DeckError.invalidCardData(cardId: card.id.uuidString, reason: "Card name is empty")
+                }
+                if card.imageName.isEmpty {
+                    throw DeckError.invalidCardData(cardId: card.id.uuidString, reason: "Image name is empty")
+                }
+                if card.upright.isEmpty {
+                    throw DeckError.invalidCardData(cardId: card.id.uuidString, reason: "Upright meaning is empty")
+                }
+                if card.reversed.isEmpty {
+                    throw DeckError.invalidCardData(cardId: card.id.uuidString, reason: "Reversed meaning is empty")
+                }
             }
         }
 
