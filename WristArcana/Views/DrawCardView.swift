@@ -192,7 +192,7 @@ struct DrawCardView: View {
                 Text(error)
             }
         }
-        .onAppear {
+        .task {
             if self.viewModel == nil {
                 self.viewModel = CardDrawViewModel(
                     repository: self.repository,
