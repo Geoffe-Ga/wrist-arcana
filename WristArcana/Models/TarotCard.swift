@@ -72,6 +72,26 @@ struct TarotCard: Codable, Identifiable, Equatable, Hashable {
         }
     }
 
+    // MARK: - Static Fallback
+
+    /// Emergency fallback card array used when DecksData.json fails to load.
+    /// Contains The Fool card to ensure CardRepository never has empty cards.
+    /// Prevents CardReferenceView from displaying empty lists.
+    /// - Note: See Issue #35 (BUG-006) - prevents silent initialization failure
+    static var emergencyFallback: [TarotCard] {
+        [
+            TarotCard(
+                name: "The Fool",
+                imageName: "major_00",
+                suit: .majorArcana,
+                number: 0,
+                upright: "New beginnings, optimism, trust in life. The universe is ready to support your journey.",
+                reversed: "Recklessness, taken advantage of, inconsideration. Pause before leaping.",
+                keywords: ["beginnings", "innocence", "spontaneity", "free spirit"]
+            )
+        ]
+    }
+
     // MARK: - Computed Properties
 
     var displayNumber: String {
