@@ -111,32 +111,34 @@ struct DrawCardView: View {
                     card: card,
                     onDismiss: dismissCard,
                     onShowDetail: {
+                        // Dismiss preview first, then show detail
+                        self.showingPreview = false
                         self.showingDetail = true
                     }
                 )
-                .sheet(isPresented: self.$showingDetail) {
-                    CardDisplayView(
-                        card: card,
-                        cardPull: self.viewModel?.currentCardPull,
-                        onAddNote: makeAddNoteHandler(
-                            stageNote: { pull in
-                                self.pendingNotePull = pull
-                            },
-                            dismissCard: {
-                                // Dismiss BOTH sheets
-                                self.showingDetail = false
-                                self.showingPreview = false
-                                self.viewModel?.dismissCard()
-                            }
-                        ),
-                        onDismiss: {
-                            // Dismiss BOTH sheets, return directly to DrawCardView
+            }
+        }
+        .fullScreenCover(isPresented: self.$showingDetail) {
+            if let card = viewModel?.currentCard, let viewModel = self.viewModel {
+                CardDisplayView(
+                    card: card,
+                    cardPull: viewModel.currentCardPull,
+                    onAddNote: makeAddNoteHandler(
+                        stageNote: { pull in
+                            self.pendingNotePull = pull
+                        },
+                        dismissCard: {
+                            // Dismiss detail view only
                             self.showingDetail = false
-                            self.showingPreview = false
                             self.viewModel?.dismissCard()
                         }
-                    )
-                }
+                    ),
+                    onDismiss: {
+                        // Dismiss detail view, return directly to DrawCardView
+                        self.showingDetail = false
+                        self.viewModel?.dismissCard()
+                    }
+                )
             }
         }
         .onChange(of: self.showingPreview) { _, isShowing in
