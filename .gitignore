@@ -64,3 +64,6 @@ PROJECT_STATUS.md
 scripts/RWS_Cards_ForXcode/
 scripts/import_instructions.md
 scripts/prepare_files_for_xcode.sh
+
+# Claude agent system (chief-architect, not checked in)
+.claude/
