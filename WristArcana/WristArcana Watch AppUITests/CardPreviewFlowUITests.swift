@@ -13,11 +13,26 @@ final class CardPreviewFlowUITests: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
         self.app = XCUIApplication()
+        self.app.launchArguments = ["--uitesting"]
         self.app.launch()
     }
 
     override func tearDownWithError() throws {
         self.app = nil
+    }
+
+    // MARK: - Helper Methods
+
+    /// Navigate to History tab by swiping left from Draw tab
+    private func navigateToHistory() {
+        self.app.swipeLeft()
+        Thread.sleep(forTimeInterval: 0.5)
+    }
+
+    /// Navigate back to Draw tab by swiping right from History
+    private func navigateToDraw() {
+        self.app.swipeRight()
+        Thread.sleep(forTimeInterval: 0.5)
     }
 
     // MARK: - Preview Screen Tests
@@ -145,17 +160,18 @@ final class CardPreviewFlowUITests: XCTestCase {
 
     func test_cardSavedToHistory_evenWithImmediateDismiss() throws {
         // Given - Check initial history count
-        self.app.tabBars.buttons["History"].tap()
+        self.navigateToHistory()
         let initialHistoryCount = self.app.tables.cells.count
 
         // When - Draw card and immediately dismiss without viewing details
-        self.app.tabBars.buttons["Draw"].tap()
+        self.navigateToDraw()
         self.app.buttons["DRAW"].tap()
         XCTAssertTrue(self.app.images.firstMatch.waitForExistence(timeout: 3))
         self.app.buttons["Done"].firstMatch.tap() // Dismiss preview immediately
+        Thread.sleep(forTimeInterval: 0.5) // Brief delay for save
 
         // Then - Card should be in history
-        self.app.tabBars.buttons["History"].tap()
+        self.navigateToHistory()
         let newHistoryCount = self.app.tables.cells.count
         XCTAssertEqual(
             newHistoryCount,

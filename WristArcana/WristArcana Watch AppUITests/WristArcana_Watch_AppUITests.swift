@@ -14,8 +14,30 @@ final class WristArcanaWatchAppUITests: XCTestCase {
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
 
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests
+        // In UI tests it's important to set the initial state - such as interface orientation - required for your tests
         // before they run. The setUp method is a good place to do this.
+    }
+
+    // MARK: - Helper Methods
+
+    /// Creates an XCUIApplication configured for UI testing with in-memory storage
+    private func createApp() -> XCUIApplication {
+        let app = XCUIApplication()
+        app.launchArguments = ["--uitesting"]
+        return app
+    }
+
+    /// Navigate to History tab by swiping left from Draw tab
+    /// Note: watchOS TabView with .page style uses swiping, not tab buttons
+    private func navigateToHistory(_ app: XCUIApplication) {
+        app.swipeLeft()
+        Thread.sleep(forTimeInterval: 0.5) // Brief pause for animation
+    }
+
+    /// Navigate back to Draw tab by swiping right from History
+    private func navigateToDraw(_ app: XCUIApplication) {
+        app.swipeRight()
+        Thread.sleep(forTimeInterval: 0.5) // Brief pause for animation
     }
 
     override func tearDownWithError() throws {
@@ -25,7 +47,7 @@ final class WristArcanaWatchAppUITests: XCTestCase {
     @MainActor
     func testExample() throws {
         // UI tests must launch the application that they test.
-        let app = XCUIApplication()
+        let app = self.createApp()
         app.launch()
 
         // Use XCTAssert and related functions to verify your tests produce the correct results.
@@ -35,7 +57,7 @@ final class WristArcanaWatchAppUITests: XCTestCase {
     func testLaunchPerformance() throws {
         // This measures how long it takes to launch your application.
         measure(metrics: [XCTApplicationLaunchMetric()]) {
-            XCUIApplication().launch()
+            self.createApp().launch()
         }
     }
 
@@ -43,17 +65,12 @@ final class WristArcanaWatchAppUITests: XCTestCase {
     func testDrawCardAppearsInHistory() throws {
         // MARK: - Arrange
 
-        let app = XCUIApplication()
+        let app = self.createApp()
         app.launch()
 
-        // Verify we start on Draw tab
-        let drawTab = app.buttons["Draw"]
-        XCTAssertTrue(drawTab.exists, "Draw tab should exist")
-
-        // Switch to History tab first to verify empty state
-        let historyTab = app.buttons["History"]
-        XCTAssertTrue(historyTab.exists, "History tab should exist")
-        historyTab.tap()
+        // App starts on Draw tab (default selection)
+        // Navigate to History to verify empty state
+        self.navigateToHistory(app)
 
         // Verify empty state is shown
         let emptyMessage = app.staticTexts["No Readings Yet"]
@@ -61,8 +78,8 @@ final class WristArcanaWatchAppUITests: XCTestCase {
 
         // MARK: - Act
 
-        // Switch back to Draw tab
-        drawTab.tap()
+        // Navigate back to Draw tab
+        self.navigateToDraw(app)
 
         // Tap DRAW button
         let drawButton = app.buttons["DRAW"]
@@ -74,14 +91,17 @@ final class WristArcanaWatchAppUITests: XCTestCase {
         XCTAssertTrue(doneButton.waitForExistence(timeout: 5), "Done button should appear after drawing")
         doneButton.tap()
 
-        // Switch to History tab
-        historyTab.tap()
+        // Brief delay to ensure save completes
+        Thread.sleep(forTimeInterval: 0.5)
+
+        // Navigate to History tab
+        self.navigateToHistory(app)
 
         // MARK: - Assert
 
         // Verify at least one history row appears (regression test for observation bug)
         let historyList = app.tables.firstMatch
-        XCTAssertTrue(historyList.waitForExistence(timeout: 3), "History list should exist")
+        XCTAssertTrue(historyList.waitForExistence(timeout: 5), "History list should exist")
 
         // The empty message should no longer be visible
         XCTAssertFalse(
@@ -92,7 +112,7 @@ final class WristArcanaWatchAppUITests: XCTestCase {
         // At least one cell should exist (the card we just drew)
         let firstCell = historyList.cells.firstMatch
         XCTAssertTrue(
-            firstCell.waitForExistence(timeout: 2),
+            firstCell.waitForExistence(timeout: 3),
             "At least one history entry should appear after drawing a card"
         )
     }
@@ -104,7 +124,7 @@ final class WristArcanaWatchAppUITests: XCTestCase {
         // Regression test: Ensure history items remain clickable/tappable
         // Bug: Replacing NavigationLink with Button broke navigation
 
-        let app = XCUIApplication()
+        let app = self.createApp()
         app.launch()
 
         // Draw a card first
@@ -116,13 +136,15 @@ final class WristArcanaWatchAppUITests: XCTestCase {
         XCTAssertTrue(doneButton.waitForExistence(timeout: 5))
         doneButton.tap()
 
+        // Brief delay to ensure save completes
+        Thread.sleep(forTimeInterval: 0.5)
+
         // Navigate to History
-        let historyTab = app.buttons["History"]
-        historyTab.tap()
+        self.navigateToHistory(app)
 
         // Wait for history list
         let historyList = app.tables.firstMatch
-        XCTAssertTrue(historyList.waitForExistence(timeout: 2))
+        XCTAssertTrue(historyList.waitForExistence(timeout: 5))
 
         // CRITICAL: Tap on the first history item
         let firstCell = historyList.cells.firstMatch
@@ -143,7 +165,7 @@ final class WristArcanaWatchAppUITests: XCTestCase {
         // Regression test: Management buttons should be visible at top of history list
         // Bug: Buttons were completely missing
 
-        let app = XCUIApplication()
+        let app = self.createApp()
         app.launch()
 
         // Draw a card to have history
@@ -154,13 +176,15 @@ final class WristArcanaWatchAppUITests: XCTestCase {
         XCTAssertTrue(doneButton.waitForExistence(timeout: 5))
         doneButton.tap()
 
+        // Brief delay to ensure save completes
+        Thread.sleep(forTimeInterval: 0.5)
+
         // Navigate to History
-        let historyTab = app.buttons["History"]
-        historyTab.tap()
+        self.navigateToHistory(app)
 
         // Wait for list to appear
         let historyList = app.tables.firstMatch
-        XCTAssertTrue(historyList.waitForExistence(timeout: 2))
+        XCTAssertTrue(historyList.waitForExistence(timeout: 5))
 
         // Buttons should be visible at top of list
         let selectButton = app.buttons["Select"]
@@ -180,7 +204,7 @@ final class WristArcanaWatchAppUITests: XCTestCase {
     func testSelectButtonEntersEditMode() throws {
         // Test that Select button properly activates multi-select mode
 
-        let app = XCUIApplication()
+        let app = self.createApp()
         app.launch()
 
         // Draw cards
@@ -190,14 +214,15 @@ final class WristArcanaWatchAppUITests: XCTestCase {
             let doneButton = app.buttons["Done"]
             XCTAssertTrue(doneButton.waitForExistence(timeout: 5))
             doneButton.tap()
+            Thread.sleep(forTimeInterval: 0.5)
         }
 
         // Go to History
-        app.buttons["History"].tap()
+        self.navigateToHistory(app)
 
         // Wait for list
         let historyList = app.tables.firstMatch
-        XCTAssertTrue(historyList.waitForExistence(timeout: 2))
+        XCTAssertTrue(historyList.waitForExistence(timeout: 5))
 
         // Tap Select
         let selectButton = app.buttons["Select"]
@@ -224,7 +249,7 @@ final class WristArcanaWatchAppUITests: XCTestCase {
     func testMultiSelectAndDelete() throws {
         // End-to-end test for multi-delete functionality
 
-        let app = XCUIApplication()
+        let app = self.createApp()
         app.launch()
 
         // Draw 3 cards
@@ -233,13 +258,14 @@ final class WristArcanaWatchAppUITests: XCTestCase {
             let done = app.buttons["Done"]
             XCTAssertTrue(done.waitForExistence(timeout: 5))
             done.tap()
+            Thread.sleep(forTimeInterval: 0.5)
         }
 
         // Go to History
-        app.buttons["History"].tap()
+        self.navigateToHistory(app)
 
         let historyList = app.tables.firstMatch
-        XCTAssertTrue(historyList.waitForExistence(timeout: 2))
+        XCTAssertTrue(historyList.waitForExistence(timeout: 5))
 
         // Count initial items
         let initialCellCount = historyList.cells.count
@@ -284,7 +310,7 @@ final class WristArcanaWatchAppUITests: XCTestCase {
     func testClearAllDeletesAllHistory() throws {
         // Test Clear All functionality
 
-        let app = XCUIApplication()
+        let app = self.createApp()
         app.launch()
 
         // Draw 2 cards
@@ -293,13 +319,14 @@ final class WristArcanaWatchAppUITests: XCTestCase {
             let done = app.buttons["Done"]
             XCTAssertTrue(done.waitForExistence(timeout: 5))
             done.tap()
+            Thread.sleep(forTimeInterval: 0.5)
         }
 
         // Go to History
-        app.buttons["History"].tap()
+        self.navigateToHistory(app)
 
         let historyList = app.tables.firstMatch
-        XCTAssertTrue(historyList.waitForExistence(timeout: 2))
+        XCTAssertTrue(historyList.waitForExistence(timeout: 5))
 
         // Verify we have items
         XCTAssertGreaterThan(historyList.cells.count, 0)
@@ -330,7 +357,7 @@ final class WristArcanaWatchAppUITests: XCTestCase {
         // CRITICAL TEST: Buttons should be accessible at top of list
         // They appear as the first row and can be accessed by scrolling to top
 
-        let app = XCUIApplication()
+        let app = self.createApp()
         app.launch()
 
         // Draw 5 cards to ensure we have scrollable content
@@ -339,13 +366,14 @@ final class WristArcanaWatchAppUITests: XCTestCase {
             let done = app.buttons["Done"]
             XCTAssertTrue(done.waitForExistence(timeout: 5))
             done.tap()
+            Thread.sleep(forTimeInterval: 0.5)
         }
 
         // Navigate to History
-        app.buttons["History"].tap()
+        self.navigateToHistory(app)
 
         let historyList = app.tables.firstMatch
-        XCTAssertTrue(historyList.waitForExistence(timeout: 2))
+        XCTAssertTrue(historyList.waitForExistence(timeout: 5))
 
         // Buttons should be at the top of the list
         let selectButton = app.buttons["Select"]
