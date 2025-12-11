@@ -82,9 +82,11 @@ private struct HistoryListContent: View {
                             systemImage: "sparkles",
                             description: Text("Tap DRAW to get your first card reading")
                         )
+                        .accessibilityIdentifier("history-empty-state")
                     } else {
                         ForEach(self.viewModel.pulls) { pull in
                             self.historyItemView(for: pull)
+                                .accessibilityIdentifier("history-item-\(pull.id)")
                         }
                         .onDelete { indexSet in
                             // Swipe-to-delete (disabled in edit mode)
@@ -98,6 +100,7 @@ private struct HistoryListContent: View {
                 }
             }
             .listStyle(.plain)
+            .accessibilityIdentifier("history-list")
 
             // MARK: - Delete Button (Edit Mode)
 
@@ -112,6 +115,7 @@ private struct HistoryListContent: View {
                     Button("Done") {
                         self.viewModel.exitEditMode()
                     }
+                    .accessibilityIdentifier("history-done-button")
                 }
             }
         }
@@ -206,6 +210,9 @@ private struct HistoryListContent: View {
                             .foregroundColor(self.viewModel.isSelected(pull) ? .blue : .gray)
                             .imageScale(.large)
                             .frame(width: 24, height: 24)
+                            .accessibilityIdentifier(self.viewModel
+                                .isSelected(pull) ? "history-checkmark-selected" : "history-checkmark-unselected"
+                            )
 
                         HistoryRow(pull: pull)
                     }
@@ -233,6 +240,7 @@ private struct HistoryListContent: View {
             .tint(.blue.opacity(0.15))
             .foregroundColor(.blue)
             .frame(maxWidth: .infinity)
+            .accessibilityIdentifier("history-select-button")
 
             Button {
                 self.showClearAllAlert = true
@@ -245,6 +253,7 @@ private struct HistoryListContent: View {
             .tint(.red.opacity(0.15))
             .foregroundColor(.red)
             .frame(maxWidth: .infinity)
+            .accessibilityIdentifier("history-clear-all-button")
         }
         .padding(.horizontal)
     }
@@ -266,6 +275,7 @@ private struct HistoryListContent: View {
         }
         .padding(.horizontal, 16)
         .padding(.bottom, 8)
+        .accessibilityIdentifier("history-delete-selected-button")
     }
 }
 
