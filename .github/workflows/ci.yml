@@ -69,18 +69,10 @@ jobs:
           set -eo pipefail
           ./scripts/run-tests.sh unit
 
-      - name: Run UI tests (DrawCardViewResponsivenessUITests)
+      - name: Run UI tests (all suites)
         env:
           NSUnbufferedIO: "YES"
           SIMULATOR: "Apple Watch Series 10 (46mm)"
         run: |
           set -eo pipefail
-          ./scripts/run-tests.sh DrawCardViewResponsivenessUITests
-
-      - name: Run UI tests (WristArcanaWatchAppUITests)
-        env:
-          NSUnbufferedIO: "YES"
-          SIMULATOR: "Apple Watch Series 10 (46mm)"
-        run: |
-          set -eo pipefail
-          ./scripts/run-tests.sh WristArcanaWatchAppUITests
+          ./scripts/run-tests.sh ui

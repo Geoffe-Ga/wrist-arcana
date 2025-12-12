@@ -31,16 +31,9 @@ repos:
         pass_filenames: false
         stages: [pre-push]
 
-      - id: ui-tests-draw
-        name: UI Tests (DrawCardViewResponsivenessUITests)
-        entry: bash -c './scripts/run-tests.sh DrawCardViewResponsivenessUITests'
-        language: system
-        pass_filenames: false
-        stages: [pre-push]
-
-      - id: ui-tests-history
-        name: UI Tests (WristArcanaWatchAppUITests)
-        entry: bash -c './scripts/run-tests.sh WristArcanaWatchAppUITests'
+      - id: ui-tests
+        name: UI Tests (All Suites)
+        entry: bash -c './scripts/run-tests.sh ui'
         language: system
         pass_filenames: false
         stages: [pre-push]
