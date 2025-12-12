@@ -50,6 +50,7 @@ struct CardPreviewView: View {
                 } label: {
                     Image(systemName: "info.circle")
                 }
+                .accessibilityIdentifier("card-detail-button")
                 .accessibilityLabel("Show card details")
                 .accessibilityHint("Opens detailed view with card meaning and description")
             }
