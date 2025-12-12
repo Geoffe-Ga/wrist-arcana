@@ -30,6 +30,7 @@ struct CardPreviewView: View {
                         )
                 }
                 .buttonStyle(.plain)
+                .accessibilityIdentifier("card-preview-image")
 
                 Spacer()
             }
