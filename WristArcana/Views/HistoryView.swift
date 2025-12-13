@@ -40,7 +40,7 @@ struct HistoryView: View {
             }
             .navigationTitle("History")
         }
-        .onAppear {
+        .task {
             if self.viewModel == nil {
                 self.viewModel = HistoryViewModel(
                     modelContext: self.modelContext,
