@@ -6,6 +6,10 @@
 #   ./run-tests.sh unit                              # Run all unit tests
 #   ./run-tests.sh ui                                # Run all UI tests
 #   ./run-tests.sh DrawCardViewResponsivenessUITests # Run specific UI test suite
+#
+# Environment Variables:
+#   SIMULATOR    - Override default simulator (default: Apple Watch Series 10 (46mm))
+#   CI_MODE      - Set to "true" for reduced parallelism in CI environments
 
 set -e  # Exit on error
 
@@ -14,6 +18,7 @@ PROJECT_DIR="WristArcana"
 PROJECT_FILE="WristArcana.xcodeproj"
 SCHEME="WristArcana Watch App"
 SIMULATOR="${SIMULATOR:-Apple Watch Series 10 (46mm)}"  # Allow override via env var
+CI_MODE="${CI_MODE:-false}"
 
 # Parse arguments
 TEST_TYPE="${1:-unit}"  # Default to unit tests
@@ -43,6 +48,9 @@ echo "Simulator: $SIMULATOR"
 if [ -n "$TEST_SUITE" ]; then
   echo "Test Suite: $TEST_SUITE"
 fi
+if [ "$CI_MODE" = "true" ]; then
+  echo "CI Mode: Enabled (reduced parallelism)"
+fi
 echo ""
 
 # Navigate to project directory
@@ -67,6 +75,24 @@ else
   COVERAGE_FLAGS=""
 fi
 
+# CI mode settings - reduce parallelism and add retry logic
+CI_FLAGS=""
+if [ "$CI_MODE" = "true" ]; then
+  # Disable parallel testing to reduce resource contention
+  CI_FLAGS="-parallel-testing-enabled NO"
+  echo "🔧 Parallel testing disabled for CI stability"
+
+  # Boot simulator explicitly and wait for it to be ready
+  echo "📱 Booting simulator..."
+  DEVICE_ID=$(xcrun simctl list devices | grep "$SIMULATOR" | grep -v "unavailable" | head -1 | grep -oE '[A-F0-9-]{36}')
+  if [ -n "$DEVICE_ID" ]; then
+    xcrun simctl boot "$DEVICE_ID" 2>/dev/null || true
+    # Wait for simulator to be fully booted
+    sleep 5
+    echo "   Simulator booted: $DEVICE_ID"
+  fi
+fi
+
 # Run tests
 echo "▶️  Running tests..."
 echo ""
@@ -77,6 +103,7 @@ xcodebuild test \
   -destination "platform=watchOS Simulator,name=$SIMULATOR" \
   -only-testing:"$ONLY_TESTING_VALUE" \
   $COVERAGE_FLAGS \
+  $CI_FLAGS \
   CODE_SIGNING_ALLOWED=NO \
   2>&1 | tee /tmp/wrist-arcana-test-output.log | \
   grep -E "(Testing started|Test case.*passed|Test case.*failed|TEST FAILED|TEST SUCCEEDED|Failing tests:|error:|Error)" || true

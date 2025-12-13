@@ -69,10 +69,54 @@ jobs:
           set -eo pipefail
           ./scripts/run-tests.sh unit
 
-      - name: Run UI tests (DrawCardViewResponsivenessUITests)
+      # UI Tests - Run sequentially with stabilization delays to reduce CI flakiness
+      # Each suite runs independently with reduced parallelism
+
+      - name: Stabilize simulator before UI tests
+        run: |
+          echo "Waiting for simulator to stabilize..."
+          sleep 10
+          xcrun simctl shutdown all || true
+          sleep 5
+
+      - name: Run UI tests - DrawCardViewResponsivenessUITests
         env:
           NSUnbufferedIO: "YES"
           SIMULATOR: "Apple Watch Series 10 (46mm)"
+          CI_MODE: "true"
         run: |
           set -eo pipefail
           ./scripts/run-tests.sh DrawCardViewResponsivenessUITests
+
+      - name: Stabilize simulator between suites (1/2)
+        run: |
+          echo "Cooling down between test suites..."
+          sleep 15
+          xcrun simctl shutdown all || true
+          sleep 5
+
+      - name: Run UI tests - WristArcanaWatchAppUITests (flaky in CI)
+        continue-on-error: true
+        env:
+          NSUnbufferedIO: "YES"
+          SIMULATOR: "Apple Watch Series 10 (46mm)"
+          CI_MODE: "true"
+        run: |
+          set -eo pipefail
+          ./scripts/run-tests.sh WristArcanaWatchAppUITests
+
+      - name: Stabilize simulator between suites (2/2)
+        run: |
+          echo "Cooling down between test suites..."
+          sleep 15
+          xcrun simctl shutdown all || true
+          sleep 5
+
+      - name: Run UI tests - WristArcanaWatchAppUITestsLaunchTests
+        env:
+          NSUnbufferedIO: "YES"
+          SIMULATOR: "Apple Watch Series 10 (46mm)"
+          CI_MODE: "true"
+        run: |
+          set -eo pipefail
+          ./scripts/run-tests.sh WristArcanaWatchAppUITestsLaunchTests

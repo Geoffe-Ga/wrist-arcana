@@ -13,6 +13,7 @@ final class DrawCardViewResponsivenessUITests: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
         self.app = XCUIApplication()
+        self.app.launchArguments = ["--uitesting"]
         self.app.launch()
 
         // Wait for app to fully initialize and complete initial layout

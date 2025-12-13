@@ -32,8 +32,8 @@ repos:
         stages: [pre-push]
 
       - id: ui-tests
-        name: UI Tests (DrawCardViewResponsivenessUITests)
-        entry: bash -c './scripts/run-tests.sh DrawCardViewResponsivenessUITests'
+        name: UI Tests (All Suites)
+        entry: bash -c './scripts/run-tests.sh ui'
         language: system
         pass_filenames: false
         stages: [pre-push]

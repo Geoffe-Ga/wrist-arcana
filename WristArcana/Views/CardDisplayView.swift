@@ -32,6 +32,7 @@ struct CardDisplayView: View {
                     .foregroundStyle(.primary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
+                    .accessibilityIdentifier("card-detail-name")
 
                 // Meaning
                 Text(self.card.upright)

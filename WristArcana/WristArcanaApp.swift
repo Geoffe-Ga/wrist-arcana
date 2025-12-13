@@ -37,9 +37,11 @@ struct WristArcanaApp: App {
         logger: Logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "WristArcana", category: "app"),
         fileManager: FileManager = .default
     ) throws -> ModelContainer {
+        // Use in-memory storage for UI tests to ensure clean state
+        let isUITesting = ProcessInfo.processInfo.arguments.contains("--uitesting")
         let configuration = ModelConfiguration(
             schema: schema,
-            isStoredInMemoryOnly: false
+            isStoredInMemoryOnly: isUITesting
         )
 
         // STEP 1: Attempt normal initialization
