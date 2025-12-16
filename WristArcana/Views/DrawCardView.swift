@@ -141,8 +141,9 @@ struct DrawCardView: View {
                 )
             }
         }
-        .onChange(of: self.showingPreview) { _, isShowing in
-            guard !isShowing, !self.showingDetail,
+        .onChange(of: self.showingDetail) { _, isShowing in
+            // When detail view is dismissed and there's a pending note, show the note editor
+            guard !isShowing,
                   let histViewModel = self.historyViewModel,
                   let pull = drainPendingNotePull(&self.pendingNotePull)
             else {
