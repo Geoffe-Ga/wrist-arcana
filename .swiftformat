@@ -11,3 +11,8 @@
 --commas inline
 --trimwhitespace always
 --exclude WristArcana/build,build,DerivedData,Pods,WristArcana/Resources
+
+# Rules enabled by default in newer SwiftFormat versions (CI installs latest via brew).
+# Disabled to keep CI deterministic and preserve project conventions:
+# noForceUnwrapInTests conflicts with our rule that force unwrap is OK in tests.
+--disable docComments,hoistTry,noForceUnwrapInTests,redundantAsync,redundantThrows
