@@ -139,10 +139,15 @@ The app follows a strict MVVM architecture where:
 ### Key Architectural Decisions
 
 1. **Watch-Only App Architecture (Critical)**
-   - NO iOS stub target - this is a native watchOS-only app
-   - Modern watchOS apps (watchOS 6+) don't require an iOS container
-   - Project contains only 3 targets: Watch App, Watch AppTests, Watch AppUITests
-   - IMPORTANT: Never add an iOS target - it causes CI failures and is unnecessary
+   - This is a native watchOS-only app: no iOS companion app, no iOS code, no iOS UI
+   - The project contains 4 targets: `WristArcana` (iOS stub container), Watch App, Watch AppTests, Watch AppUITests
+   - IMPORTANT: The `WristArcana` container target (product type `com.apple.product-type.application.watchapp2-container`) is REQUIRED for App Store distribution — DO NOT remove it
+     - Since Xcode 15.1, App Store Connect only accepts watch-only apps wrapped in this stub container; without it, `xcodebuild -exportArchive` fails with the misleading error `expected one {release-testing, enterprise, debugging} but found app-store-connect`
+     - The container has zero source code — only an empty Resources phase and an "Embed Watch Content" phase; it is packaging, not a companion app, and the App Store listing remains watch-only
+     - It was removed once before (commit `cc65a6b`, Nov 2025) to fix a CI simulator issue, which silently broke App Store distribution and was restored in July 2026
+     - The container's bundle ID (`com.creekmasons.WristArcana`) is the app's identity in App Store Connect; the watch app is `com.creekmasons.WristArcana.watchkitapp`
+   - CI safety: CI and tests use the `WristArcana Watch App` scheme (watchOS simulator only) and never build the container; only the `WristArcana` scheme (used for archiving/distribution) builds it
+   - To archive for the App Store: `xcodebuild -project WristArcana/WristArcana.xcodeproj -scheme WristArcana -destination 'generic/platform=iOS' -archivePath build/WristArcana-container.xcarchive -allowProvisioningUpdates archive`, then `xcodebuild -exportArchive` with `ExportOptions.plist` (method `app-store-connect`)
 
 2. **Local Assets Only (Critical)**
    - ALL 78 card images MUST be loaded from local Asset Catalog
@@ -553,6 +558,7 @@ Image(card.imageName)
 5. **Never commit with SwiftLint warnings** - Pre-commit hooks enforce this
 6. **Never use Core Data** - This project uses SwiftData exclusively
 7. **Never expose multi-deck UI in v1.0** - Feature flag is disabled
+8. **Never remove the `WristArcana` iOS stub container target** - It contains no code and is not a companion app, but App Store distribution is impossible without it (see "Watch-Only App Architecture" above). It was removed once in Nov 2025 and silently broke all App Store uploads.
 
 ## Troubleshooting
 
