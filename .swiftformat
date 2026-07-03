@@ -12,7 +12,13 @@
 --trimwhitespace always
 --exclude WristArcana/build,build,DerivedData,Pods,WristArcana/Resources
 
-# Rules enabled by default in newer SwiftFormat versions (CI installs latest via brew).
+# Rules enabled by default in newer SwiftFormat versions (CI installs latest via
+# brew, so new default rules start failing CI without any code change — this
+# happened July 2026, breaking the format check on 20 untouched files).
 # Disabled to keep CI deterministic and preserve project conventions:
-# noForceUnwrapInTests conflicts with our rule that force unwrap is OK in tests.
+# - noForceUnwrapInTests: conflicts with our convention that force unwrap is OK in tests (CLAUDE.md)
+# - redundantAsync/redundantThrows: would churn ~290 test declarations written async/throws by convention
+# - docComments: would rewrite // comments to /// across the codebase
+# - hoistTry: stylistic; we prefer try at the call site
+# Each can be re-enabled later in a dedicated formatting PR.
 --disable docComments,hoistTry,noForceUnwrapInTests,redundantAsync,redundantThrows
