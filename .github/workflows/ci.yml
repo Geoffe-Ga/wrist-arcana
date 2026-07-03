@@ -48,6 +48,35 @@ jobs:
             -destination 'platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)' \
             CODE_SIGNING_ALLOWED=NO
 
+  # Guards against the iOS stub container target being removed again.
+  # Watch-only apps must ship inside a watchapp2-container for App Store
+  # distribution; removing it (cc65a6b, Nov 2025) silently broke uploads
+  # until the next submission attempt. This archives the container scheme
+  # unsigned and verifies the watch app is embedded — no export, no upload.
+  archive-guard:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode 16.4
+        run: sudo xcode-select -s /Applications/Xcode_16.4.app/Contents/Developer
+
+      - name: Archive container scheme (no codesign, no upload)
+        env:
+          NSUnbufferedIO: "YES"
+        run: |
+          set -eo pipefail
+          xcodebuild archive \
+            -project WristArcana/WristArcana.xcodeproj \
+            -scheme "WristArcana" \
+            -destination 'generic/platform=iOS' \
+            -archivePath /tmp/WristArcana-guard.xcarchive \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Verify watch app is embedded in container archive
+        run: |
+          test -d "/tmp/WristArcana-guard.xcarchive/Products/Applications/WristArcana.app/Watch/WristArcana Watch App.app"
+
   test:
     runs-on: macos-15
     steps:
